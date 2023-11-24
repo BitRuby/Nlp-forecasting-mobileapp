@@ -10,6 +10,8 @@ import LoadingOverlay from './ui/Loading';
 
 function App(): JSX.Element {
   const [isLoading, setIsLoading] = useState(true);
+  const [inputs, setInputs] = useState<{ [k: string]: string }>({});
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoading(false);
@@ -17,6 +19,21 @@ function App(): JSX.Element {
 
     return () => clearTimeout(timeout);
   }, []);
+
+  function handleChangeValue(name: string, value: string) {
+    setInputs(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
+  async function handleButtonClick() {
+    setIsLoading(true);
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }
   return (
     <Container>
       <StatusBar backgroundColor={COLORS.gray} barStyle={'light-content'} />
@@ -25,24 +42,19 @@ function App(): JSX.Element {
       </Text>
       <Text>As I said this application may be not useful.</Text>
       <Input
-        name={'Login'}
+        name={'login'}
         placeholder={'Login'}
-        setValue={() => {}}
-        value={''}
+        setValue={handleChangeValue}
+        value={inputs.login}
       />
       <Select
         items={['Moderator', 'Admin', 'Guest']}
-        name={'Type'}
+        name={'type'}
         placeholder={'Type'}
-        value={''}
-        setValue={() => {}}
+        value={inputs.type}
+        setValue={handleChangeValue}
       />
-      <Button
-        onClick={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-        title={'Accept'}
-      />
+      <Button onClick={handleButtonClick} title={'Accept'} />
       <LoadingOverlay isVisible={isLoading} />
     </Container>
   );
