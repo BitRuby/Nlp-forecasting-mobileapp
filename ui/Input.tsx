@@ -6,7 +6,7 @@ import {
   TextInputChangeEventData,
   ViewStyle,
 } from 'react-native';
-import { COLORS } from './utils';
+import { COLORS, FONT_SIZE } from './utils';
 
 export interface IInput {
   name: string;
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     borderWidth: 1,
     fontFamily: 'Poppins-Light',
-    fontSize: 16,
+    fontSize: FONT_SIZE,
     paddingBottom: 8,
     paddingLeft: 10,
     marginVertical: 10,

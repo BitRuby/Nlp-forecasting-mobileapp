@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import { COLORS } from './utils';
 
 export interface IContainer {
@@ -7,13 +7,13 @@ export interface IContainer {
 }
 
 export default function Container({ children }: IContainer) {
-  return <View style={styles.container}>{children}</View>;
+  return <SafeAreaView style={styles.background}>{children}</SafeAreaView>;
 }
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
+    backgroundColor: COLORS.gray,
     flex: 1,
     padding: 20,
-    backgroundColor: COLORS.gray,
   },
 });

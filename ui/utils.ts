@@ -30,3 +30,5 @@ export const TYPE_ALTER_COLORS = {
   danger: COLORS.lightRed,
   default: COLORS.black,
 };
+
+export const FONT_SIZE = 14;

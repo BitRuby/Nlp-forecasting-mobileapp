@@ -5,7 +5,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons/faExclamationTriangle';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons/faCircleInfo';
-import { COLORS, TYPE_COLORS } from './utils';
+import { COLORS, FONT_SIZE, TYPE_COLORS } from './utils';
 
 interface IText {
   children: string | JSX.Element | JSX.Element[];
@@ -15,7 +15,7 @@ interface IText {
     | 'faExclamationTriangle'
     | 'faExclamationCircle'
     | 'faCircleInfo';
-  iconSize?: number;
+  size?: number;
   iconType?:
     | 'primary'
     | 'secondary'
@@ -43,7 +43,7 @@ export default function Text({
   children,
   style,
   icon,
-  iconSize,
+  size,
   iconType,
   textType,
 }: IText) {
@@ -54,6 +54,8 @@ export default function Text({
   const mergedTextStyles = {
     ...styles.text,
     color: (textType && TYPE_COLORS[textType]) || TYPE_COLORS.default,
+    fontSize: size || FONT_SIZE,
+    marginRight: (size && size + 8) || FONT_SIZE + 8,
     ...style,
   };
 
@@ -61,7 +63,7 @@ export default function Text({
     <View style={styles.withIconContainer}>
       <FontAwesomeIcon
         style={mergedIconStyles}
-        size={iconSize || 18}
+        size={(size && size + 8) || FONT_SIZE + 8}
         icon={icons[icon]}
       />
       <TextRN style={mergedTextStyles}>{children}</TextRN>
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
   },
   withIconContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
-  icon: { marginRight: 3 },
+  icon: { marginRight: 8, marginBottom: 5 },
 });

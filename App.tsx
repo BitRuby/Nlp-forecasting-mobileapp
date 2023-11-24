@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { StatusBar } from 'react-native';
 import { COLORS } from './ui/utils';
 import Container from './ui/Container';
 import Text from './ui/Text';
@@ -9,43 +9,32 @@ import Button from './ui/Button';
 
 function App(): JSX.Element {
   return (
-    <SafeAreaView style={styles.background}>
-      <StatusBar
-        backgroundColor={styles.background.backgroundColor}
-        barStyle={'light-content'}
+    <Container>
+      <StatusBar backgroundColor={COLORS.gray} barStyle={'light-content'} />
+      <Text icon="faExclamationCircle">
+        Warning! This is very early version of app! Might be updated in future
+      </Text>
+      <Input
+        name={'Login'}
+        placeholder={'Login'}
+        setValue={() => {}}
+        value={''}
       />
-      <Container>
-        <Text>Hello world!</Text>
-        <Input
-          name={'Login'}
-          placeholder={'Login'}
-          setValue={() => {}}
-          value={''}
-        />
-        <Select
-          items={['Moderator', 'Admin', 'Guest']}
-          name={'Type'}
-          placeholder={'Type'}
-          value={''}
-          setValue={() => {}}
-        />
-        <Button
-          onClick={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-          title={'Accept'}
-        />
-      </Container>
-    </SafeAreaView>
+      <Select
+        items={['Moderator', 'Admin', 'Guest']}
+        name={'Type'}
+        placeholder={'Type'}
+        value={''}
+        setValue={() => {}}
+      />
+      <Button
+        onClick={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+        title={'Accept'}
+      />
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  background: {
-    backgroundColor: COLORS.gray,
-    flex: 1,
-    flexDirection: 'column',
-  },
-});
 
 export default App;

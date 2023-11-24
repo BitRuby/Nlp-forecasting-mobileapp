@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet, TouchableHighlight } from 'react-native';
-import { COLORS } from './utils';
+import { COLORS, FONT_SIZE } from './utils';
 
 interface IButton {
   onClick: () => void;
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'Poppins-Light',
-    fontSize: 16,
+    fontSize: FONT_SIZE,
     color: COLORS.white,
     textAlign: 'center',
     paddingTop: 10,
