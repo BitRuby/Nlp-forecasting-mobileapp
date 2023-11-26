@@ -24,6 +24,7 @@ const _data = [
 function App(): JSX.Element {
   const [isLoading, setIsLoading] = useState(true);
   const [inputs, setInputs] = useState<{ [k: string]: string }>({});
+  const [selected, setSelected] = useState<string[]>([]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -47,6 +48,18 @@ function App(): JSX.Element {
     }, 3000);
     return () => clearTimeout(timeout);
   }
+
+  const onSelect = (id: string) => {
+    console.log(id);
+    setSelected((prev: string[]) => {
+      if (prev.find(e => e === id)) {
+        return prev.filter(e => e !== id);
+      } else {
+        return [...prev, id];
+      }
+    });
+  };
+
   return (
     <Container>
       <StatusBar backgroundColor={COLORS.gray} barStyle={'light-content'} />
@@ -68,7 +81,7 @@ function App(): JSX.Element {
         setValue={handleChangeValue}
       />
       <Button onClick={handleButtonClick} title={'Accept'} />
-      <List data={_data} />
+      <List data={_data} selected={selected} onSelect={onSelect} />
       <LoadingOverlay isVisible={isLoading} />
     </Container>
   );

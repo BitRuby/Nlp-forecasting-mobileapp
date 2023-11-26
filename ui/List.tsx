@@ -13,14 +13,20 @@ const Item = ({ data }: ItemProps) =>
 
 interface IList {
   data: Array<{ id: number; data: any }>;
+  onSelect?: (id: string) => void;
+  selected?: Array<string>;
 }
 
-export default function List({ data }: IList) {
+export default function List({ data, selected, onSelect }: IList) {
   const renderItem = ({ item }: any) => (
     <TouchableHighlight
-      onPress={() => {}}
+      onPress={() => onSelect && onSelect(item.id.toString())}
       underlayColor={COLORS.lightGray}
-      style={styles.itemCointainer}>
+      style={
+        selected?.find((e: any) => e === item.id.toString())
+          ? { ...styles.itemCointainer, borderColor: COLORS.blue }
+          : { ...styles.itemCointainer }
+      }>
       <Item id={item.id} data={item.data} />
     </TouchableHighlight>
   );
