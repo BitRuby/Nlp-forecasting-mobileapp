@@ -6,6 +6,10 @@ import { COLORS, FONT_SIZE } from '../ui/utils';
 import MainScreen from '../screens/Main.screen';
 import MarketsScreen from '../screens/Markets.screen';
 import Icons, { IconTypes } from '../ui/Icons';
+import TweetsScreen from '../screens/Tweets.screen';
+import DatasetsScreen from '../screens/Datasets.screen';
+import RulesScreen from '../screens/Rules.screen';
+import AIScreen from '../screens/AI.screen';
 
 const Tab = createBottomTabNavigator();
 
@@ -91,28 +95,28 @@ export default function TabNavigator() {
       <Tab.Screen name="Tweets">
         {() => (
           <Route>
-            <></>
+            <TweetsScreen />
           </Route>
         )}
       </Tab.Screen>
       <Tab.Screen name="Datasets">
         {() => (
           <Route>
-            <></>
+            <DatasetsScreen />
           </Route>
         )}
       </Tab.Screen>
       <Tab.Screen name="Rules">
         {() => (
           <Route>
-            <></>
+            <RulesScreen />
           </Route>
         )}
       </Tab.Screen>
       <Tab.Screen name="AI">
         {() => (
           <Route>
-            <></>
+            <AIScreen />
           </Route>
         )}
       </Tab.Screen>
