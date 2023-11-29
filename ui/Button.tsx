@@ -12,7 +12,7 @@ export default function Button({ onClick, title }: IButton) {
     <TouchableHighlight
       style={styles.container}
       onPress={onClick}
-      underlayColor={COLORS.lightBlue}>
+      underlayColor={COLORS.gray1}>
       <Text style={styles.text}>{title}</Text>
     </TouchableHighlight>
   );
@@ -20,7 +20,7 @@ export default function Button({ onClick, title }: IButton) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.blue,
+    backgroundColor: COLORS.green,
     marginVertical: 10,
   },
   text: {

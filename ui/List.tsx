@@ -21,10 +21,10 @@ export default function List({ data, selected, onSelect }: IList) {
   const renderItem = ({ item }: any) => (
     <TouchableHighlight
       onPress={() => onSelect && onSelect(item.id.toString())}
-      underlayColor={COLORS.lightGray}
+      underlayColor={COLORS.gray2}
       style={
         selected?.find((e: any) => e === item.id.toString())
-          ? { ...styles.itemCointainer, borderColor: COLORS.blue }
+          ? { ...styles.itemCointainer, borderColor: COLORS.green }
           : { ...styles.itemCointainer }
       }>
       <Item id={item.id} data={item.data} />

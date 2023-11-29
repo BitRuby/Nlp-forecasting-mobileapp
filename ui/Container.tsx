@@ -12,7 +12,7 @@ export default function Container({ children }: IContainer) {
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: COLORS.gray,
+    backgroundColor: COLORS.dark,
     flex: 1,
     padding: 20,
   },

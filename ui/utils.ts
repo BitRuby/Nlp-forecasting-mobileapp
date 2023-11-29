@@ -1,34 +1,18 @@
 export const COLORS = {
-  white: '#fff',
-  black: '#000 ',
-  gray: '#2d3436',
-  blue: '#2d98da',
-  red: '#ee5253',
-  lightBlue: '#45aaf2',
-  lightRed: '#ff6b6b',
-  lightGreen: '#1dd1a1',
-  lightYellow: '#feca57',
-  yellow: '#ff9f43',
-  green: '#10ac84',
-  lightGray: '#636e72',
+  dark: '#181B1C',
+  green: '#478981',
+  white: '#FFF',
+  gray1: '#636E72',
+  gray2: '#525F61',
 };
 
 export const TYPE_COLORS = {
-  primary: COLORS.blue,
-  secondary: COLORS.lightGray,
-  success: COLORS.green,
-  warning: COLORS.yellow,
-  danger: COLORS.red,
-  default: COLORS.white,
-};
-
-export const TYPE_ALTER_COLORS = {
-  primary: COLORS.lightBlue,
-  secondary: COLORS.gray,
-  success: COLORS.lightGreen,
-  warning: COLORS.lightYellow,
-  danger: COLORS.lightRed,
-  default: COLORS.black,
+  primary: '#2d98da',
+  secondary: '#636e72',
+  success: '#10ac84',
+  warning: '#feca57',
+  danger: '#ee5253',
+  default: '#fff',
 };
 
 export const FONT_SIZE = 14;

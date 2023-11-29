@@ -11,7 +11,7 @@ export default function LoadingOverlay({ isVisible }: ILoadingOverlay) {
     <Modal transparent animationType="none" visible={isVisible}>
       <View style={styles.overlay}>
         <View style={styles.spinnerContainer}>
-          <ActivityIndicator size={80} color={COLORS.blue} />
+          <ActivityIndicator size={80} color={COLORS.green} />
         </View>
       </View>
     </Modal>

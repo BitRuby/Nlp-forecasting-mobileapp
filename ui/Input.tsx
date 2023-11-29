@@ -36,7 +36,7 @@ export default function Input({
     <TextInput
       editable={editable}
       placeholder={placeholder}
-      placeholderTextColor={COLORS.lightGray}
+      placeholderTextColor={COLORS.gray2}
       style={{ ...styles.input, ...style }}
       id={name}
       value={value}
