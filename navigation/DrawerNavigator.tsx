@@ -6,7 +6,6 @@ import {
   createDrawerNavigator,
 } from '@react-navigation/drawer';
 import TabNavigator from './TabNavigator';
-import MainScreen from '../screens/Main.screen';
 import List from '../ui/List';
 import { COLORS } from '../ui/utils';
 
@@ -44,7 +43,6 @@ export default function DrawerNavigator() {
         headerShown: false,
       }}>
       <Drawer.Screen name="Home" component={TabNavigator} />
-      <Drawer.Screen name="MainScreen" component={MainScreen} />
     </Drawer.Navigator>
   );
 }

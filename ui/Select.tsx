@@ -9,11 +9,10 @@ import {
   ScrollView,
   Keyboard,
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons/faAngleDown';
 import Input from './Input';
 import Button from './Button';
 import { COLORS } from './utils';
+import Icons from './Icons';
 
 export interface ISelect {
   items: string[];
@@ -45,7 +44,7 @@ export default function Select({
           />
         </View>
         <Pressable style={styles.iconContainer} onPress={toggleVisible}>
-          <FontAwesomeIcon size={20} icon={faAngleDown} color={COLORS.white} />
+          <Icons size={20} icon="faAngleDown" color={COLORS.white} />
         </Pressable>
       </View>
       <Modal

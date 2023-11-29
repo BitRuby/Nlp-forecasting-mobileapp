@@ -3,28 +3,11 @@ import React from 'react';
 import { StatusBar, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS, FONT_SIZE } from '../ui/utils';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faAlignLeft } from '@fortawesome/free-solid-svg-icons/faAlignLeft';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons/faQuestionCircle';
-import { faHome } from '@fortawesome/free-solid-svg-icons/faHome';
-import { faChartSimple } from '@fortawesome/free-solid-svg-icons/faChartSimple';
-import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter';
-import { faDatabase } from '@fortawesome/free-solid-svg-icons/faDatabase';
-import { faMagnifyingGlassChart } from '@fortawesome/free-solid-svg-icons/faMagnifyingGlassChart';
-import { faBrain } from '@fortawesome/free-solid-svg-icons/faBrain';
 import MainScreen from '../screens/Main.screen';
+import MarketsScreen from '../screens/Markets.screen';
+import Icons, { IconTypes } from '../ui/Icons';
 
 const Tab = createBottomTabNavigator();
-
-const icons = {
-  faQuestionCircle,
-  faHome,
-  faChartSimple,
-  faTwitter,
-  faDatabase,
-  faMagnifyingGlassChart,
-  faBrain,
-};
 
 function Route({
   children,
@@ -42,10 +25,10 @@ function Route({
 function HeaderLeft({ navigation }: any): JSX.Element {
   return (
     <TouchableOpacity onPress={navigation.openDrawer}>
-      <FontAwesomeIcon
+      <Icons
         size={FONT_SIZE + 8}
         style={styles.headerMenu}
-        icon={faAlignLeft}
+        icon={'faAlignLeft'}
       />
     </TouchableOpacity>
   );
@@ -63,28 +46,28 @@ export default function TabNavigator() {
         headerTitleStyle: styles.headerTitle,
         headerLeft: () => <HeaderLeft navigation={navigation} />,
         tabBarIcon: ({ color }) => {
-          let iconName = icons.faQuestionCircle;
+          let iconName: IconTypes = 'faQuestionCircle';
           if (route.name === 'Start') {
-            iconName = icons.faHome;
+            iconName = 'faHome';
           }
           if (route.name === 'Markets') {
-            iconName = icons.faChartSimple;
+            iconName = 'faChartSimple';
           }
           if (route.name === 'Tweets') {
-            iconName = icons.faTwitter;
+            iconName = 'faTwitter';
           }
           if (route.name === 'Datasets') {
-            iconName = icons.faDatabase;
+            iconName = 'faDatabase';
           }
           if (route.name === 'Rules') {
-            iconName = icons.faMagnifyingGlassChart;
+            iconName = 'faMagnifyingGlassChart';
           }
           if (route.name === 'AI') {
-            iconName = icons.faBrain;
+            iconName = 'faBrain';
           }
           return (
             <TouchableOpacity onPress={() => navigation.navigate(route.name)}>
-              <FontAwesomeIcon icon={iconName} size={18} color={color} />
+              <Icons icon={iconName} size={18} color={color} />
             </TouchableOpacity>
           );
         },
@@ -101,7 +84,7 @@ export default function TabNavigator() {
       <Tab.Screen name="Markets">
         {() => (
           <Route>
-            <></>
+            <MarketsScreen />
           </Route>
         )}
       </Tab.Screen>

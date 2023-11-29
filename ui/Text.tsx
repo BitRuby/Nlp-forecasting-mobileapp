@@ -1,11 +1,7 @@
 import React from 'react';
 import { View, Text as TextRN, StyleSheet, TextStyle } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons/faExclamationTriangle';
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons/faCircleInfo';
 import { COLORS, FONT_SIZE, TYPE_COLORS } from './utils';
+import Icons from './Icons';
 
 interface IText {
   children: string | JSX.Element | JSX.Element[];
@@ -32,13 +28,6 @@ interface IText {
     | 'default';
 }
 
-const icons = {
-  faCheck,
-  faExclamationTriangle,
-  faExclamationCircle,
-  faCircleInfo,
-};
-
 export default function Text({
   children,
   style,
@@ -61,10 +50,10 @@ export default function Text({
 
   return icon ? (
     <View style={styles.withIconContainer}>
-      <FontAwesomeIcon
+      <Icons
         style={mergedIconStyles}
         size={(size && size + 8) || FONT_SIZE + 8}
-        icon={icons[icon]}
+        icon={icon}
       />
       <TextRN style={mergedTextStyles}>{children}</TextRN>
     </View>

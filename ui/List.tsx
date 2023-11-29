@@ -5,20 +5,31 @@ import {
   StyleSheet,
   TouchableHighlight,
   ViewStyle,
+  View,
 } from 'react-native';
 import { COLORS, FONT_SIZE } from './utils';
+import Icons, { IconTypes } from './Icons';
 
-type ItemProps = { id: string; data: any };
+type ItemProps = { id: string; data: any; icon?: IconTypes };
 
-const Item = ({ data }: ItemProps) =>
-  Object.keys(data).map((key: string) => (
-    <Text key={data[key]} style={styles.itemText}>
-      {data[key]}
-    </Text>
-  ));
+const Item = ({ data, icon }: ItemProps) =>
+  Object.keys(data).map((key: string) =>
+    icon ? (
+      <View style={styles.itemWithIcon}>
+        <Icons style={styles.icon} color={COLORS.white} icon={icon} size={20} />
+        <Text key={data[key]} style={styles.itemText}>
+          {data[key]}
+        </Text>
+      </View>
+    ) : (
+      <Text key={data[key]} style={styles.itemText}>
+        {data[key]}
+      </Text>
+    ),
+  );
 
 interface IList {
-  data: Array<{ id: string; data: any }>;
+  data: Array<ItemProps>;
   onSelect?: (id: string) => void;
   selected?: Array<string>;
   style?: ViewStyle;
@@ -43,7 +54,7 @@ export default function List({
           ? { ...styles.itemCointainer, ...selectedStyle, ...style }
           : { ...styles.itemCointainer, ...style }
       }>
-      <Item id={item.id} data={item.data} />
+      <Item id={item.id} data={item.data} icon={item.icon} />
     </TouchableHighlight>
   );
 
@@ -58,12 +69,19 @@ export default function List({
 
 const styles = StyleSheet.create({
   itemCointainer: {
-    borderColor: COLORS.white,
+    borderColor: COLORS.gray2,
     borderWidth: 1,
     paddingHorizontal: 10,
     paddingTop: 10,
     paddingBottom: 8,
-    marginVertical: 5,
+    marginVertical: 8,
+  },
+  itemWithIcon: {
+    flexDirection: 'row',
+  },
+  icon: {
+    marginLeft: 2,
+    marginRight: 8,
   },
   itemText: {
     color: COLORS.white,
