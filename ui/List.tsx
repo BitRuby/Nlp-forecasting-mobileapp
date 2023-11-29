@@ -69,7 +69,7 @@ export default function List({
 
 const styles = StyleSheet.create({
   itemCointainer: {
-    borderColor: COLORS.gray2,
+    borderColor: COLORS.gray1,
     borderWidth: 1,
     paddingHorizontal: 10,
     paddingTop: 10,
