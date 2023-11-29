@@ -60,7 +60,7 @@ export default function Select({
                 <TouchableHighlight
                   key={item}
                   style={styles.item}
-                  underlayColor={COLORS.white}
+                  underlayColor={COLORS.gray2}
                   onPress={() => {
                     toggleVisible();
                     setValue(name, item);
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.8)',
   },
   modal: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.dark,
     width: '75%',
     maxHeight: '75%',
     padding: 30,
@@ -105,6 +105,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   itemValue: {
+    fontFamily: 'Poppins-Light',
+    color: COLORS.white,
     textAlign: 'center',
   },
   button: {

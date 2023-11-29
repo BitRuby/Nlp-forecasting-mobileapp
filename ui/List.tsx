@@ -1,8 +1,14 @@
 import React from 'react';
-import { Text, FlatList, StyleSheet, TouchableHighlight } from 'react-native';
+import {
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableHighlight,
+  ViewStyle,
+} from 'react-native';
 import { COLORS, FONT_SIZE } from './utils';
 
-type ItemProps = { id: number; data: any };
+type ItemProps = { id: string; data: any };
 
 const Item = ({ data }: ItemProps) =>
   Object.keys(data).map((key: string) => (
@@ -12,20 +18,30 @@ const Item = ({ data }: ItemProps) =>
   ));
 
 interface IList {
-  data: Array<{ id: number; data: any }>;
+  data: Array<{ id: string; data: any }>;
   onSelect?: (id: string) => void;
   selected?: Array<string>;
+  style?: ViewStyle;
+  selectedStyles?: ViewStyle;
 }
 
-export default function List({ data, selected, onSelect }: IList) {
+export default function List({
+  data,
+  selected,
+  onSelect,
+  style,
+  selectedStyles,
+}: IList) {
+  const selectedStyle = selectedStyles || { borderColor: COLORS.green };
+
   const renderItem = ({ item }: any) => (
     <TouchableHighlight
       onPress={() => onSelect && onSelect(item.id.toString())}
       underlayColor={COLORS.gray2}
       style={
         selected?.find((e: any) => e === item.id.toString())
-          ? { ...styles.itemCointainer, borderColor: COLORS.green }
-          : { ...styles.itemCointainer }
+          ? { ...styles.itemCointainer, ...selectedStyle, ...style }
+          : { ...styles.itemCointainer, ...style }
       }>
       <Item id={item.id} data={item.data} />
     </TouchableHighlight>

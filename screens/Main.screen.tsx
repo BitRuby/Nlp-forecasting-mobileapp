@@ -8,15 +8,15 @@ import LoadingOverlay from '../ui/Loading';
 import List from '../ui/List';
 
 const _data = [
-  { id: 1, data: { title: 'Banana', kcal: 205, protein: 1.5 } },
-  { id: 2, data: { title: 'Kiwi' } },
-  { id: 3, data: { title: 'Strawberry', kcal: 91 } },
-  { id: 4, data: { title: 'Mango' } },
-  { id: 5, data: { title: 'Apple' } },
-  { id: 6, data: { title: 'Cherry' } },
-  { id: 7, data: { title: 'Orange' } },
-  { id: 8, data: { title: 'Peach' } },
-  { id: 9, data: { title: 'Pear' } },
+  { id: '1', data: { title: 'Banana', kcal: 205, protein: 1.5 } },
+  { id: '2', data: { title: 'Kiwi' } },
+  { id: '3', data: { title: 'Strawberry', kcal: 91 } },
+  { id: '4', data: { title: 'Mango' } },
+  { id: '5', data: { title: 'Apple' } },
+  { id: '6', data: { title: 'Cherry' } },
+  { id: '7', data: { title: 'Orange' } },
+  { id: '8', data: { title: 'Peach' } },
+  { id: '9', data: { title: 'Pear' } },
 ];
 
 function MainScreen(): JSX.Element {
