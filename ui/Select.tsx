@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   item: {
-    width: '95%',
+    width: '100%',
     paddingVertical: 10,
   },
   itemValue: {

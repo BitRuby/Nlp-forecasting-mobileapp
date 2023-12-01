@@ -10,19 +10,19 @@ import {
 import { COLORS, FONT_SIZE } from './utils';
 import Icons, { IconTypes } from './Icons';
 
-type ItemProps = { id: string; data: any; icon?: IconTypes };
+export type ItemProps = { id: string; data: any; icon?: IconTypes };
 
 const Item = ({ data, icon }: ItemProps) =>
   Object.keys(data).map((key: string) =>
     icon ? (
-      <View style={styles.itemWithIcon}>
+      <View key={key} style={styles.itemWithIcon}>
         <Icons style={styles.icon} color={COLORS.white} icon={icon} size={20} />
         <Text key={data[key]} style={styles.itemText}>
           {data[key]}
         </Text>
       </View>
     ) : (
-      <Text key={data[key]} style={styles.itemText}>
+      <Text key={key} style={styles.itemText}>
         {data[key]}
       </Text>
     ),
@@ -54,7 +54,7 @@ export default function List({
           ? { ...styles.itemCointainer, ...selectedStyle, ...style }
           : { ...styles.itemCointainer, ...style }
       }>
-      <Item id={item.id} data={item.data} icon={item.icon} />
+      <Item id={item.id} key={item.id} data={item.data} icon={item.icon} />
     </TouchableHighlight>
   );
 

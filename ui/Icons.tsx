@@ -20,7 +20,7 @@ import { faApple } from '@fortawesome/free-brands-svg-icons/faApple';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons/faGoogle';
 import { faMicrosoft } from '@fortawesome/free-brands-svg-icons/faMicrosoft';
 
-const icons = {
+export const icons = {
   faAlignLeft,
   faQuestionCircle,
   faHome,
