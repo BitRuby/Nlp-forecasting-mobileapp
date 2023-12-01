@@ -10,7 +10,7 @@ import { COLORS, FONT_SIZE } from './utils';
 
 export interface IInput {
   name: string;
-  placeholder: string;
+  placeholder?: string;
   setValue: (name: string, value: any) => void;
   value: string;
   style?: ViewStyle;

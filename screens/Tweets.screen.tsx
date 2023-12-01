@@ -1,20 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from '../ui/Container';
-import List from '../ui/List';
+import List, { ItemProps } from '../ui/List';
+import { icons } from '../ui/Icons';
+import LoadingOverlay from '../ui/Loading';
+import { getAllKeywords } from '../data/keyword';
 
 export default function TweetsScreen() {
+  const [list, setList] = useState<ItemProps[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      const iconKeys = Object.keys(icons);
+      const data = await getAllKeywords();
+      if (data) {
+        setList(
+          data.map((e: any) => ({
+            id: e.name,
+            data: {
+              name: e.name,
+            },
+            icon: iconKeys.includes(`fa${e.name}`)
+              ? `fa${e.name}`
+              : 'faChartSimple',
+          })),
+        );
+      }
+      setIsLoading(false);
+    })();
+  }, []);
+
   return (
     <Container>
-      <List
-        data={[
-          { id: 'a1', data: { name: 'Bitcoin Tweets' }, icon: 'faBitcoin' },
-          {
-            id: 'a2',
-            data: { name: 'Investing Tweets' },
-            icon: 'faChartColumn',
-          },
-        ]}
-      />
+      <List data={list} />
+      <LoadingOverlay isVisible={isLoading} />
     </Container>
   );
 }

@@ -19,6 +19,7 @@ import { faAmazon } from '@fortawesome/free-brands-svg-icons/faAmazon';
 import { faApple } from '@fortawesome/free-brands-svg-icons/faApple';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons/faGoogle';
 import { faMicrosoft } from '@fortawesome/free-brands-svg-icons/faMicrosoft';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons/faCalendar';
 
 export const icons = {
   faAlignLeft,
@@ -40,6 +41,7 @@ export const icons = {
   faApple,
   faGoogle,
   faMicrosoft,
+  faCalendar,
 };
 
 export type IconTypes = keyof typeof icons;

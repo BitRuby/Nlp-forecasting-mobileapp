@@ -10,7 +10,10 @@ import TweetsScreen from '../screens/Tweets.screen';
 import DatasetsScreen from '../screens/Datasets.screen';
 import RulesScreen from '../screens/Rules.screen';
 import AIScreen from '../screens/AI.screen';
+import { createStackNavigator } from '@react-navigation/stack';
+import MarketScreen from '../screens/Market.screen';
 
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function Route({
@@ -85,35 +88,47 @@ export default function TabNavigator() {
           </Route>
         )}
       </Tab.Screen>
-      <Tab.Screen name="Markets">
+      <Tab.Screen name="Markets" options={{ unmountOnBlur: true }}>
         {() => (
           <Route>
-            <MarketsScreen />
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+              }}>
+              <Stack.Screen
+                name="Markets/MarketsScreen"
+                component={MarketsScreen}
+              />
+              <Stack.Screen
+                name="Markets/MarketScreen"
+                component={MarketScreen}
+              />
+            </Stack.Navigator>
           </Route>
         )}
       </Tab.Screen>
-      <Tab.Screen name="Tweets">
+      <Tab.Screen name="Tweets" options={{ unmountOnBlur: true }}>
         {() => (
           <Route>
             <TweetsScreen />
           </Route>
         )}
       </Tab.Screen>
-      <Tab.Screen name="Datasets">
+      <Tab.Screen name="Datasets" options={{ unmountOnBlur: true }}>
         {() => (
           <Route>
             <DatasetsScreen />
           </Route>
         )}
       </Tab.Screen>
-      <Tab.Screen name="Rules">
+      <Tab.Screen name="Rules" options={{ unmountOnBlur: true }}>
         {() => (
           <Route>
             <RulesScreen />
           </Route>
         )}
       </Tab.Screen>
-      <Tab.Screen name="AI">
+      <Tab.Screen name="AI" options={{ unmountOnBlur: true }}>
         {() => (
           <Route>
             <AIScreen />
