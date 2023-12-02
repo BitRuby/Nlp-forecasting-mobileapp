@@ -6,17 +6,16 @@ import { icons } from '../ui/Icons';
 import LoadingOverlay from '../ui/Loading';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { IPrice } from './types';
 
 interface Data {
   name: string;
-  prices: IPrice[];
+  _id: string;
 }
 
 const iconKeys = Object.keys(icons);
 
 type StackParamList = {
-  'Markets/MarketScreen': { prices: IPrice[] };
+  'Markets/MarketScreen': { id: string };
 };
 
 type MarketScreenNavigationProp = StackNavigationProp<
@@ -41,8 +40,8 @@ export default function MarketsScreen() {
   }, []);
 
   const list = useMemo(() => {
-    return data.map((e: any) => ({
-      id: e.name,
+    return data.map((e: Data) => ({
+      id: e._id,
       data: {
         name: e.name,
       },
@@ -51,11 +50,11 @@ export default function MarketsScreen() {
   }, [data]);
 
   const handleSelectElement = useCallback(
-    (name: string) => {
-      const selectElement = data.find(e => e.name === name);
+    (_id: string) => {
+      const selectElement = data.find(e => e._id === _id);
       if (selectElement) {
         return navigation.navigate('Markets/MarketScreen', {
-          prices: selectElement.prices,
+          id: selectElement._id,
         });
       }
     },

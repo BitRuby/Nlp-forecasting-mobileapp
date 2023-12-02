@@ -9,8 +9,8 @@ interface IDateSelect {
   name: string;
   value: string;
   setValue: (name: string, value: any) => void;
-  minDate?: string;
-  maxDate?: string;
+  minDate?: number;
+  maxDate?: number;
 }
 
 export default function DateSelect({

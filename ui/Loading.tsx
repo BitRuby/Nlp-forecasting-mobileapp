@@ -6,7 +6,8 @@ interface ILoadingOverlay {
   isVisible: boolean;
 }
 
-export default function LoadingOverlay({ isVisible }: ILoadingOverlay) {
+function LoadingOverlay({ isVisible }: ILoadingOverlay) {
+  console.log('isVisible ' + isVisible);
   return (
     <Modal transparent animationType="none" visible={isVisible}>
       <View style={styles.overlay}>
@@ -17,6 +18,11 @@ export default function LoadingOverlay({ isVisible }: ILoadingOverlay) {
     </Modal>
   );
 }
+
+export default React.memo(
+  LoadingOverlay,
+  (prevProps, nextProps) => prevProps.isVisible === nextProps.isVisible,
+);
 
 const styles = StyleSheet.create({
   container: {

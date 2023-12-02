@@ -1,4 +1,5 @@
 export interface IPrice {
+  _id: string;
   date: string;
   open: number;
   close: number;

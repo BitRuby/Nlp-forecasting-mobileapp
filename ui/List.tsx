@@ -10,9 +10,14 @@ import {
 import { COLORS, FONT_SIZE } from './utils';
 import Icons, { IconTypes } from './Icons';
 
-export type ItemProps = { id: string; data: any; icon?: IconTypes };
+export type ItemProps = {
+  id: string;
+  data: any;
+  icon?: IconTypes;
+  showKeys?: boolean;
+};
 
-const Item = ({ data, icon }: ItemProps) =>
+const Item = ({ data, icon, showKeys }: ItemProps) =>
   Object.keys(data).map((key: string) =>
     icon ? (
       <View key={key} style={styles.itemWithIcon}>
@@ -20,6 +25,11 @@ const Item = ({ data, icon }: ItemProps) =>
         <Text key={data[key]} style={styles.itemText}>
           {data[key]}
         </Text>
+      </View>
+    ) : showKeys ? (
+      <View style={styles.keyValueContainer} key={key}>
+        <Text style={styles.itemText}>{`${key}: `}</Text>
+        <Text style={styles.itemTextValue}>{data[key]}</Text>
       </View>
     ) : (
       <Text key={key} style={styles.itemText}>
@@ -34,6 +44,7 @@ interface IList {
   selected?: Array<string>;
   style?: ViewStyle;
   selectedStyles?: ViewStyle;
+  showKeys?: boolean;
 }
 
 export default function List({
@@ -42,6 +53,7 @@ export default function List({
   onSelect,
   style,
   selectedStyles,
+  showKeys,
 }: IList) {
   const selectedStyle = selectedStyles || { borderColor: COLORS.green };
 
@@ -54,7 +66,13 @@ export default function List({
           ? { ...styles.itemCointainer, ...selectedStyle, ...style }
           : { ...styles.itemCointainer, ...style }
       }>
-      <Item id={item.id} key={item.id} data={item.data} icon={item.icon} />
+      <Item
+        id={item.id}
+        key={item.id}
+        data={item.data}
+        icon={item.icon}
+        showKeys={showKeys}
+      />
     </TouchableHighlight>
   );
 
@@ -72,8 +90,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.gray1,
     borderWidth: 1,
     paddingHorizontal: 10,
-    paddingTop: 10,
-    paddingBottom: 8,
+    paddingTop: 12,
+    paddingBottom: 10,
     marginVertical: 8,
   },
   itemWithIcon: {
@@ -83,9 +101,17 @@ const styles = StyleSheet.create({
     marginLeft: 2,
     marginRight: 8,
   },
+  keyValueContainer: {
+    flexDirection: 'row',
+  },
   itemText: {
     color: COLORS.white,
     fontFamily: 'Poppins-Light',
+    fontSize: FONT_SIZE,
+  },
+  itemTextValue: {
+    color: COLORS.white,
+    fontFamily: 'Poppins-Bold',
     fontSize: FONT_SIZE,
   },
 });
