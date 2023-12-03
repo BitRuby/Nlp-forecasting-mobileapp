@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: 'Poppins-Regular',
     color: COLORS.white,
-    marginVertical: 10,
+    marginVertical: 0,
   },
   withIconContainer: {
     flexDirection: 'row',

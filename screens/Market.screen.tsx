@@ -8,6 +8,7 @@ import { getPricesByMarketId } from '../data/markets';
 import { IPrice } from './types';
 import LoadingOverlay from '../ui/Loading';
 import { COLORS } from '../ui/utils';
+import { Card } from '../ui/Card';
 
 interface MarketScreenRouteParams {
   id: string;
@@ -47,13 +48,6 @@ export default function MarketScreen() {
     [list],
   );
 
-  const medianClose = useMemo(
-    () =>
-      list.length
-        ? list.sort()[Math.floor(list.length / 2)].data.Close
-        : undefined,
-    [list],
-  );
   const averageClose = useMemo(
     () =>
       list.length
@@ -72,13 +66,6 @@ export default function MarketScreen() {
     [list],
   );
 
-  const medianVolume = useMemo(
-    () =>
-      list.length
-        ? list.sort()[Math.floor(list.length / 2)].data.Volume
-        : undefined,
-    [list],
-  );
   const averageVolume = useMemo(
     () =>
       list.length
@@ -176,27 +163,22 @@ export default function MarketScreen() {
           maxDate={maxDate}
         />
       </View>
-      <List
-        style={{
-          backgroundColor: COLORS.gray2,
-        }}
-        data={[
-          {
-            id: 'SummaryValues',
-            data: {
-              'Close min': minClose,
-              'Close max': maxClose,
-              'Close avg': averageClose,
-              'Close median': medianClose,
-              'Volume min': minVolume,
-              'Volume max': maxVolume,
-              'Volume avg': averageVolume,
-              'Volume median': medianVolume,
-            },
-          },
-        ]}
-        showKeys
-      />
+      {list.length ? (
+        <Card
+          backgroundColor={COLORS.gray2}
+          content={{
+            'Close Min': minClose?.toString(),
+            'Close Max': maxClose?.toString(),
+            'Close Avg': customRound(averageClose || 0)?.toString(),
+            'Volume Min': minVolume?.toString(),
+            'Volume Max': maxVolume?.toString(),
+            'Volume Avg': customRound(averageVolume || 0)?.toString(),
+          }}
+        />
+      ) : (
+        <></>
+      )}
+
       <List data={list} showKeys />
     </Container>
   );
@@ -210,4 +192,16 @@ const styles = StyleSheet.create({
   margin: {
     marginHorizontal: 5,
   },
+  summary: {
+    backgroundColor: COLORS.gray2,
+  },
 });
+
+function customRound(number: number) {
+  let decimalPart = number % 1;
+  if (decimalPart >= 0.5) {
+    return Math.ceil(number);
+  } else {
+    return Math.floor(number);
+  }
+}
