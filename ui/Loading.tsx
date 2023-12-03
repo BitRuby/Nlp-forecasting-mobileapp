@@ -7,7 +7,6 @@ interface ILoadingOverlay {
 }
 
 function LoadingOverlay({ isVisible }: ILoadingOverlay) {
-  console.log('isVisible ' + isVisible);
   return (
     <Modal transparent animationType="none" visible={isVisible}>
       <View style={styles.overlay}>

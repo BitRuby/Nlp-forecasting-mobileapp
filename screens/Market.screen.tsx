@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Container from '../ui/Container';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import DateSelect from '../ui/DateSelect';
 import List, { ItemProps } from '../ui/List';
 import { getPricesByMarketId } from '../data/markets';
@@ -12,15 +12,31 @@ import { Card } from '../ui/Card';
 
 interface MarketScreenRouteParams {
   id: string;
+  name: string;
 }
 
 export default function MarketScreen() {
   const route = useRoute();
-  const { id } = route.params as MarketScreenRouteParams;
+  const navigation = useNavigation();
+  const { id, name } = route.params as MarketScreenRouteParams;
   const [inputs, setInputs] = useState<{ [k: string]: string }>({});
   const [data, setData] = useState<IPrice[]>([]);
   const [list, setList] = useState<ItemProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const setTitle = useCallback(
+    (title: string) => {
+      console.log(title);
+      navigation.setOptions({
+        title: `${title} Market Details`,
+      });
+    },
+    [navigation],
+  );
+
+  useEffect(() => {
+    setTitle(name);
+  }, [name, setTitle]);
 
   const minDate = useMemo(
     () =>

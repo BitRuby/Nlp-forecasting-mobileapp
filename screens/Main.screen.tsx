@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Container from '../ui/Container';
 import Text from '../ui/Text';
 import Input from '../ui/Input';
@@ -20,17 +20,9 @@ const _data = [
 ];
 
 function MainScreen(): JSX.Element {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [inputs, setInputs] = useState<{ [k: string]: string }>({});
   const [selected, setSelected] = useState<string[]>([]);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-
-    return () => clearTimeout(timeout);
-  }, []);
 
   function handleChangeValue(name: string, value: string) {
     setInputs(prev => ({

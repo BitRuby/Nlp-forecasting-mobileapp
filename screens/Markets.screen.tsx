@@ -15,7 +15,7 @@ interface Data {
 const iconKeys = Object.keys(icons);
 
 type StackParamList = {
-  'Markets/MarketScreen': { id: string };
+  'Markets/MarketScreen': { id: string; name: string };
 };
 
 type MarketScreenNavigationProp = StackNavigationProp<
@@ -53,8 +53,9 @@ export default function MarketsScreen() {
     (_id: string) => {
       const selectElement = data.find(e => e._id === _id);
       if (selectElement) {
-        return navigation.navigate('Markets/MarketScreen', {
+        return navigation.navigate('Market', {
           id: selectElement._id,
+          name: selectElement.name,
         });
       }
     },

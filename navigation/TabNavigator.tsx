@@ -10,8 +10,12 @@ import TweetsScreen from '../screens/Tweets.screen';
 import DatasetsScreen from '../screens/Datasets.screen';
 import RulesScreen from '../screens/Rules.screen';
 import AIScreen from '../screens/AI.screen';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  StackNavigationOptions,
+  createStackNavigator,
+} from '@react-navigation/stack';
 import MarketScreen from '../screens/Market.screen';
+import { RouteProp, ParamListBase } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,18 +45,27 @@ function HeaderLeft({ navigation }: any): JSX.Element {
   );
 }
 
+function screenOptions(props: {
+  route: RouteProp<ParamListBase, string>;
+  navigation: any;
+}): StackNavigationOptions {
+  return {
+    headerStyle: {
+      backgroundColor: COLORS.dark,
+    },
+    headerTintColor: COLORS.white,
+    headerTitleAlign: 'center',
+    headerTitleStyle: styles.headerTitle,
+    headerLeft: () => <HeaderLeft navigation={props.navigation} />,
+  };
+}
+
 export default function TabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ navigation, route }) => ({
-        headerStyle: {
-          backgroundColor: COLORS.dark,
-        },
-        headerTintColor: COLORS.white,
-        headerTitleAlign: 'center',
-        headerTitleStyle: styles.headerTitle,
-        headerLeft: () => <HeaderLeft navigation={navigation} />,
-        tabBarIcon: ({ color }) => {
+        headerShown: false,
+        tabBarIcon: ({ color }: { color: string }) => {
           let iconName: IconTypes = 'faQuestionCircle';
           if (route.name === 'Start') {
             iconName = 'faHome';
@@ -91,18 +104,9 @@ export default function TabNavigator() {
       <Tab.Screen name="Markets" options={{ unmountOnBlur: true }}>
         {() => (
           <Route>
-            <Stack.Navigator
-              screenOptions={{
-                headerShown: false,
-              }}>
-              <Stack.Screen
-                name="Markets/MarketsScreen"
-                component={MarketsScreen}
-              />
-              <Stack.Screen
-                name="Markets/MarketScreen"
-                component={MarketScreen}
-              />
+            <Stack.Navigator screenOptions={screenOptions}>
+              <Stack.Screen name=" Markets " component={MarketsScreen} />
+              <Stack.Screen name="Market" component={MarketScreen} />
             </Stack.Navigator>
           </Route>
         )}
