@@ -22,6 +22,52 @@ export async function getTweetsByKeywordId(keywordId: string) {
   }
 }
 
+export async function getTweetsByKeywordIdPaginated(body: {
+  keywordId: string;
+  page: number;
+  rowsPerPage: number;
+  startDate: string;
+  endDate: string;
+  sentiment: string;
+}) {
+  console.log(JSON.stringify(body));
+  if (
+    !body.keywordId &&
+    !body.page &&
+    !body.rowsPerPage &&
+    !body.startDate &&
+    !body.endDate &&
+    !body.sentiment
+  ) {
+    return;
+  }
+  try {
+    const fetched = await fetch(`${API_URL}/keyword`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const json = await fetched.json();
+    return json;
+  } catch (ex) {
+    console.error(ex);
+    return null;
+  }
+}
+
+export async function getDailyTweetsByKeywordId(keywordId: string) {
+  try {
+    const fetched = await fetch(`${API_URL}/keyword/daily/${keywordId}`);
+    const json = await fetched.json();
+    return json;
+  } catch (ex) {
+    console.error(ex);
+    return null;
+  }
+}
+
 export async function applySentimentAnalyze(body: {
   keywordId: string;
   dictionaryLength: number;

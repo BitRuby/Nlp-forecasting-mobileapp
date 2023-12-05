@@ -1,39 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import Container from '../ui/Container';
 import List, { ItemProps } from '../ui/List';
 import { icons } from '../ui/Icons';
 import LoadingOverlay from '../ui/Loading';
 import { getAllKeywords } from '../data/keyword';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+
+interface Data {
+  name: string;
+  _id: string;
+}
+
+type StackParamList = {
+  Tweet: { id: string; name: string };
+};
+
+type MarketScreenNavigationProp = StackNavigationProp<StackParamList, 'Tweet'>;
+
+const iconKeys = Object.keys(icons);
 
 export default function TweetsScreen() {
-  const [list, setList] = useState<ItemProps[]>([]);
+  const navigation = useNavigation<MarketScreenNavigationProp>();
+  const [data, setData] = useState<Data[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      const iconKeys = Object.keys(icons);
-      const data = await getAllKeywords();
-      if (data) {
-        setList(
-          data.map((e: any) => ({
-            id: e.name,
-            data: {
-              name: e.name,
-            },
-            icon: iconKeys.includes(`fa${e.name}`)
-              ? `fa${e.name}`
-              : 'faChartSimple',
-          })),
-        );
+      const tweets = await getAllKeywords();
+      if (tweets) {
+        setData(tweets);
       }
       setIsLoading(false);
     })();
   }, []);
 
+  const list = useMemo(() => {
+    return data.map((e: any) => ({
+      id: e._id,
+      data: {
+        name: e.name,
+      },
+      icon: iconKeys.includes(`fa${e.name}`) ? `fa${e.name}` : 'faTwitter',
+    })) as ItemProps[];
+  }, [data]);
+
+  const handleSelectElement = useCallback(
+    (_id: string) => {
+      const selectElement = data.find(e => e._id === _id);
+      if (selectElement) {
+        return navigation.navigate('Tweet', {
+          id: selectElement._id,
+          name: selectElement.name,
+        });
+      }
+    },
+    [data, navigation],
+  );
+
   return (
     <Container>
-      <List data={list} />
+      <List data={list} onSelect={handleSelectElement} />
       <LoadingOverlay isVisible={isLoading} />
     </Container>
   );

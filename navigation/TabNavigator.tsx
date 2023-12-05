@@ -16,6 +16,7 @@ import {
 } from '@react-navigation/stack';
 import MarketScreen from '../screens/Market.screen';
 import { RouteProp, ParamListBase } from '@react-navigation/native';
+import TweetScreen from '../screens/Tweet.screen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -114,7 +115,10 @@ export default function TabNavigator() {
       <Tab.Screen name="Tweets" options={{ unmountOnBlur: true }}>
         {() => (
           <Route>
-            <TweetsScreen />
+            <Stack.Navigator screenOptions={screenOptions}>
+              <Stack.Screen name=" Tweets " component={TweetsScreen} />
+              <Stack.Screen name="Tweet" component={TweetScreen} />
+            </Stack.Navigator>
           </Route>
         )}
       </Tab.Screen>

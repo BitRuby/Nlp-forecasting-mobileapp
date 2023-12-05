@@ -13,6 +13,7 @@ import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclama
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons/faCircleInfo';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons/faAngleDown';
 import { faChartColumn } from '@fortawesome/free-solid-svg-icons/faChartColumn';
+import { faFilter } from '@fortawesome/free-solid-svg-icons/faFilter';
 import { faBitcoin } from '@fortawesome/free-brands-svg-icons/faBitcoin';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter';
 import { faAmazon } from '@fortawesome/free-brands-svg-icons/faAmazon';
@@ -35,6 +36,7 @@ export const icons = {
   faCircleInfo,
   faAngleDown,
   faChartColumn,
+  faFilter,
   faBitcoin,
   faTwitter,
   faAmazon,

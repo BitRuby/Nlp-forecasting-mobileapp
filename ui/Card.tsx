@@ -19,7 +19,7 @@ export function Card({ content, backgroundColor }: ICard) {
       {Object.keys(content).map(key => {
         if (content[key]) {
           return (
-            <View style={styles.textContainer}>
+            <View key={key} style={styles.textContainer}>
               <Text style={styles.key}>{`${key}: `}</Text>
               <Text style={styles.value}>{`${content[key]}`}</Text>
             </View>

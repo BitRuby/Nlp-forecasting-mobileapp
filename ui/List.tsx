@@ -45,6 +45,7 @@ interface IList {
   style?: ViewStyle;
   selectedStyles?: ViewStyle;
   showKeys?: boolean;
+  onEndReached?: () => void;
 }
 
 export default function List({
@@ -54,6 +55,7 @@ export default function List({
   style,
   selectedStyles,
   showKeys,
+  onEndReached,
 }: IList) {
   const selectedStyle = selectedStyles || { borderColor: COLORS.green };
 
@@ -81,6 +83,8 @@ export default function List({
       renderItem={renderItem}
       data={data}
       keyExtractor={(item: ItemProps) => item.id.toString()}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.1}
     />
   );
 }

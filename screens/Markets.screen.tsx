@@ -15,13 +15,10 @@ interface Data {
 const iconKeys = Object.keys(icons);
 
 type StackParamList = {
-  'Markets/MarketScreen': { id: string; name: string };
+  Market: { id: string; name: string };
 };
 
-type MarketScreenNavigationProp = StackNavigationProp<
-  StackParamList,
-  'Markets/MarketScreen'
->;
+type MarketScreenNavigationProp = StackNavigationProp<StackParamList, 'Market'>;
 
 export default function MarketsScreen() {
   const navigation = useNavigation<MarketScreenNavigationProp>();

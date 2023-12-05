@@ -8,3 +8,21 @@ export interface IPrice {
   low: number;
   market: string;
 }
+
+export interface ITweet {
+  _id: string;
+  date: string;
+  content: string;
+  compound: string;
+  neg: number;
+  neu: number;
+  pos: number;
+  keyword: string;
+}
+
+export interface IDailyTweet {
+  _id: string;
+  date: string;
+  rows: string[];
+  keywordId: string;
+}

@@ -9,6 +9,7 @@ import { IPrice } from './types';
 import LoadingOverlay from '../ui/Loading';
 import { COLORS } from '../ui/utils';
 import { Card } from '../ui/Card';
+import Filter from '../ui/Filter';
 
 interface MarketScreenRouteParams {
   id: string;
@@ -152,49 +153,50 @@ export default function MarketScreen() {
     }));
   }
 
-  function handleChangeValue(name: string, value: string) {
+  function handleChangeValue(inputName: string, value: string) {
     setInputs(prev => ({
       ...prev,
-      [name]: value,
+      [inputName]: value,
     }));
   }
 
   return (
     <Container>
       <LoadingOverlay isVisible={isLoading} />
-      <View style={styles.dateContainer}>
-        <DateSelect
-          name={'DateFrom'}
-          value={inputs.DateFrom}
-          setValue={handleChangeValue}
-          minDate={minDate}
-          maxDate={maxDate}
-        />
-        <View style={styles.margin} />
-        <DateSelect
-          name={'DateTo'}
-          value={inputs.DateTo}
-          setValue={handleChangeValue}
-          minDate={minDate}
-          maxDate={maxDate}
-        />
-      </View>
-      {list.length ? (
-        <Card
-          backgroundColor={COLORS.gray2}
-          content={{
-            'Close Min': minClose?.toString(),
-            'Close Max': maxClose?.toString(),
-            'Close Avg': customRound(averageClose || 0)?.toString(),
-            'Volume Min': minVolume?.toString(),
-            'Volume Max': maxVolume?.toString(),
-            'Volume Avg': customRound(averageVolume || 0)?.toString(),
-          }}
-        />
-      ) : (
-        <></>
-      )}
-
+      <Filter>
+        <View style={styles.dateContainer}>
+          <DateSelect
+            name={'DateFrom'}
+            value={inputs.DateFrom}
+            setValue={handleChangeValue}
+            minDate={minDate}
+            maxDate={maxDate}
+          />
+          <View style={styles.margin} />
+          <DateSelect
+            name={'DateTo'}
+            value={inputs.DateTo}
+            setValue={handleChangeValue}
+            minDate={minDate}
+            maxDate={maxDate}
+          />
+        </View>
+        {list.length ? (
+          <Card
+            backgroundColor={COLORS.gray2}
+            content={{
+              'Close Min': minClose?.toString(),
+              'Close Max': maxClose?.toString(),
+              'Close Avg': customRound(averageClose || 0)?.toString(),
+              'Volume Min': minVolume?.toString(),
+              'Volume Max': maxVolume?.toString(),
+              'Volume Avg': customRound(averageVolume || 0)?.toString(),
+            }}
+          />
+        ) : (
+          <></>
+        )}
+      </Filter>
       <List data={list} showKeys />
     </Container>
   );
