@@ -6,11 +6,13 @@ import { getAllDatasets } from '../data/dataset';
 
 export default function DatasetsScreeb() {
   const [list, setList] = useState<ItemProps[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loadingStates, setLoadingStates] = useState<{ [id: string]: boolean }>(
+    {},
+  );
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
+      setLoadingStates({ getAllDatasets: true });
       const data = await getAllDatasets();
       if (data) {
         setList(
@@ -23,14 +25,14 @@ export default function DatasetsScreeb() {
           })),
         );
       }
-      setIsLoading(false);
+      setLoadingStates({ getAllDatasets: false });
     })();
   }, []);
 
   return (
     <Container>
       <List data={list} />
-      <LoadingOverlay isVisible={isLoading} />
+      <LoadingOverlay loadingStates={loadingStates} />
     </Container>
   );
 }

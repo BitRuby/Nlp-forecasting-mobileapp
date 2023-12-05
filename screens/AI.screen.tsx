@@ -6,11 +6,13 @@ import { getProcessedDatasets } from '../data/processedDataset';
 
 export default function AIScreen() {
   const [list, setList] = useState<ItemProps[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loadingStates, setLoadingStates] = useState<{ [id: string]: boolean }>(
+    {},
+  );
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
+      setLoadingStates({ getProcessedDatasets: true });
       const data = await getProcessedDatasets();
       console.log(JSON.stringify(data[0].datasetId, null, 2));
       if (data) {
@@ -24,14 +26,14 @@ export default function AIScreen() {
           })),
         );
       }
-      setIsLoading(false);
+      setLoadingStates({ getProcessedDatasets: false });
     })();
   }, []);
 
   return (
     <Container>
       <List data={list} />
-      <LoadingOverlay isVisible={isLoading} />
+      <LoadingOverlay loadingStates={loadingStates} />
     </Container>
   );
 }

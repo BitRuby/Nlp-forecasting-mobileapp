@@ -30,7 +30,9 @@ export default function TweetScreen() {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage] = useState<number>(50);
   const [list, setList] = useState<ItemProps[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loadingStates, setLoadingStates] = useState<{
+    [key: string]: boolean;
+  }>({});
   const [dataRange, setDateRange] = useState<{
     minDate: number | undefined;
     maxDate: number | undefined;
@@ -114,28 +116,15 @@ export default function TweetScreen() {
   );
 
   useEffect(() => {
-    (async () => {
-      const result = (await getDailyTweetsByKeywordId(id)) as IDailyTweet[];
-      if (result) {
-        setDateRange({
-          minDate: minDate(result),
-          maxDate: maxDate(result),
-        });
-        setDayPosts({
-          least: dayLeastPosts(result),
-          most: dayMostPosts(result),
-        });
-      }
-    })();
-  }, [id]);
-
-  useEffect(() => {
     setTitle(name);
   }, [name, setTitle]);
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
+      setLoadingStates(prev => ({
+        ...prev,
+        ['getTweetsByKeywordIdPaginated']: true,
+      }));
       const res = await getTweetsByKeywordIdPaginated({
         keywordId: id,
         rowsPerPage,
@@ -149,7 +138,6 @@ export default function TweetScreen() {
         startDate: inputs.DateFrom,
         endDate: inputs.DateTo,
       });
-      console.log(res);
       if (res.length) {
         if (
           inputs.DateFrom !== prevInputs.DateFrom ||
@@ -162,7 +150,10 @@ export default function TweetScreen() {
           setData(prev => [...prev, ...res]);
         }
       }
-      setIsLoading(false);
+      setLoadingStates(prev => ({
+        ...prev,
+        ['getTweetsByKeywordIdPaginated']: false,
+      }));
     })();
   }, [
     id,
@@ -181,6 +172,30 @@ export default function TweetScreen() {
       setList(mapDataToListValues(data));
     }
   }, [data]);
+
+  useEffect(() => {
+    (async () => {
+      setLoadingStates(prev => ({
+        ...prev,
+        ['getDailyTweetsByKeywordId']: true,
+      }));
+      const result = (await getDailyTweetsByKeywordId(id)) as IDailyTweet[];
+      if (result) {
+        setDateRange({
+          minDate: minDate(result),
+          maxDate: maxDate(result),
+        });
+        setDayPosts({
+          least: dayLeastPosts(result),
+          most: dayMostPosts(result),
+        });
+      }
+      setLoadingStates(prev => ({
+        ...prev,
+        ['getDailyTweetsByKeywordId']: false,
+      }));
+    })();
+  }, [id]);
 
   useEffect(() => {
     if (dataRange?.minDate && dataRange?.maxDate) {
@@ -216,14 +231,14 @@ export default function TweetScreen() {
   }
 
   function handleLoadMore() {
-    if (!isLoading) {
+    if (!Object.keys(loadingStates).some(key => loadingStates[key])) {
       setPage(prev => prev + 1);
     }
   }
 
   return (
     <Container>
-      <Loading isVisible={isLoading} />
+      <Loading loadingStates={loadingStates} />
       <Filter>
         <Select
           items={['All', 'Negative', 'Neutral', 'Positive']}

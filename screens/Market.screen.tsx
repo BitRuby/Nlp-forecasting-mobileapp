@@ -23,11 +23,12 @@ export default function MarketScreen() {
   const [inputs, setInputs] = useState<{ [k: string]: string }>({});
   const [data, setData] = useState<IPrice[]>([]);
   const [list, setList] = useState<ItemProps[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loadingStates, setLoadingStates] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   const setTitle = useCallback(
     (title: string) => {
-      console.log(title);
       navigation.setOptions({
         title: `${title} Market Details`,
       });
@@ -93,13 +94,13 @@ export default function MarketScreen() {
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
+      setLoadingStates({ getPricesByMarketId: true });
       const result = await getPricesByMarketId(id);
       if (result) {
         setData(result);
         setList(mapDataToListValues(result));
       }
-      setIsLoading(false);
+      setLoadingStates({ getPricesByMarketId: false });
     })();
   }, [id]);
 
@@ -162,7 +163,7 @@ export default function MarketScreen() {
 
   return (
     <Container>
-      <LoadingOverlay isVisible={isLoading} />
+      <LoadingOverlay loadingStates={loadingStates} />
       <Filter>
         <View style={styles.dateContainer}>
           <DateSelect

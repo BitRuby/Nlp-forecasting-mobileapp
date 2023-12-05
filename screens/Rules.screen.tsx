@@ -6,11 +6,13 @@ import { getRules } from '../data/associationRuleMining';
 
 export default function RulesScreen() {
   const [list, setList] = useState<ItemProps[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loadingStates, setLoadingStates] = useState<{ [id: string]: boolean }>(
+    {},
+  );
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
+      setLoadingStates({ getRules: true });
       const data = await getRules();
       if (data) {
         setList(
@@ -23,14 +25,14 @@ export default function RulesScreen() {
           })),
         );
       }
-      setIsLoading(false);
+      setLoadingStates({ getRules: false });
     })();
   }, []);
 
   return (
     <Container>
       <List data={list} />
-      <LoadingOverlay isVisible={isLoading} />
+      <LoadingOverlay loadingStates={loadingStates} />
     </Container>
   );
 }

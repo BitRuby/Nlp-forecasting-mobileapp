@@ -3,12 +3,15 @@ import { View, Modal, ActivityIndicator, StyleSheet } from 'react-native';
 import { COLORS } from './utils';
 
 interface ILoadingOverlay {
-  isVisible: boolean;
+  loadingStates: { [key: string]: boolean };
 }
 
-function LoadingOverlay({ isVisible }: ILoadingOverlay) {
+function LoadingOverlay({ loadingStates }: ILoadingOverlay) {
   return (
-    <Modal transparent animationType="none" visible={isVisible}>
+    <Modal
+      transparent
+      animationType="none"
+      visible={Object.keys(loadingStates).some(key => loadingStates[key])}>
       <View style={styles.overlay}>
         <View style={styles.spinnerContainer}>
           <ActivityIndicator size={80} color={COLORS.green} />
@@ -20,7 +23,7 @@ function LoadingOverlay({ isVisible }: ILoadingOverlay) {
 
 export default React.memo(
   LoadingOverlay,
-  (prevProps, nextProps) => prevProps.isVisible === nextProps.isVisible,
+  (prevProps, nextProps) => prevProps.loadingStates === nextProps.loadingStates,
 );
 
 const styles = StyleSheet.create({

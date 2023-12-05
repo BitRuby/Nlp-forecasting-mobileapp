@@ -23,16 +23,18 @@ const iconKeys = Object.keys(icons);
 export default function TweetsScreen() {
   const navigation = useNavigation<MarketScreenNavigationProp>();
   const [data, setData] = useState<Data[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loadingStates, setLoadingStates] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
+      setLoadingStates({ ['getAllKeywords']: true });
       const tweets = await getAllKeywords();
       if (tweets) {
         setData(tweets);
       }
-      setIsLoading(false);
+      setLoadingStates({ ['getAllKeywords']: false });
     })();
   }, []);
 
@@ -62,7 +64,7 @@ export default function TweetsScreen() {
   return (
     <Container>
       <List data={list} onSelect={handleSelectElement} />
-      <LoadingOverlay isVisible={isLoading} />
+      <LoadingOverlay loadingStates={loadingStates} />
     </Container>
   );
 }

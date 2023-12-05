@@ -30,7 +30,6 @@ export async function getTweetsByKeywordIdPaginated(body: {
   endDate: string;
   sentiment: string;
 }) {
-  console.log(JSON.stringify(body));
   if (
     !body.keywordId &&
     !body.page &&

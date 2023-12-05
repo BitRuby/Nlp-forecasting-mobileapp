@@ -23,16 +23,18 @@ type MarketScreenNavigationProp = StackNavigationProp<StackParamList, 'Market'>;
 export default function MarketsScreen() {
   const navigation = useNavigation<MarketScreenNavigationProp>();
   const [data, setData] = useState<Data[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loadingStates, setLoadingStates] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   useEffect(() => {
     (async () => {
-      setIsLoading(false);
+      setLoadingStates({ getAllMarkets: true });
       const markets = await getAllMarkets();
       if (markets) {
         setData(markets);
       }
-      setIsLoading(false);
+      setLoadingStates({ getAllMarkets: false });
     })();
   }, []);
 
@@ -62,7 +64,7 @@ export default function MarketsScreen() {
   return (
     <Container>
       <List data={list} onSelect={handleSelectElement} />
-      <LoadingOverlay isVisible={isLoading} />
+      <LoadingOverlay loadingStates={loadingStates} />
     </Container>
   );
 }

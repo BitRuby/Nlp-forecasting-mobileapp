@@ -20,7 +20,9 @@ const _data = [
 ];
 
 function MainScreen(): JSX.Element {
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingStates, setLoadingStates] = useState<{ [id: string]: boolean }>(
+    {},
+  );
   const [inputs, setInputs] = useState<{ [k: string]: string }>({});
   const [selected, setSelected] = useState<string[]>([]);
 
@@ -31,13 +33,7 @@ function MainScreen(): JSX.Element {
     }));
   }
 
-  async function handleButtonClick() {
-    setIsLoading(true);
-    const timeout = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-    return () => clearTimeout(timeout);
-  }
+  async function handleButtonClick() {}
 
   const onSelect = (id: string) => {
     setSelected((prev: string[]) => {
@@ -70,7 +66,7 @@ function MainScreen(): JSX.Element {
       />
       <Button onClick={handleButtonClick} title={'Accept'} />
       <List data={_data} selected={selected} onSelect={onSelect} />
-      <LoadingOverlay isVisible={isLoading} />
+      <LoadingOverlay loadingStates={loadingStates} />
     </Container>
   );
 }
