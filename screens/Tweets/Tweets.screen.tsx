@@ -1,9 +1,9 @@
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
-import Container from '../ui/Container';
-import List, { ItemProps } from '../ui/List';
-import { icons } from '../ui/Icons';
-import LoadingOverlay from '../ui/Loading';
-import { getAllKeywords } from '../data/keyword';
+import Container from '../../ui/Container';
+import List, { ItemProps } from '../../ui/List';
+import { icons } from '../../ui/Icons';
+import LoadingOverlay from '../../ui/Loading';
+import { getAllKeywords } from '../../data/keyword';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
@@ -29,12 +29,15 @@ export default function TweetsScreen() {
 
   useEffect(() => {
     (async () => {
-      setLoadingStates({ ['getAllKeywords']: true });
-      const tweets = await getAllKeywords();
-      if (tweets) {
-        setData(tweets);
+      try {
+        setLoadingStates({ ['getAllKeywords']: true });
+        const tweets = await getAllKeywords();
+        if (tweets) {
+          setData(tweets);
+        }
+      } finally {
+        setLoadingStates({ ['getAllKeywords']: false });
       }
-      setLoadingStates({ ['getAllKeywords']: false });
     })();
   }, []);
 

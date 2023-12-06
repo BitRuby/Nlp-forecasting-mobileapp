@@ -1,28 +1,44 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import Container from '../ui/Container';
-import List, { ItemProps } from '../ui/List';
-import Loading from '../ui/Loading';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+import Container from '../../ui/Container';
+import List, { ItemProps } from '../../ui/List';
+import Loading from '../../ui/Loading';
 import {
   getDailyTweetsByKeywordId,
   getTweetsByKeywordIdPaginated,
-} from '../data/keyword';
-import { IDailyTweet, ITweet } from './types';
-import DateSelect from '../ui/DateSelect';
-import { Card } from '../ui/Card';
-import { COLORS } from '../ui/utils';
-import Select from '../ui/Select';
-import Filter from '../ui/Filter';
+} from '../../data/keyword';
+import { IDailyTweet, ITweet } from '../types';
+import DateSelect from '../../ui/DateSelect';
+import { Card } from '../../ui/Card';
+import { COLORS } from '../../ui/utils';
+import Select from '../../ui/Select';
+import Filter from '../../ui/Filter';
+import Button from '../../ui/Button';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface TweetScreenRouteParams {
   id: string;
   name: string;
 }
 
+type StackParamList = {
+  ['Content Transformations']: { id: string; name: string };
+};
+
+type ContentTransformationsScreenNavigationProp = StackNavigationProp<
+  StackParamList,
+  'Content Transformations'
+>;
+
 export default function TweetScreen() {
   const route = useRoute();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<ContentTransformationsScreenNavigationProp>();
   const { id, name } = route.params as TweetScreenRouteParams;
   const [inputs, setInputs] = useState<{ [k: string]: string }>({});
   const [prevInputs, setPrevInputs] = useState<{ [k: string]: string }>({});
@@ -119,53 +135,58 @@ export default function TweetScreen() {
     setTitle(name);
   }, [name, setTitle]);
 
-  useEffect(() => {
-    (async () => {
-      setLoadingStates(prev => ({
-        ...prev,
-        ['getTweetsByKeywordIdPaginated']: true,
-      }));
-      const res = await getTweetsByKeywordIdPaginated({
-        keywordId: id,
-        rowsPerPage,
-        page:
-          inputs.DateFrom !== prevInputs.DateFrom ||
-          inputs.DateTo !== prevInputs.DateTo ||
-          inputs.Sentiment !== prevInputs.Sentiment
-            ? 0
-            : page,
-        sentiment: inputs.Sentiment || 'All',
-        startDate: inputs.DateFrom,
-        endDate: inputs.DateTo,
-      });
-      if (res.length) {
-        if (
-          inputs.DateFrom !== prevInputs.DateFrom ||
-          inputs.DateTo !== prevInputs.DateTo ||
-          inputs.Sentiment !== prevInputs.Sentiment
-        ) {
-          setData(res);
-          setPage(0);
-        } else {
-          setData(prev => [...prev, ...res]);
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        try {
+          setLoadingStates(prev => ({
+            ...prev,
+            ['getTweetsByKeywordIdPaginated']: true,
+          }));
+          const res = await getTweetsByKeywordIdPaginated({
+            keywordId: id,
+            rowsPerPage,
+            page:
+              inputs.DateFrom !== prevInputs.DateFrom ||
+              inputs.DateTo !== prevInputs.DateTo ||
+              inputs.Sentiment !== prevInputs.Sentiment
+                ? 0
+                : page,
+            sentiment: inputs.Sentiment || 'All',
+            startDate: inputs.DateFrom,
+            endDate: inputs.DateTo,
+          });
+          if (res.length) {
+            if (
+              inputs.DateFrom !== prevInputs.DateFrom ||
+              inputs.DateTo !== prevInputs.DateTo ||
+              inputs.Sentiment !== prevInputs.Sentiment
+            ) {
+              setData(res);
+              setPage(0);
+            } else {
+              setData(prev => [...prev, ...res]);
+            }
+          }
+        } finally {
+          setLoadingStates(prev => ({
+            ...prev,
+            ['getTweetsByKeywordIdPaginated']: false,
+          }));
         }
-      }
-      setLoadingStates(prev => ({
-        ...prev,
-        ['getTweetsByKeywordIdPaginated']: false,
-      }));
-    })();
-  }, [
-    id,
-    inputs.DateFrom,
-    inputs.DateTo,
-    inputs.Sentiment,
-    page,
-    prevInputs.DateFrom,
-    prevInputs.DateTo,
-    prevInputs.Sentiment,
-    rowsPerPage,
-  ]);
+      })();
+    }, [
+      id,
+      inputs.DateFrom,
+      inputs.DateTo,
+      inputs.Sentiment,
+      page,
+      prevInputs.DateFrom,
+      prevInputs.DateTo,
+      prevInputs.Sentiment,
+      rowsPerPage,
+    ]),
+  );
 
   useEffect(() => {
     if (data.length) {
@@ -173,29 +194,34 @@ export default function TweetScreen() {
     }
   }, [data]);
 
-  useEffect(() => {
-    (async () => {
-      setLoadingStates(prev => ({
-        ...prev,
-        ['getDailyTweetsByKeywordId']: true,
-      }));
-      const result = (await getDailyTweetsByKeywordId(id)) as IDailyTweet[];
-      if (result) {
-        setDateRange({
-          minDate: minDate(result),
-          maxDate: maxDate(result),
-        });
-        setDayPosts({
-          least: dayLeastPosts(result),
-          most: dayMostPosts(result),
-        });
-      }
-      setLoadingStates(prev => ({
-        ...prev,
-        ['getDailyTweetsByKeywordId']: false,
-      }));
-    })();
-  }, [id]);
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        try {
+          setLoadingStates(prev => ({
+            ...prev,
+            ['getDailyTweetsByKeywordId']: true,
+          }));
+          const result = (await getDailyTweetsByKeywordId(id)) as IDailyTweet[];
+          if (result) {
+            setDateRange({
+              minDate: minDate(result),
+              maxDate: maxDate(result),
+            });
+            setDayPosts({
+              least: dayLeastPosts(result),
+              most: dayMostPosts(result),
+            });
+          }
+        } finally {
+          setLoadingStates(prev => ({
+            ...prev,
+            ['getDailyTweetsByKeywordId']: false,
+          }));
+        }
+      })();
+    }, [id]),
+  );
 
   useEffect(() => {
     if (dataRange?.minDate && dataRange?.maxDate) {
@@ -216,7 +242,7 @@ export default function TweetScreen() {
       id: row._id,
       data: {
         Date: row.date,
-        Content: row.content,
+        Content: row.transformed,
         Compound: row.compound,
       },
     }));
@@ -234,6 +260,10 @@ export default function TweetScreen() {
     if (!Object.keys(loadingStates).some(key => loadingStates[key])) {
       setPage(prev => prev + 1);
     }
+  }
+
+  function handleContentTransformations() {
+    return navigation.navigate('Content Transformations', { id, name });
   }
 
   return (
@@ -290,6 +320,10 @@ export default function TweetScreen() {
         <></>
       )}
       <List data={list} showKeys onEndReached={handleLoadMore} />
+      <Button
+        onClick={handleContentTransformations}
+        title={'Content transformations'}
+      />
     </Container>
   );
 }

@@ -6,7 +6,7 @@ import { COLORS, FONT_SIZE } from '../ui/utils';
 import MainScreen from '../screens/Main.screen';
 import MarketsScreen from '../screens/Markets.screen';
 import Icons, { IconTypes } from '../ui/Icons';
-import TweetsScreen from '../screens/Tweets.screen';
+import TweetsScreen from '../screens/Tweets/Tweets.screen';
 import DatasetsScreen from '../screens/Datasets.screen';
 import RulesScreen from '../screens/Rules.screen';
 import AIScreen from '../screens/AI.screen';
@@ -16,7 +16,8 @@ import {
 } from '@react-navigation/stack';
 import MarketScreen from '../screens/Market.screen';
 import { RouteProp, ParamListBase } from '@react-navigation/native';
-import TweetScreen from '../screens/Tweet.screen';
+import TweetScreen from '../screens/Tweets/Tweet.screen';
+import ContentTransformations from '../screens/Tweets/ContentTransformations';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -118,6 +119,10 @@ export default function TabNavigator() {
             <Stack.Navigator screenOptions={screenOptions}>
               <Stack.Screen name=" Tweets " component={TweetsScreen} />
               <Stack.Screen name="Tweet" component={TweetScreen} />
+              <Stack.Screen
+                name="Content Transformations"
+                component={ContentTransformations}
+              />
             </Stack.Navigator>
           </Route>
         )}

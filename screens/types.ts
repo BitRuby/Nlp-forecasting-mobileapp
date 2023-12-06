@@ -18,6 +18,8 @@ export interface ITweet {
   neu: number;
   pos: number;
   keyword: string;
+  transformed: string;
+  vectorized: number[];
 }
 
 export interface IDailyTweet {

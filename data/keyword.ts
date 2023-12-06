@@ -70,17 +70,16 @@ export async function getDailyTweetsByKeywordId(keywordId: string) {
 export async function applySentimentAnalyze(body: {
   keywordId: string;
   dictionaryLength: number;
-  transformations:
-    | 'REMOVE_USERNAMES'
-    | 'REMOVE_URLS'
-    | 'REMOVE_PUNCTUATION_MARKS'
-    | 'TEXT_TO_LOWERCASE'
-    | 'REMOVE_SHORT_WORDS';
+  transformations: Transformations;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/keywordId/applySentiment`, {
+    console.log(body);
+    const fetched = await fetch(`${API_URL}/keyword/applySentiment`, {
       method: 'POST',
       body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     const json = await fetched.json();
     return json;
@@ -89,3 +88,11 @@ export async function applySentimentAnalyze(body: {
     return null;
   }
 }
+
+export type Transformations = Array<
+  | 'REMOVE_USERNAMES'
+  | 'REMOVE_URLS'
+  | 'REMOVE_PUNCTUATION_MARKS'
+  | 'TEXT_TO_LOWERCASE'
+  | 'REMOVE_SHORT_WORDS'
+>;

@@ -15,6 +15,7 @@ export interface IInput {
   value: string;
   style?: ViewStyle;
   editable?: boolean;
+  number?: boolean;
 }
 
 export default function Input({
@@ -24,6 +25,7 @@ export default function Input({
   placeholder,
   style,
   editable,
+  number,
 }: IInput) {
   const handleChange = (
     event: NativeSyntheticEvent<TextInputChangeEventData>,
@@ -34,6 +36,7 @@ export default function Input({
 
   return (
     <TextInput
+      keyboardType={number ? 'numeric' : 'default'}
       editable={editable}
       placeholder={placeholder}
       placeholderTextColor={COLORS.gray2}
