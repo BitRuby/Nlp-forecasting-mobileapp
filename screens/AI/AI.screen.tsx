@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Container from '../ui/Container';
-import List, { ItemProps } from '../ui/List';
-import LoadingOverlay from '../ui/Loading';
-import { getAllDatasets } from '../data/dataset';
+import Container from '../../ui/Container';
+import List, { ItemProps } from '../../ui/List';
+import LoadingOverlay from '../../ui/Loading';
+import { getProcessedDatasets } from '../../data/processedDataset';
 
-export default function DatasetsScreeb() {
+export default function AIScreen() {
   const [list, setList] = useState<ItemProps[]>([]);
   const [loadingStates, setLoadingStates] = useState<{ [id: string]: boolean }>(
     {},
@@ -12,8 +12,9 @@ export default function DatasetsScreeb() {
 
   useEffect(() => {
     (async () => {
-      setLoadingStates({ getAllDatasets: true });
-      const data = await getAllDatasets();
+      setLoadingStates({ getProcessedDatasets: true });
+      const data = await getProcessedDatasets();
+      console.log(JSON.stringify(data[0].datasetId, null, 2));
       if (data) {
         setList(
           data.map((e: any) => ({
@@ -21,11 +22,11 @@ export default function DatasetsScreeb() {
             data: {
               name: e.name,
             },
-            icon: 'faDatabase',
+            icon: 'faBrain',
           })),
         );
       }
-      setLoadingStates({ getAllDatasets: false });
+      setLoadingStates({ getProcessedDatasets: false });
     })();
   }, []);
 

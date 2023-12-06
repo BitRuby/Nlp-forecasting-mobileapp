@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Container from '../ui/Container';
-import List, { ItemProps } from '../ui/List';
-import LoadingOverlay from '../ui/Loading';
-import { getProcessedDatasets } from '../data/processedDataset';
+import Container from '../../ui/Container';
+import List, { ItemProps } from '../../ui/List';
+import LoadingOverlay from '../../ui/Loading';
+import { getRules } from '../../data/associationRuleMining';
 
-export default function AIScreen() {
+export default function RulesScreen() {
   const [list, setList] = useState<ItemProps[]>([]);
   const [loadingStates, setLoadingStates] = useState<{ [id: string]: boolean }>(
     {},
@@ -12,9 +12,8 @@ export default function AIScreen() {
 
   useEffect(() => {
     (async () => {
-      setLoadingStates({ getProcessedDatasets: true });
-      const data = await getProcessedDatasets();
-      console.log(JSON.stringify(data[0].datasetId, null, 2));
+      setLoadingStates({ getRules: true });
+      const data = await getRules();
       if (data) {
         setList(
           data.map((e: any) => ({
@@ -22,11 +21,11 @@ export default function AIScreen() {
             data: {
               name: e.name,
             },
-            icon: 'faBrain',
+            icon: 'faMagnifyingGlassChart',
           })),
         );
       }
-      setLoadingStates({ getProcessedDatasets: false });
+      setLoadingStates({ getRules: false });
     })();
   }, []);
 

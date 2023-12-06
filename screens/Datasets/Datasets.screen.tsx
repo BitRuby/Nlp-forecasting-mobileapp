@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Container from '../ui/Container';
-import List, { ItemProps } from '../ui/List';
-import LoadingOverlay from '../ui/Loading';
-import { getRules } from '../data/associationRuleMining';
+import Container from '../../ui/Container';
+import List, { ItemProps } from '../../ui/List';
+import LoadingOverlay from '../../ui/Loading';
+import { getAllDatasets } from '../../data/dataset';
 
-export default function RulesScreen() {
+export default function DatasetsScreeb() {
   const [list, setList] = useState<ItemProps[]>([]);
   const [loadingStates, setLoadingStates] = useState<{ [id: string]: boolean }>(
     {},
@@ -12,8 +12,8 @@ export default function RulesScreen() {
 
   useEffect(() => {
     (async () => {
-      setLoadingStates({ getRules: true });
-      const data = await getRules();
+      setLoadingStates({ getAllDatasets: true });
+      const data = await getAllDatasets();
       if (data) {
         setList(
           data.map((e: any) => ({
@@ -21,11 +21,11 @@ export default function RulesScreen() {
             data: {
               name: e.name,
             },
-            icon: 'faMagnifyingGlassChart',
+            icon: 'faDatabase',
           })),
         );
       }
-      setLoadingStates({ getRules: false });
+      setLoadingStates({ getAllDatasets: false });
     })();
   }, []);
 

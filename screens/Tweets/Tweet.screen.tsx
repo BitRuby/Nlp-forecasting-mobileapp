@@ -12,7 +12,7 @@ import {
   getDailyTweetsByKeywordId,
   getTweetsByKeywordIdPaginated,
 } from '../../data/keyword';
-import { IDailyTweet, ITweet } from '../types';
+import { IDailyTweet, ITweet } from './types';
 import DateSelect from '../../ui/DateSelect';
 import { Card } from '../../ui/Card';
 import { COLORS } from '../../ui/utils';

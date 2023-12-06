@@ -2,22 +2,19 @@
 import React from 'react';
 import { StatusBar, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { COLORS, FONT_SIZE } from '../ui/utils';
-import MainScreen from '../screens/Main.screen';
-import MarketsScreen from '../screens/Markets.screen';
-import Icons, { IconTypes } from '../ui/Icons';
-import TweetsScreen from '../screens/Tweets/Tweets.screen';
-import DatasetsScreen from '../screens/Datasets.screen';
-import RulesScreen from '../screens/Rules.screen';
-import AIScreen from '../screens/AI.screen';
 import {
   StackNavigationOptions,
   createStackNavigator,
 } from '@react-navigation/stack';
-import MarketScreen from '../screens/Market.screen';
 import { RouteProp, ParamListBase } from '@react-navigation/native';
-import TweetScreen from '../screens/Tweets/Tweet.screen';
-import ContentTransformations from '../screens/Tweets/ContentTransformations';
+import { COLORS, FONT_SIZE } from '../ui/utils';
+import Icons, { IconTypes } from '../ui/Icons';
+import MainScreen from '../screens/Main.screen';
+import Markets from '../screens/Markets';
+import Tweets from '../screens/Tweets';
+import DatasetsScreen from '../screens/Datasets/Datasets.screen';
+import RulesScreen from '../screens/Rules/Rules.screen';
+import AIScreen from '../screens/AI/AI.screen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -107,8 +104,11 @@ export default function TabNavigator() {
         {() => (
           <Route>
             <Stack.Navigator screenOptions={screenOptions}>
-              <Stack.Screen name=" Markets " component={MarketsScreen} />
-              <Stack.Screen name="Market" component={MarketScreen} />
+              <Stack.Screen
+                name=" Markets "
+                component={Markets.MarketsScreen}
+              />
+              <Stack.Screen name="Market" component={Markets.MarketScreen} />
             </Stack.Navigator>
           </Route>
         )}
@@ -117,11 +117,11 @@ export default function TabNavigator() {
         {() => (
           <Route>
             <Stack.Navigator screenOptions={screenOptions}>
-              <Stack.Screen name=" Tweets " component={TweetsScreen} />
-              <Stack.Screen name="Tweet" component={TweetScreen} />
+              <Stack.Screen name=" Tweets " component={Tweets.TweetsScreen} />
+              <Stack.Screen name="Tweet" component={Tweets.TweetScreen} />
               <Stack.Screen
                 name="Content Transformations"
-                component={ContentTransformations}
+                component={Tweets.ContentTransformationsScreen}
               />
             </Stack.Navigator>
           </Route>
