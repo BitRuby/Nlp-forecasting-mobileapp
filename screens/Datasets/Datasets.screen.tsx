@@ -1,10 +1,10 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import Container from '../../ui/Container';
 import List, { ItemProps } from '../../ui/List';
 import LoadingOverlay from '../../ui/Loading';
 import { getAllDatasets } from '../../data/dataset';
 import Button from '../../ui/Button';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 interface Data {
@@ -22,12 +22,12 @@ type DatasetScreenNavigationProp = StackNavigationProp<
 >;
 
 type NewDatasetStackParamList = {
-  ['NewDataset']: undefined;
+  ['New Dataset']: undefined;
 };
 
 type NewDatasetScreenNavigationProp = StackNavigationProp<
   NewDatasetStackParamList,
-  'NewDataset'
+  'New Dataset'
 >;
 
 export default function DatasetsScreen() {
@@ -38,19 +38,21 @@ export default function DatasetsScreen() {
     {},
   );
 
-  useEffect(() => {
-    (async () => {
-      try {
-        setLoadingStates({ getAllDatasets: true });
-        const result = await getAllDatasets();
-        if (result) {
-          setData(result);
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        try {
+          setLoadingStates({ getAllDatasets: true });
+          const result = await getAllDatasets();
+          if (result) {
+            setData(result);
+          }
+        } finally {
+          setLoadingStates({ getAllDatasets: false });
         }
-      } finally {
-        setLoadingStates({ getAllDatasets: false });
-      }
-    })();
-  }, []);
+      })();
+    }, []),
+  );
 
   const list = useMemo(() => {
     return data.map((e: any) => ({
@@ -76,13 +78,13 @@ export default function DatasetsScreen() {
   );
 
   const handleNewDataset = () => {
-    return newDatasetNavigation.navigate('NewDataset');
+    return newDatasetNavigation.navigate('New Dataset');
   };
 
   return (
     <Container>
-      <List data={list} onSelect={handleSelectElement} />
       <LoadingOverlay loadingStates={loadingStates} />
+      <List data={list} onSelect={handleSelectElement} />
       <Button onClick={handleNewDataset} title={'New dataset'} />
     </Container>
   );

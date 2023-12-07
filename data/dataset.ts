@@ -17,7 +17,7 @@ export async function createDataset(body: {
   name: string;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/dataset`, {
+    const fetched = await fetch(`${API_URL}/dataset/create`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {

@@ -73,7 +73,6 @@ export default function Dataset({}) {
           startDate: inputs.DateFrom,
           endDate: inputs.DateTo,
         });
-        console.log(result);
         if (result) {
           setData(result);
           setList(mapDataToListValues(result));

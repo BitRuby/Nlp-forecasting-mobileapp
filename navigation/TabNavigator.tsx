@@ -137,7 +137,7 @@ export default function TabNavigator() {
               />
               <Stack.Screen name="Dataset" component={Datasets.DatasetScreen} />
               <Stack.Screen
-                name="NewDataset"
+                name="New Dataset"
                 component={Datasets.NewDatasetScreen}
               />
             </Stack.Navigator>

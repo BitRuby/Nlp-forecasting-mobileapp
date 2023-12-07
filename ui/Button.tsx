@@ -1,24 +1,38 @@
-import React from 'react';
-import { Text, StyleSheet, TouchableHighlight } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { Text, StyleSheet, TouchableHighlight, Animated } from 'react-native';
 import { COLORS, FONT_SIZE } from './utils';
 
 interface IButton {
   onClick: () => void;
   title: string;
+  disabled?: boolean;
 }
 
-export default function Button({ onClick, title }: IButton) {
+export default function Button({ onClick, disabled, title }: IButton) {
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: disabled ? 0.5 : 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [disabled, fadeAnim]);
+
   return (
-    <TouchableHighlight
-      style={styles.container}
-      onPress={onClick}
-      underlayColor={COLORS.gray1}>
-      <Text style={styles.text}>{title}</Text>
-    </TouchableHighlight>
+    <Animated.View style={{ opacity: fadeAnim }}>
+      <TouchableHighlight
+        style={styles.container}
+        disabled={disabled}
+        onPress={onClick}
+        underlayColor={COLORS.gray1}>
+        <Text style={styles.text}>{title}</Text>
+      </TouchableHighlight>
+    </Animated.View>
   );
 }
 
-const styles = StyleSheet.create({
+let styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.green,
     marginVertical: 10,
