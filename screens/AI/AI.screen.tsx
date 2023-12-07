@@ -14,7 +14,6 @@ export default function AIScreen() {
     (async () => {
       setLoadingStates({ getProcessedDatasets: true });
       const data = await getProcessedDatasets();
-      console.log(JSON.stringify(data[0].datasetId, null, 2));
       if (data) {
         setList(
           data.map((e: any) => ({

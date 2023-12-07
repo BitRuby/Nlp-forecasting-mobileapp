@@ -20,6 +20,9 @@ export async function createDataset(body: {
     const fetched = await fetch(`${API_URL}/dataset`, {
       method: 'POST',
       body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     const json = await fetched.json();
     return json;
@@ -29,9 +32,19 @@ export async function createDataset(body: {
   }
 }
 
-export async function getDatasetById(datasetId: string) {
+export async function getDatasetById(body: {
+  datasetId: string;
+  startDate: string;
+  endDate: string;
+}) {
   try {
-    const fetched = await fetch(`${API_URL}/dataset/${datasetId}`);
+    const fetched = await fetch(`${API_URL}/dataset`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     const json = await fetched.json();
     return json;
   } catch (ex) {

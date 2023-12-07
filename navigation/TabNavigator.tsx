@@ -12,7 +12,7 @@ import Icons, { IconTypes } from '../ui/Icons';
 import MainScreen from '../screens/Main.screen';
 import Markets from '../screens/Markets';
 import Tweets from '../screens/Tweets';
-import DatasetsScreen from '../screens/Datasets/Datasets.screen';
+import Datasets from '../screens/Datasets';
 import RulesScreen from '../screens/Rules/Rules.screen';
 import AIScreen from '../screens/AI/AI.screen';
 
@@ -130,7 +130,17 @@ export default function TabNavigator() {
       <Tab.Screen name="Datasets" options={{ unmountOnBlur: true }}>
         {() => (
           <Route>
-            <DatasetsScreen />
+            <Stack.Navigator screenOptions={screenOptions}>
+              <Stack.Screen
+                name=" Datasets "
+                component={Datasets.DatasetsScreen}
+              />
+              <Stack.Screen name="Dataset" component={Datasets.DatasetScreen} />
+              <Stack.Screen
+                name="NewDataset"
+                component={Datasets.NewDatasetScreen}
+              />
+            </Stack.Navigator>
           </Route>
         )}
       </Tab.Screen>

@@ -73,7 +73,6 @@ export async function applySentimentAnalyze(body: {
   transformations: Transformations;
 }) {
   try {
-    console.log(body);
     const fetched = await fetch(`${API_URL}/keyword/applySentiment`, {
       method: 'POST',
       body: JSON.stringify(body),
