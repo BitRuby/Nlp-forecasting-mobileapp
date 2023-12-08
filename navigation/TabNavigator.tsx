@@ -13,7 +13,7 @@ import MainScreen from '../screens/Main.screen';
 import Markets from '../screens/Markets';
 import Tweets from '../screens/Tweets';
 import Datasets from '../screens/Datasets';
-import RulesScreen from '../screens/Rules/Rules.screen';
+import Rules from '../screens/Rules';
 import AIScreen from '../screens/AI/AI.screen';
 
 const Stack = createStackNavigator();
@@ -147,7 +147,11 @@ export default function TabNavigator() {
       <Tab.Screen name="Rules" options={{ unmountOnBlur: true }}>
         {() => (
           <Route>
-            <RulesScreen />
+            <Stack.Navigator screenOptions={screenOptions}>
+              <Stack.Screen name=" Rules " component={Rules.RulesScreen} />
+              {/* <Stack.Screen name="Rule" component={Datasets.DatasetScreen} /> */}
+              <Stack.Screen name="New Rules" component={Rules.NewRulesScreen} />
+            </Stack.Navigator>
           </Route>
         )}
       </Tab.Screen>

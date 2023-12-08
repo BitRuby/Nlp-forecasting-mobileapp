@@ -1,13 +1,18 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { COLORS } from './utils';
 
 export interface IContainer {
   children: string | JSX.Element | JSX.Element[];
+  scroll?: boolean;
 }
 
-export default function Container({ children }: IContainer) {
-  return <SafeAreaView style={styles.background}>{children}</SafeAreaView>;
+export default function Container({ children, scroll }: IContainer) {
+  return scroll ? (
+    <ScrollView style={styles.background}>{children}</ScrollView>
+  ) : (
+    <SafeAreaView style={styles.background}>{children}</SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({

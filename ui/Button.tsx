@@ -1,14 +1,21 @@
 import React, { useRef, useEffect } from 'react';
-import { Text, StyleSheet, TouchableHighlight, Animated } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  Animated,
+  ViewStyle,
+} from 'react-native';
 import { COLORS, FONT_SIZE } from './utils';
 
 interface IButton {
   onClick: () => void;
   title: string;
   disabled?: boolean;
+  style?: ViewStyle;
 }
 
-export default function Button({ onClick, disabled, title }: IButton) {
+export default function Button({ onClick, disabled, title, style }: IButton) {
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -20,7 +27,7 @@ export default function Button({ onClick, disabled, title }: IButton) {
   }, [disabled, fadeAnim]);
 
   return (
-    <Animated.View style={{ opacity: fadeAnim }}>
+    <Animated.View style={{ opacity: fadeAnim, ...style }}>
       <TouchableHighlight
         style={styles.container}
         disabled={disabled}

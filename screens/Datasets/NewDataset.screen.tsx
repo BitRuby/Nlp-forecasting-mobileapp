@@ -61,9 +61,6 @@ export default function NewDataset({}) {
       const marketId = allMarkets.find(e => e.name === inputs.MarketId)?._id;
       const keywordId = allKeywords.find(e => e.name === inputs.KeywordId)?._id;
 
-      console.log('marketId ' + marketId);
-      console.log('keywordId ' + keywordId);
-
       if (marketId && keywordId) {
         setLoadingStates({ createDataset: true });
         await createDataset({

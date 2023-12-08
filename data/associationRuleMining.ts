@@ -56,7 +56,7 @@ export async function createRules(body: {
   endDate: string;
   windowSize: number;
   name: string;
-  indicators: Array<EconomicIndicatorTypes | TechnicalIndicatorTypes>;
+  indicators: string[];
   volume: boolean;
   close: boolean;
 }) {
@@ -64,6 +64,9 @@ export async function createRules(body: {
     const fetched = await fetch(`${API_URL}/associationRuleMining`, {
       method: 'POST',
       body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     const json = await fetched.json();
     return json;
