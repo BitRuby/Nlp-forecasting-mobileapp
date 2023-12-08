@@ -7,30 +7,65 @@ import Button from '../../ui/Button';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-type StackParamList = {
+interface Data {
+  name: string;
+  _id: string;
+  keywordId: {
+    name: string;
+  };
+  marketId: {
+    name: string;
+  };
+  startDate: string;
+  endDate: string;
+  rows: { [key: string]: string }[];
+}
+
+type NewRulesStackParamList = {
   'New Rules': undefined;
 };
 
-type RulesScreenNavigationProp = StackNavigationProp<
-  StackParamList,
+type NewRulesScreenNavigationProp = StackNavigationProp<
+  NewRulesStackParamList,
   'New Rules'
 >;
 
+type RuleStackParamList = {
+  Rule: {
+    id: string;
+    name: string;
+    keywordId: {
+      name: string;
+    };
+    marketId: {
+      name: string;
+    };
+    startDate: string;
+    endDate: string;
+    rows: { [key: string]: string }[];
+  };
+};
+
+type RuleScreenNavigationProp = StackNavigationProp<RuleStackParamList, 'Rule'>;
+
 export default function RulesScreen() {
   const [list, setList] = useState<ItemProps[]>([]);
+  const [data, setData] = useState<Data[]>([]);
   const [loadingStates, setLoadingStates] = useState<{ [id: string]: boolean }>(
     {},
   );
-  const navigation = useNavigation<RulesScreenNavigationProp>();
+  const newRulesNavigation = useNavigation<NewRulesScreenNavigationProp>();
+  const ruleNavigation = useNavigation<RuleScreenNavigationProp>();
 
   useFocusEffect(
     useCallback(() => {
       (async () => {
         setLoadingStates({ getRules: true });
-        const data = await getRules();
-        if (data) {
+        const response = await getRules();
+        if (response) {
+          setData(response);
           setList(
-            data.map((e: any) => ({
+            response.map((e: any) => ({
               id: e.name,
               data: {
                 name: e.name,
@@ -45,12 +80,30 @@ export default function RulesScreen() {
   );
 
   function newRules() {
-    navigation.navigate('New Rules');
+    newRulesNavigation.navigate('New Rules');
   }
+
+  const handleSelectElement = useCallback(
+    (name: string) => {
+      const selectElement = data.find(e => e.name === name);
+      if (selectElement) {
+        return ruleNavigation.navigate('Rule', {
+          id: selectElement._id,
+          name: selectElement.name,
+          keywordId: selectElement.keywordId,
+          marketId: selectElement.marketId,
+          startDate: selectElement.startDate,
+          endDate: selectElement.endDate,
+          rows: selectElement.rows,
+        });
+      }
+    },
+    [data, ruleNavigation],
+  );
 
   return (
     <Container>
-      <List data={list} />
+      <List data={list} onSelect={handleSelectElement} />
       <LoadingOverlay loadingStates={loadingStates} />
       <Button onClick={newRules} title={'New Rules'} />
     </Container>

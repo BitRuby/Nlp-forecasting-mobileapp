@@ -149,7 +149,7 @@ export default function TabNavigator() {
           <Route>
             <Stack.Navigator screenOptions={screenOptions}>
               <Stack.Screen name=" Rules " component={Rules.RulesScreen} />
-              {/* <Stack.Screen name="Rule" component={Datasets.DatasetScreen} /> */}
+              <Stack.Screen name="Rule" component={Rules.RuleScreen} />
               <Stack.Screen name="New Rules" component={Rules.NewRulesScreen} />
             </Stack.Navigator>
           </Route>
