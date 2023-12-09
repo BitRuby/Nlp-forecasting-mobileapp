@@ -2,6 +2,9 @@ import React, { useCallback, useEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Container from '../../ui/Container';
 import { Card } from '../../ui/Card';
+import { COLORS } from '../../ui/utils';
+import List from '../../ui/List';
+import { incrementDate } from './utils';
 
 interface RuleScreenRouteParams {
   id: string;
@@ -36,9 +39,18 @@ export default function RuleScreen() {
     setTitle(name);
   }, [name, setTitle]);
 
+  const list = rows.map(({ _id, __v, ...rest }, index) => ({
+    id: _id,
+    data: {
+      date: incrementDate(startDate, index),
+      ...rest,
+    },
+  }));
+
   return (
     <Container>
       <Card
+        backgroundColor={COLORS.gray2}
         content={{
           Keyword: keywordId.name,
           Market: marketId.name,
@@ -46,6 +58,7 @@ export default function RuleScreen() {
           'End Date': endDate,
         }}
       />
+      <List data={list} />
     </Container>
   );
 }
