@@ -151,6 +151,10 @@ export default function TabNavigator() {
               <Stack.Screen name=" Rules " component={Rules.RulesScreen} />
               <Stack.Screen name="Rule" component={Rules.RuleScreen} />
               <Stack.Screen name="New Rules" component={Rules.NewRulesScreen} />
+              <Stack.Screen
+                name="Association Rule Mining"
+                component={Rules.AssociationRuleMiningScreen}
+              />
             </Stack.Navigator>
           </Route>
         )}

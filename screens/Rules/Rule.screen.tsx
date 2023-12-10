@@ -5,6 +5,8 @@ import { Card } from '../../ui/Card';
 import { COLORS } from '../../ui/utils';
 import List from '../../ui/List';
 import { incrementDate } from './utils';
+import Button from '../../ui/Button';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface RuleScreenRouteParams {
   id: string;
@@ -20,10 +22,21 @@ interface RuleScreenRouteParams {
   rows: { [key: string]: string }[];
 }
 
+type AssociationRuleMiningStackParamList = {
+  'Association Rule Mining': {
+    id: string;
+  };
+};
+
+type AssociationRuleMiningScreenNavigationProp = StackNavigationProp<
+  AssociationRuleMiningStackParamList,
+  'Association Rule Mining'
+>;
+
 export default function RuleScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AssociationRuleMiningScreenNavigationProp>();
   const route = useRoute();
-  const { name, keywordId, marketId, startDate, endDate, rows } =
+  const { id, name, keywordId, marketId, startDate, endDate, rows } =
     route.params as RuleScreenRouteParams;
 
   const setTitle = useCallback(
@@ -47,6 +60,10 @@ export default function RuleScreen() {
     },
   }));
 
+  function handleOnARMClick() {
+    navigation.navigate('Association Rule Mining', { id });
+  }
+
   return (
     <Container>
       <Card
@@ -59,6 +76,7 @@ export default function RuleScreen() {
         }}
       />
       <List data={list} />
+      <Button onClick={handleOnARMClick} title={'Association Rule Mining'} />
     </Container>
   );
 }

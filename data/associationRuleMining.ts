@@ -21,14 +21,17 @@ export async function getDataBoundaries(body: {
 }
 
 export async function apriori(body: {
-  associationRuleMiningId: string;
+  assiociationRuleMiningId: string;
   minSupport: number;
   minConfidence: number;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/associationRuleMining`, {
+    const fetched = await fetch(`${API_URL}/associationRuleMining/apriori`, {
       method: 'POST',
       body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     const json = await fetched.json();
     return json;
