@@ -96,7 +96,9 @@ export default function TabNavigator() {
       <Tab.Screen name="Start">
         {() => (
           <Route>
-            <MainScreen />
+            <Stack.Navigator screenOptions={screenOptions}>
+              <Stack.Screen name=" Home " component={MainScreen} />
+            </Stack.Navigator>
           </Route>
         )}
       </Tab.Screen>

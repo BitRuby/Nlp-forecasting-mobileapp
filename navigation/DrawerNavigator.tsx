@@ -19,16 +19,7 @@ function DrawerContent(props: DrawerContentComponentProps) {
   const currentRouteName =
     props.navigation.getState().routes[props.navigation.getState().index].name;
 
-  const routesList = [
-    'Start',
-    'Markets',
-    'Tweets',
-    'Datasets',
-    'New Dataset',
-    'Rules',
-    'New Rules',
-    'AI',
-  ];
+  const routesList = ['Home', 'Markets', 'Tweets', 'Datasets', 'Rules', 'AI'];
 
   return (
     <List
