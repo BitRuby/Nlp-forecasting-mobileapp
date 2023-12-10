@@ -101,19 +101,23 @@ export default function AssociationRuleMiningScreen() {
           </>
         )}
       </Filter>
-      <Text>Association Rules</Text>
-      <List
-        showKeys
-        data={content.associationRules.map((obj, index) => ({
-          id: index.toString(),
-          data: {
-            confidence: obj.confidence.toString(),
-            lift: obj.lift.toString(),
-            lhs: obj.lhs.toString(),
-            rhs: obj.rhs.toString(),
-          },
-        }))}
-      />
+      {content.associationRules && (
+        <>
+          <Text>Association Rules</Text>
+          <List
+            showKeys
+            data={content.associationRules?.map((obj, index) => ({
+              id: index.toString(),
+              data: {
+                confidence: obj.confidence.toString(),
+                lift: obj.lift.toString(),
+                lhs: obj.lhs.toString(),
+                rhs: obj.rhs.toString(),
+              },
+            }))}
+          />
+        </>
+      )}
       <Loading loadingStates={loadingStates} />
     </Container>
   );
