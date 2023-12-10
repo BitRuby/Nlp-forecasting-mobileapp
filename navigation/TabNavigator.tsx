@@ -14,7 +14,7 @@ import Markets from '../screens/Markets';
 import Tweets from '../screens/Tweets';
 import Datasets from '../screens/Datasets';
 import Rules from '../screens/Rules';
-import AIScreen from '../screens/AI/AI.screen';
+import AI from '../screens/AI';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -162,7 +162,9 @@ export default function TabNavigator() {
       <Tab.Screen name="AI" options={{ unmountOnBlur: true }}>
         {() => (
           <Route>
-            <AIScreen />
+            <Stack.Navigator screenOptions={screenOptions}>
+              <Stack.Screen name=" AI " component={AI.AIScreen} />
+            </Stack.Navigator>
           </Route>
         )}
       </Tab.Screen>

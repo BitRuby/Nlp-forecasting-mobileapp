@@ -19,13 +19,24 @@ function DrawerContent(props: DrawerContentComponentProps) {
   const currentRouteName =
     props.navigation.getState().routes[props.navigation.getState().index].name;
 
+  const routesList = [
+    'Start',
+    'Markets',
+    'Tweets',
+    'Datasets',
+    'New Dataset',
+    'Rules',
+    'New Rules',
+    'AI',
+  ];
+
   return (
     <List
       onSelect={onElementClick}
-      data={props.state.routes.map(e => ({
-        id: e.name,
+      data={routesList.map(e => ({
+        id: e,
         data: {
-          name: e.name,
+          name: e,
         },
       }))}
       selected={[currentRouteName]}
