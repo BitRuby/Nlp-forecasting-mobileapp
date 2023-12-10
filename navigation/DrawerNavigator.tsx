@@ -16,21 +16,29 @@ function DrawerContent(props: DrawerContentComponentProps) {
     return props.navigation.navigate(name);
   };
 
-  const currentRouteName =
-    props.navigation.getState().routes[props.navigation.getState().index].name;
+  const getCurrentRouteName = (): string => {
+    const state = props.navigation.getState().routes[0].state;
+    if (state?.index) {
+      return state?.routes[state.index].name;
+    }
+    return 'Start';
+  };
 
-  const routesList = ['Home', 'Markets', 'Tweets', 'Datasets', 'Rules', 'AI'];
+  const getRouteNames = (): string[] => {
+    const state = props.navigation.getState().routes[0].state;
+    return state?.routeNames || [];
+  };
 
   return (
     <List
       onSelect={onElementClick}
-      data={routesList.map(e => ({
+      data={getRouteNames().map(e => ({
         id: e,
         data: {
           name: e,
         },
       }))}
-      selected={[currentRouteName]}
+      selected={[getCurrentRouteName()]}
       style={styles.list}
       selectedStyles={styles.selectedList}
     />
