@@ -12,27 +12,17 @@ interface Data {
   _id: string;
 }
 
-type DatasetStackParamList = {
-  ['Dataset']: { id: string; name: string };
-};
+type DatasetNavProp = StackNavigationProp<{
+  Dataset: { id: string; name: string };
+}>;
 
-type DatasetScreenNavigationProp = StackNavigationProp<
-  DatasetStackParamList,
-  'Dataset'
->;
-
-type NewDatasetStackParamList = {
-  ['New Dataset']: undefined;
-};
-
-type NewDatasetScreenNavigationProp = StackNavigationProp<
-  NewDatasetStackParamList,
-  'New Dataset'
->;
+type NewDatasetNavProp = StackNavigationProp<{
+  'New Dataset': undefined;
+}>;
 
 export default function DatasetsScreen() {
-  const datasetNavigation = useNavigation<DatasetScreenNavigationProp>();
-  const newDatasetNavigation = useNavigation<NewDatasetScreenNavigationProp>();
+  const datasetNavigation = useNavigation<DatasetNavProp>();
+  const newDatasetNavigation = useNavigation<NewDatasetNavProp>();
   const [data, setData] = useState<Data[]>([]);
   const [loadingStates, setLoadingStates] = useState<{ [id: string]: boolean }>(
     {},

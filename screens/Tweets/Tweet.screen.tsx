@@ -26,19 +26,13 @@ interface TweetScreenRouteParams {
   name: string;
 }
 
-type StackParamList = {
+type ContentTransformationsNavProp = StackNavigationProp<{
   ['Content Transformations']: { id: string; name: string };
-};
-
-type ContentTransformationsScreenNavigationProp = StackNavigationProp<
-  StackParamList,
-  'Content Transformations'
->;
+}>;
 
 export default function TweetScreen() {
   const route = useRoute();
-  const navigation =
-    useNavigation<ContentTransformationsScreenNavigationProp>();
+  const navigation = useNavigation<ContentTransformationsNavProp>();
   const { id, name } = route.params as TweetScreenRouteParams;
   const [inputs, setInputs] = useState<{ [k: string]: string }>({});
   const [prevInputs, setPrevInputs] = useState<{ [k: string]: string }>({});

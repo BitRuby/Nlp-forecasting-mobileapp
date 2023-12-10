@@ -14,14 +14,12 @@ interface Data {
 
 const iconKeys = Object.keys(icons);
 
-type StackParamList = {
+type MarketNavProp = StackNavigationProp<{
   Market: { id: string; name: string };
-};
-
-type MarketScreenNavigationProp = StackNavigationProp<StackParamList, 'Market'>;
+}>;
 
 export default function MarketsScreen() {
-  const navigation = useNavigation<MarketScreenNavigationProp>();
+  const navigation = useNavigation<MarketNavProp>();
   const [data, setData] = useState<Data[]>([]);
   const [loadingStates, setLoadingStates] = useState<{
     [key: string]: boolean;

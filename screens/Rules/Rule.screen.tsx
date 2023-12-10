@@ -22,19 +22,14 @@ interface RuleScreenRouteParams {
   rows: { [key: string]: string }[];
 }
 
-type AssociationRuleMiningStackParamList = {
+type AssociationRuleMiningNavProp = StackNavigationProp<{
   'Association Rule Mining': {
     id: string;
   };
-};
-
-type AssociationRuleMiningScreenNavigationProp = StackNavigationProp<
-  AssociationRuleMiningStackParamList,
-  'Association Rule Mining'
->;
+}>;
 
 export default function RuleScreen() {
-  const navigation = useNavigation<AssociationRuleMiningScreenNavigationProp>();
+  const navigation = useNavigation<AssociationRuleMiningNavProp>();
   const route = useRoute();
   const { id, name, keywordId, marketId, startDate, endDate, rows } =
     route.params as RuleScreenRouteParams;

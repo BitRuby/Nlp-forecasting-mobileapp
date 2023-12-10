@@ -12,16 +12,14 @@ interface Data {
   _id: string;
 }
 
-type StackParamList = {
+type TweetNavProp = StackNavigationProp<{
   Tweet: { id: string; name: string };
-};
-
-type MarketScreenNavigationProp = StackNavigationProp<StackParamList, 'Tweet'>;
+}>;
 
 const iconKeys = Object.keys(icons);
 
 export default function TweetsScreen() {
-  const navigation = useNavigation<MarketScreenNavigationProp>();
+  const navigation = useNavigation<TweetNavProp>();
   const [data, setData] = useState<Data[]>([]);
   const [loadingStates, setLoadingStates] = useState<{
     [key: string]: boolean;
