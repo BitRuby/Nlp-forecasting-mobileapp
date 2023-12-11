@@ -166,7 +166,6 @@ export default function TabNavigator() {
           <Route>
             <Stack.Navigator screenOptions={screenOptions}>
               <Stack.Screen name=" AI " component={AI.AIScreen} />
-              <Stack.Screen name="New Model" component={AI.NewModelScreen} />
             </Stack.Navigator>
           </Route>
         )}

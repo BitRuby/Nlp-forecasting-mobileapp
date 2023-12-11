@@ -13,9 +13,16 @@ interface IButton {
   title: string;
   disabled?: boolean;
   style?: ViewStyle;
+  color?: string;
 }
 
-export default function Button({ onClick, disabled, title, style }: IButton) {
+export default function Button({
+  onClick,
+  disabled,
+  title,
+  style,
+  color,
+}: IButton) {
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -29,7 +36,11 @@ export default function Button({ onClick, disabled, title, style }: IButton) {
   return (
     <Animated.View style={{ opacity: fadeAnim, ...style }}>
       <TouchableHighlight
-        style={styles.container}
+        style={
+          color
+            ? { ...styles.container, backgroundColor: color }
+            : styles.container
+        }
         disabled={disabled}
         onPress={onClick}
         underlayColor={COLORS.gray1}>

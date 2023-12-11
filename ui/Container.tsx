@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: COLORS.dark,
     flex: 1,
-    padding: 20,
+    marginVertical: 20,
+    paddingHorizontal: 20,
   },
 });

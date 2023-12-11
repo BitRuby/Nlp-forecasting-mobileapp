@@ -1,34 +1,37 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { TouchableOpacity, StyleSheet, View } from 'react-native';
 import { COLORS, FONT_SIZE } from './utils';
 import Text from './Text';
 
 interface ICard {
   content: { [x: string]: string | undefined };
   backgroundColor?: string;
+  onPress?: () => void;
 }
 
-export function Card({ content, backgroundColor }: ICard) {
+export function Card({ content, backgroundColor, onPress }: ICard) {
   return (
-    <View
-      style={
-        backgroundColor
-          ? { ...styles.container, backgroundColor }
-          : styles.container
-      }>
-      {Object.keys(content).map(key => {
-        if (content[key]) {
-          return (
-            <View key={key} style={styles.textContainer}>
-              <Text style={styles.key}>{`${key}: `}</Text>
-              <Text style={styles.value}>{`${content[key]}`}</Text>
-            </View>
-          );
-        } else {
-          return <></>;
-        }
-      })}
-    </View>
+    <TouchableOpacity onPress={onPress}>
+      <View
+        style={
+          backgroundColor
+            ? { ...styles.container, backgroundColor }
+            : styles.container
+        }>
+        {Object.keys(content).map(key => {
+          if (content[key]) {
+            return (
+              <View key={key} style={styles.textContainer}>
+                <Text style={styles.key}>{`${key}: `}</Text>
+                <Text style={styles.value}>{`${content[key]}`}</Text>
+              </View>
+            );
+          } else {
+            return <></>;
+          }
+        })}
+      </View>
+    </TouchableOpacity>
   );
 }
 

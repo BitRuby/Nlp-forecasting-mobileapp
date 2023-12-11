@@ -1,0 +1,44 @@
+export const NAIVE = 'NAIVE';
+const DENSE = 'DENSE';
+export const CONV1D = 'CONV1D';
+const LSTM = 'LSTM';
+
+export const ALGORITHMS = [NAIVE, DENSE, CONV1D, LSTM];
+
+const relu = 'relu';
+const sigmoid = 'sigmoid';
+const softmax = 'softmax';
+
+export const ACTIVATION_FUNCTIONS = [relu, sigmoid, softmax];
+
+const causal = 'causal';
+const same = 'same';
+const valid = 'valid';
+
+export const PADDING_FUNCTIONS = [causal, same, valid];
+
+const MEAN_SQUARED_ERROR = 'meanSquaredError';
+const BINARY_CROSSENTROPY = 'binaryCrossentropy';
+const CATEGORIAL_CROSSENTROPY = 'categoricalCrossentropy';
+
+export const LOSS_FUNCTIONS = [
+  MEAN_SQUARED_ERROR,
+  BINARY_CROSSENTROPY,
+  CATEGORIAL_CROSSENTROPY,
+];
+
+const ADAGARD = 'adagrad';
+const ADADELTA = 'adadelta';
+const ADAM = 'adam';
+const ADAMAX = 'adamax';
+const RMSPROP = 'rmsprop';
+const SGD = 'sgd';
+
+export const OPTIMIZER_FUNCTIONS = [
+  ADAM,
+  ADAGARD,
+  ADADELTA,
+  ADAMAX,
+  RMSPROP,
+  SGD,
+];

@@ -39,7 +39,7 @@ export default function Select({
           <Input
             name={name}
             placeholder={placeholder}
-            value={!value ? items[0] : value}
+            value={value}
             setValue={() => {}}
           />
         </View>
