@@ -15,7 +15,6 @@ import Select from '../../ui/Select';
 import Text from '../../ui/Text';
 import Input from '../../ui/Input';
 import Container from '../../ui/Container';
-import { ItemProps } from '../../ui/List';
 import LoadingOverlay from '../../ui/Loading';
 import { getProcessedDatasets } from '../../data/processedDataset';
 import Button from '../../ui/Button';
@@ -23,6 +22,7 @@ import Modal from '../../ui/Modal';
 import { COLORS } from '../../ui/utils';
 import { Card } from '../../ui/Card';
 import Filter from '../../ui/Filter';
+import { StyleSheet } from 'react-native';
 
 type NewModelNavProp = StackNavigationProp<{ 'New Model': undefined }>;
 
@@ -93,123 +93,153 @@ export default function AIScreen() {
 
   function startTraining() {}
 
+  const toggleVisible = () => setModalVisible(prev => !prev);
+
+  const addLayerButtonPressable =
+    (inputs.Units && inputs.ActivationFunction) ||
+    (inputs.Algorithm === CONV1D &&
+      inputs.KernelSize &&
+      inputs.Filters &&
+      inputs.PaddingFunctions);
+
   return (
-    <Container scroll>
-      <Select
-        items={datasets}
-        name={'Dataset'}
-        placeholder={'Select dataset'}
-        value={inputs.Dataset}
-        setValue={handleChangeValue}
-      />
-      <Select
-        items={ALGORITHMS}
-        name={'Algorithm'}
-        placeholder={'Select algorithm'}
-        value={inputs.Algorithm}
-        setValue={handleChangeValue}
-      />
-      <Select
-        items={LOSS_FUNCTIONS}
-        name={'LossFunction'}
-        placeholder={'Select loss function'}
-        value={inputs.LossFunction}
-        setValue={handleChangeValue}
-      />
-      <Select
-        items={OPTIMIZER_FUNCTIONS}
-        name={'OptimizerFunctions'}
-        placeholder={'Select optimizer function'}
-        value={inputs.OptimizerFunctions}
-        setValue={handleChangeValue}
-      />
-      <Input
-        number
-        placeholder="Enter number of epochs"
-        name={'Epochs'}
-        setValue={handleChangeValue}
-        value={inputs.Epochs}
-      />
-      <Input
-        number
-        placeholder="Enter batch size"
-        name={'BatchSize'}
-        setValue={handleChangeValue}
-        value={inputs.BatchSize}
-      />
-      {inputs.Algorithm !== NAIVE ? (
-        <>
-          <Text>Layers: </Text>
-          <Filter>
-            <>
-              {generateLayers()}
-              <Button onClick={toggleModalVisible} title={'Add Layer'} />
-            </>
-          </Filter>
-        </>
-      ) : (
-        <></>
-      )}
-      <Button onClick={startTraining} title={'Start training'} />
-      <Modal
-        title="New layer"
-        visible={modalVisible}
-        actions={
-          <>
-            <Button onClick={addLayer} title={'Add layer'} />
-            <Button
-              color={COLORS.gray2}
-              onClick={toggleModalVisible}
-              title={'Cancel'}
-            />
-          </>
-        }>
-        <Input
-          placeholder="Enter units number"
-          name={'Units'}
+    <>
+      <Container scroll>
+        <Select
+          items={datasets}
+          name={'Dataset'}
+          placeholder={'Select dataset'}
+          value={inputs.Dataset}
           setValue={handleChangeValue}
-          value={inputs.Units}
         />
         <Select
-          items={ACTIVATION_FUNCTIONS}
-          name={'ActivationFunction'}
-          placeholder={'Select activation function'}
-          value={inputs.ActivationFunction}
+          items={ALGORITHMS}
+          name={'Algorithm'}
+          placeholder={'Select algorithm'}
+          value={inputs.Algorithm}
           setValue={handleChangeValue}
         />
-        {inputs.Algorithm === CONV1D ? (
-          <Input
-            placeholder="Enter Kernel Size"
-            name={'KernelSize'}
-            setValue={handleChangeValue}
-            value={inputs.KernelSize}
-          />
+        <Select
+          items={LOSS_FUNCTIONS}
+          name={'LossFunction'}
+          placeholder={'Select loss function'}
+          value={inputs.LossFunction}
+          setValue={handleChangeValue}
+        />
+        <Select
+          items={OPTIMIZER_FUNCTIONS}
+          name={'OptimizerFunctions'}
+          placeholder={'Select optimizer function'}
+          value={inputs.OptimizerFunctions}
+          setValue={handleChangeValue}
+        />
+        <Input
+          number
+          placeholder="Enter number of epochs"
+          name={'Epochs'}
+          setValue={handleChangeValue}
+          value={inputs.Epochs}
+        />
+        <Input
+          number
+          placeholder="Enter batch size"
+          name={'BatchSize'}
+          setValue={handleChangeValue}
+          value={inputs.BatchSize}
+        />
+        {inputs.Algorithm !== NAIVE ? (
+          <>
+            <Text>Layers: </Text>
+            <Filter>
+              <>
+                {generateLayers()}
+                <Button
+                  color={COLORS.gray1}
+                  onClick={toggleModalVisible}
+                  title={'Add Layer'}
+                />
+              </>
+            </Filter>
+          </>
         ) : (
           <></>
         )}
-        {inputs.Algorithm === CONV1D ? (
+        <Modal
+          title="New layer"
+          visible={modalVisible}
+          toggleVisible={toggleVisible}
+          actions={
+            <>
+              <Button
+                disabled={!addLayerButtonPressable}
+                onClick={addLayer}
+                title={'Add layer'}
+              />
+              <Button
+                color={COLORS.gray2}
+                onClick={toggleModalVisible}
+                title={'Cancel'}
+              />
+            </>
+          }>
           <Input
-            placeholder="Enter filter size"
-            name={'Filters'}
+            placeholder="Enter units number"
+            name={'Units'}
             setValue={handleChangeValue}
-            value={inputs.Filters}
+            value={inputs.Units}
           />
-        ) : (
-          <></>
-        )}
-        {inputs.Algorithm === CONV1D ? (
           <Select
-            items={PADDING_FUNCTIONS}
-            name={'PaddingFunctions'}
-            placeholder={'Select padding function'}
-            value={inputs.PaddingFunctions}
+            items={ACTIVATION_FUNCTIONS}
+            name={'ActivationFunction'}
+            placeholder={'Select activation function'}
+            value={inputs.ActivationFunction}
             setValue={handleChangeValue}
           />
-        ) : (
-          <></>
-        )}
-      </Modal>
-      <LoadingOverlay loadingStates={loadingStates} />
-    </Container>
+          {inputs.Algorithm === CONV1D ? (
+            <Input
+              placeholder="Enter Kernel Size"
+              name={'KernelSize'}
+              setValue={handleChangeValue}
+              value={inputs.KernelSize}
+            />
+          ) : (
+            <></>
+          )}
+          {inputs.Algorithm === CONV1D ? (
+            <Input
+              placeholder="Enter filter size"
+              name={'Filters'}
+              setValue={handleChangeValue}
+              value={inputs.Filters}
+            />
+          ) : (
+            <></>
+          )}
+          {inputs.Algorithm === CONV1D ? (
+            <Select
+              items={PADDING_FUNCTIONS}
+              name={'PaddingFunctions'}
+              placeholder={'Select padding function'}
+              value={inputs.PaddingFunctions}
+              setValue={handleChangeValue}
+            />
+          ) : (
+            <></>
+          )}
+        </Modal>
+        <LoadingOverlay loadingStates={loadingStates} />
+      </Container>
+      <Button
+        style={styles.trainButton}
+        onClick={startTraining}
+        title={'Start training'}
+      />
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  trainButton: {
+    paddingHorizontal: 20,
+  },
+});

@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Button from './Button';
 import { COLORS } from './utils';
@@ -15,6 +16,7 @@ export interface IModal {
   actions?: string | boolean | JSX.Element | JSX.Element[];
   visible?: boolean;
   withCloseAction?: boolean;
+  toggleVisible?: () => void;
 }
 
 export default function Modal({
@@ -23,28 +25,38 @@ export default function Modal({
   actions,
   visible,
   withCloseAction,
+  toggleVisible,
 }: IModal) {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const toggleVisible = () => setModalVisible(prev => !prev);
+  const toggle = () => setModalVisible(prev => !prev);
 
   return (
     <ReactModal
       animationType="none"
       transparent={true}
-      visible={visible !== undefined ? visible : modalVisible}
-      onRequestClose={toggleVisible}>
-      <View style={styles.centeredView}>
-        <View style={styles.modal}>
-          {title && <Text>{title}</Text>}
-          <ScrollView style={styles.content}>{children}</ScrollView>
-          <View style={styles.button}>
-            {actions}
-            {withCloseAction && (
-              <Button onClick={toggleVisible} title={'Close'} />
-            )}
-          </View>
+      visible={visible !== undefined ? visible : modalVisible}>
+      <TouchableWithoutFeedback
+        onPress={toggleVisible !== undefined ? toggleVisible : toggle}>
+        <View style={styles.centeredView}>
+          <TouchableWithoutFeedback>
+            <View style={styles.modal}>
+              {title && <Text>{title}</Text>}
+              <ScrollView style={styles.content}>{children}</ScrollView>
+              <View style={styles.button}>
+                {actions}
+                {withCloseAction && (
+                  <Button
+                    onClick={
+                      toggleVisible !== undefined ? toggleVisible : toggle
+                    }
+                    title={'Close'}
+                  />
+                )}
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </ReactModal>
   );
 }
