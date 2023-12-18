@@ -20,6 +20,7 @@ export interface ISelect {
   placeholder: string;
   value: string;
   setValue: (name: string, value: any) => void;
+  actions?: (toggleVisible: () => void) => React.ReactNode;
 }
 
 export default function Select({
@@ -28,6 +29,7 @@ export default function Select({
   placeholder,
   value,
   setValue,
+  actions,
 }: ISelect) {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const toggleVisible = () => setModalVisible(prev => !prev);
@@ -69,7 +71,12 @@ export default function Select({
               ))}
             </ScrollView>
             <View style={styles.button}>
-              <Button onClick={toggleVisible} title={'Close'} />
+              {actions && actions(toggleVisible)}
+              <Button
+                color={COLORS.gray1}
+                onClick={toggleVisible}
+                title={'Close'}
+              />
             </View>
           </View>
         </View>

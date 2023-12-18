@@ -24,12 +24,14 @@ import { Card } from '../../ui/Card';
 import Filter from '../../ui/Filter';
 import { StyleSheet } from 'react-native';
 
-type NewModelNavProp = StackNavigationProp<{ 'New Model': undefined }>;
+type ProcessDatasetNavProp = StackNavigationProp<{
+  'New Process Dataset': undefined;
+}>;
 
 export default function AIScreen() {
   const [inputs, setInputs] = useState<{ [key: string]: string }>({});
-  const navigation = useNavigation<NewModelNavProp>();
-  const [datasets, setDatasets] = useState<string[]>([]);
+  const navigation = useNavigation<ProcessDatasetNavProp>();
+  const [processedDatasets, setProcessedDatasets] = useState<string[]>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [layers, setLayers] = useState<Layer[]>([]);
   const [loadingStates, setLoadingStates] = useState<{ [id: string]: boolean }>(
@@ -45,7 +47,7 @@ export default function AIScreen() {
       setLoadingStates({ getProcessedDatasets: true });
       const data = await getProcessedDatasets();
       if (data) {
-        setDatasets(data.map((e: any) => e.name));
+        setProcessedDatasets(data.map((e: any) => e.name));
       }
       setLoadingStates({ getProcessedDatasets: false });
     })();
@@ -102,15 +104,32 @@ export default function AIScreen() {
       inputs.Filters &&
       inputs.PaddingFunctions);
 
+  function createProcessedDataset() {
+    navigation.navigate('New Process Dataset');
+  }
+
+  function actions(toggle: () => void) {
+    return (
+      <Button
+        onClick={() => {
+          toggle();
+          createProcessedDataset();
+        }}
+        title={'Create processed dataset'}
+      />
+    );
+  }
+
   return (
     <>
       <Container scroll>
         <Select
-          items={datasets}
-          name={'Dataset'}
-          placeholder={'Select dataset'}
-          value={inputs.Dataset}
+          items={processedDatasets}
+          name={'ProcessedDataset'}
+          placeholder={'Select processed dataset'}
+          value={inputs.ProcessedDataset}
           setValue={handleChangeValue}
+          actions={actions}
         />
         <Select
           items={ALGORITHMS}

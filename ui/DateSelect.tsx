@@ -11,6 +11,7 @@ interface IDateSelect {
   setValue: (name: string, value: any) => void;
   minDate?: number;
   maxDate?: number;
+  placeholder?: string;
 }
 
 export default function DateSelect({
@@ -19,6 +20,7 @@ export default function DateSelect({
   setValue,
   minDate,
   maxDate,
+  placeholder,
 }: IDateSelect) {
   const [open, setOpen] = useState(false);
 
@@ -31,7 +33,12 @@ export default function DateSelect({
     <>
       <View style={styles.container} onTouchStart={() => Keyboard.dismiss()}>
         <View pointerEvents="none">
-          <Input name={name} value={value} setValue={() => {}} />
+          <Input
+            placeholder={placeholder}
+            name={name}
+            value={value}
+            setValue={() => {}}
+          />
         </View>
         <Pressable style={styles.iconContainer} onPress={toggleVisible}>
           <Icons size={20} icon="faCalendar" color={COLORS.white} />

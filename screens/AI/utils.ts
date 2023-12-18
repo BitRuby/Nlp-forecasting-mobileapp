@@ -42,3 +42,17 @@ export const OPTIMIZER_FUNCTIONS = [
   RMSPROP,
   SGD,
 ];
+
+const NEG = 'neg';
+const NEU = 'neu';
+const POS = 'pos';
+const COMPOUND = 'compound';
+const VECTORIZED = 'vectorized';
+
+export const COLUMNS = [NEG, NEU, POS, COMPOUND, VECTORIZED];
+
+const Normalize = 'Normalize';
+const Standarize = 'Standarize';
+const None = 'None';
+
+export const SCALE_TYPES = [Normalize, Standarize, None];

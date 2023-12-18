@@ -7,16 +7,19 @@ export async function createProcessedDataset(body: {
   endDate: string;
   windowSize: number;
   horizonSize: number;
-  scaleTypeId: number;
+  scaleType: string;
   shuffled: boolean;
   testFraction: number;
   pickColumns: Array<string>;
   scaleColumnsSeparately?: boolean;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/processedDataset`, {
+    const fetched = await fetch(`${API_URL}/processedDataset/create`, {
       method: 'POST',
       body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     const json = await fetched.json();
     return json;
