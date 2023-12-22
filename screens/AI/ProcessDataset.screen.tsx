@@ -83,7 +83,6 @@ export default function ProcessDatasetScreen() {
         windowSize: Number(inputs.WindowSize),
         horizonSize: Number(inputs.HorizonSize),
         scaleType: inputs.ScaleType,
-        shuffled: inputs.Shuffled === 'true',
         testFraction: Number(inputs.TestFraction),
         pickColumns: selectedColumns,
         scaleColumnsSeparately: inputs.ScaleColumnsSeparately === 'true',
@@ -144,6 +143,13 @@ export default function ProcessDatasetScreen() {
           setValue={handleChangeSelectedColumns}
         />
         <Input
+          number
+          placeholder="Enter Test Fraction (0-1)"
+          name={'TestFraction'}
+          setValue={handleChangeValue}
+          value={inputs.TestFraction}
+        />
+        <Input
           placeholder="Enter name"
           name={'Name'}
           setValue={handleChangeValue}
@@ -186,27 +192,17 @@ export default function ProcessDatasetScreen() {
           value={inputs.ScaleType}
           setValue={handleChangeValue}
         />
-        <Input
-          number
-          placeholder="Enter Test Fraction"
-          name={'TestFraction'}
-          setValue={handleChangeValue}
-          value={inputs.TestFraction}
-        />
-        <Select
-          items={['true', 'false']}
-          name={'Shuffled'}
-          placeholder={'Select Shuffled type'}
-          value={inputs.Shuffled}
-          setValue={handleChangeValue}
-        />
-        <Select
-          items={['true', 'false']}
-          name={'ScaleColumnsSeparately'}
-          placeholder={'Scale columns separately'}
-          value={inputs.ScaleColumnsSeparately}
-          setValue={handleChangeValue}
-        />
+        {!!inputs.ScaleType && inputs.ScaleType !== 'None' ? (
+          <Select
+            items={['true', 'false']}
+            name={'ScaleColumnsSeparately'}
+            placeholder={'Scale columns separately'}
+            value={inputs.ScaleColumnsSeparately}
+            setValue={handleChangeValue}
+          />
+        ) : (
+          <></>
+        )}
       </Container>
       <Button
         disabled={!createEnabled}

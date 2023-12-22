@@ -8,7 +8,6 @@ export async function createProcessedDataset(body: {
   windowSize: number;
   horizonSize: number;
   scaleType: string;
-  shuffled: boolean;
   testFraction: number;
   pickColumns: Array<string>;
   scaleColumnsSeparately?: boolean;

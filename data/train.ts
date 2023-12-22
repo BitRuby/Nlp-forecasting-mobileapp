@@ -1,29 +1,14 @@
+import { Layer } from '../screens/AI/types';
 import { API_URL } from './utils';
 
 export async function performTraining(body: {
-  algorithm: 'NAIVE' | 'DENSE' | 'CONV1D' | 'LSTM';
+  algorithm: string;
   epochs: number;
   batchSize: number;
-  layerValues: Array<{
-    units: number;
-    activation?: 'relu' | 'sigmoid' | 'softmax';
-    kernelSize?: number;
-    filters?: number;
-    padding?: 'causal' | 'same' | 'valid';
-  }>;
-  lossFunction:
-    | 'meanSquaredError'
-    | 'binaryCrossentropy'
-    | 'categoricalCrossentropy';
-  optimizerFunction:
-    | 'adam'
-    | 'adamax'
-    | 'adagrad'
-    | 'adadelta'
-    | 'rmsprop'
-    | 'sgd';
-  processedDatasetId: number;
-  metrics: 'mse' | 'accuracy';
+  layerValues: Layer[];
+  lossFunction: string;
+  optimizerFunction: string;
+  processedDatasetId: string;
 }) {
   try {
     const fetched = await fetch(`${API_URL}/train`, {

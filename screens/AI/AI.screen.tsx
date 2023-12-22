@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useCallback } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
   ACTIVATION_FUNCTIONS,
@@ -23,35 +23,69 @@ import { COLORS } from '../../ui/utils';
 import { Card } from '../../ui/Card';
 import Filter from '../../ui/Filter';
 import { StyleSheet } from 'react-native';
+import { performTraining } from '../../data/train';
+import useWebSocket from '../../hooks/useWebSocket';
 
 type ProcessDatasetNavProp = StackNavigationProp<{
   'New Process Dataset': undefined;
 }>;
 
 export default function AIScreen() {
-  const [inputs, setInputs] = useState<{ [key: string]: string }>({});
+  const [inputs, setInputs] = useState<{ [key: string]: string }>({
+    LossFunction: LOSS_FUNCTIONS[0],
+    OptimizerFunctions: OPTIMIZER_FUNCTIONS[0],
+    BatchSize: '128',
+    Epochs: '10',
+  });
   const navigation = useNavigation<ProcessDatasetNavProp>();
   const [processedDatasets, setProcessedDatasets] = useState<string[]>([]);
+  const [processedDatasetsDetails, setProcessedDatasetsDetails] = useState<{
+    [key: string]: {
+      id: string;
+      trainElements: number;
+      testElements: number;
+      dataShape: string;
+    };
+  }>({});
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [layers, setLayers] = useState<Layer[]>([]);
   const [loadingStates, setLoadingStates] = useState<{ [id: string]: boolean }>(
     {},
   );
+  const ws = useWebSocket();
 
   function toggleModalVisible() {
     setModalVisible(prev => !prev);
   }
 
-  useEffect(() => {
-    (async () => {
-      setLoadingStates({ getProcessedDatasets: true });
-      const data = await getProcessedDatasets();
-      if (data) {
-        setProcessedDatasets(data.map((e: any) => e.name));
-      }
-      setLoadingStates({ getProcessedDatasets: false });
-    })();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        try {
+          setLoadingStates({ getProcessedDatasets: true });
+          const data = await getProcessedDatasets();
+          if (data) {
+            let datasets = {};
+            data.forEach((ds: any) => {
+              datasets = {
+                ...datasets,
+                [ds.name]: {
+                  id: ds._id,
+                  trainElements: ds.trainFeatures.length,
+                  testElements: ds.testFeatures.length,
+                  dataShape: `[${ds.trainFeatures[0].length}, ${ds.trainFeatures[0][0].length}]`,
+                },
+              };
+            });
+            setProcessedDatasetsDetails(datasets);
+            setProcessedDatasets(Object.keys(datasets));
+          }
+        } finally {
+          setLoadingStates({ getProcessedDatasets: false });
+        }
+      })();
+    }, []),
+  );
 
   function handleChangeValue(inputName: string, value: string) {
     setInputs(prev => ({
@@ -93,7 +127,17 @@ export default function AIScreen() {
     ));
   }
 
-  function startTraining() {}
+  async function startTraining() {
+    await performTraining({
+      algorithm: inputs.Algorithm,
+      epochs: Number(inputs.Epochs),
+      batchSize: Number(inputs.BatchSize),
+      layerValues: layers,
+      lossFunction: inputs.LossFunction,
+      optimizerFunction: inputs.OptimizerFunction,
+      processedDatasetId: processedDatasetsDetails[inputs.ProcessedDataset].id,
+    });
+  }
 
   const toggleVisible = () => setModalVisible(prev => !prev);
 
@@ -120,6 +164,15 @@ export default function AIScreen() {
     );
   }
 
+  const trainDisabled =
+    !inputs.ProcessedDataset ||
+    !inputs.Algorithm ||
+    !inputs.LossFunction ||
+    !inputs.OptimizerFunctions ||
+    !inputs.Epochs ||
+    !inputs.BatchSize ||
+    layers.length === 0;
+
   return (
     <>
       <Container scroll>
@@ -131,6 +184,22 @@ export default function AIScreen() {
           setValue={handleChangeValue}
           actions={actions}
         />
+        {processedDatasetsDetails[inputs.ProcessedDataset] && (
+          <>
+            <Text>
+              {'Train Elements: ' +
+                processedDatasetsDetails[inputs.ProcessedDataset].trainElements}
+            </Text>
+            <Text>
+              {'Test Elements: ' +
+                processedDatasetsDetails[inputs.ProcessedDataset].testElements}
+            </Text>
+            <Text>
+              {'Data Shape: ' +
+                processedDatasetsDetails[inputs.ProcessedDataset].dataShape}
+            </Text>
+          </>
+        )}
         <Select
           items={ALGORITHMS}
           name={'Algorithm'}
@@ -138,6 +207,37 @@ export default function AIScreen() {
           value={inputs.Algorithm}
           setValue={handleChangeValue}
         />
+        {inputs.Algorithm === CONV1D ? (
+          <Input
+            placeholder="Enter Kernel Size"
+            name={'KernelSize'}
+            setValue={handleChangeValue}
+            value={inputs.KernelSize}
+          />
+        ) : (
+          <></>
+        )}
+        {inputs.Algorithm === CONV1D ? (
+          <Input
+            placeholder="Enter filter size"
+            name={'Filters'}
+            setValue={handleChangeValue}
+            value={inputs.Filters}
+          />
+        ) : (
+          <></>
+        )}
+        {inputs.Algorithm === CONV1D ? (
+          <Select
+            items={PADDING_FUNCTIONS}
+            name={'PaddingFunctions'}
+            placeholder={'Select padding function'}
+            value={inputs.PaddingFunctions}
+            setValue={handleChangeValue}
+          />
+        ) : (
+          <></>
+        )}
         <Select
           items={LOSS_FUNCTIONS}
           name={'LossFunction'}
@@ -214,41 +314,11 @@ export default function AIScreen() {
             value={inputs.ActivationFunction}
             setValue={handleChangeValue}
           />
-          {inputs.Algorithm === CONV1D ? (
-            <Input
-              placeholder="Enter Kernel Size"
-              name={'KernelSize'}
-              setValue={handleChangeValue}
-              value={inputs.KernelSize}
-            />
-          ) : (
-            <></>
-          )}
-          {inputs.Algorithm === CONV1D ? (
-            <Input
-              placeholder="Enter filter size"
-              name={'Filters'}
-              setValue={handleChangeValue}
-              value={inputs.Filters}
-            />
-          ) : (
-            <></>
-          )}
-          {inputs.Algorithm === CONV1D ? (
-            <Select
-              items={PADDING_FUNCTIONS}
-              name={'PaddingFunctions'}
-              placeholder={'Select padding function'}
-              value={inputs.PaddingFunctions}
-              setValue={handleChangeValue}
-            />
-          ) : (
-            <></>
-          )}
         </Modal>
         <LoadingOverlay loadingStates={loadingStates} />
       </Container>
       <Button
+        disabled={trainDisabled}
         style={styles.trainButton}
         onClick={startTraining}
         title={'Start training'}
