@@ -198,7 +198,7 @@ export default function TrainScreen() {
     !inputs.ProcessedDataset ||
     !inputs.Algorithm ||
     !inputs.LossFunction ||
-    !inputs.OptimizerFunctions ||
+    !inputs.OptimizerFunction ||
     !inputs.Epochs ||
     !inputs.BatchSize ||
     layers.length === 0;
