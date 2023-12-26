@@ -14,7 +14,21 @@ export async function performTraining(body: {
     const fetched = await fetch(`${API_URL}/train`, {
       method: 'POST',
       body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
+    const json = await fetched.json();
+    return json;
+  } catch (ex) {
+    console.error(ex);
+    return null;
+  }
+}
+
+export async function getTrainingResults() {
+  try {
+    const fetched = await fetch(`${API_URL}/train`);
     const json = await fetched.json();
     return json;
   } catch (ex) {

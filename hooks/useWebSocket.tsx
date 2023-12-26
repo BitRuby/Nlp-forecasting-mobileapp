@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { WS_URL } from '../data/utils';
+import { Message } from './types';
 
 const useWebSocket = () => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [connected, setConnected] = useState(false);
 
   const sendMessage = useCallback(
@@ -24,7 +25,8 @@ const useWebSocket = () => {
     };
 
     ws.onmessage = e => {
-      setMessages(prevMessages => [...prevMessages, e.data]);
+      const parsed = JSON.parse(e.data);
+      setMessages(prevMessages => [...prevMessages, parsed]);
     };
 
     ws.onerror = e => {

@@ -75,7 +75,7 @@ export default function ProcessDatasetScreen() {
   async function create() {
     try {
       setLoadingStates({ createProcessedDataset: true });
-      const response = await createProcessedDataset({
+      await createProcessedDataset({
         datasetId: (getDatasetByName && getDatasetByName._id) || '',
         name: inputs.Name,
         startDate: inputs.StartDate,
@@ -87,7 +87,6 @@ export default function ProcessDatasetScreen() {
         pickColumns: selectedColumns,
         scaleColumnsSeparately: inputs.ScaleColumnsSeparately === 'true',
       });
-      console.log(response);
       setLoadingStates({ createProcessedDataset: false });
     } finally {
       navigation.goBack();
