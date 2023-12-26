@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
@@ -21,7 +21,6 @@ import Button from '../../ui/Button';
 import Modal from '../../ui/Modal';
 import { COLORS } from '../../ui/utils';
 import { Card } from '../../ui/Card';
-import Filter from '../../ui/Filter';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { performTraining } from '../../data/train';
 import useWebSocket from '../../hooks/useWebSocket';
@@ -33,9 +32,10 @@ type ProcessDatasetNavProp = StackNavigationProp<{
 export default function TrainScreen() {
   const [inputs, setInputs] = useState<{ [key: string]: string }>({
     LossFunction: LOSS_FUNCTIONS[0],
-    OptimizerFunctions: OPTIMIZER_FUNCTIONS[0],
+    OptimizerFunction: OPTIMIZER_FUNCTIONS[0],
     BatchSize: '128',
-    Epochs: '10',
+    Epochs: '100',
+    Algorithm: 'DENSE',
   });
   const navigation = useNavigation<ProcessDatasetNavProp>();
   const [processedDatasets, setProcessedDatasets] = useState<string[]>([]);
@@ -59,6 +59,12 @@ export default function TrainScreen() {
     setModalVisible(prev => !prev);
   }
 
+  useEffect(() => {
+    if (inputs.Algorithm) {
+      setLayers([]);
+    }
+  }, [inputs.Algorithm]);
+
   useFocusEffect(
     useCallback(() => {
       (async () => {
@@ -80,6 +86,10 @@ export default function TrainScreen() {
             });
             setProcessedDatasetsDetails(datasets);
             setProcessedDatasets(Object.keys(datasets));
+            setInputs(prev => ({
+              ...prev,
+              ProcessedDataset: Object.keys(datasets)[0],
+            }));
           }
         } finally {
           setLoadingStates({ getProcessedDatasets: false });
@@ -174,7 +184,7 @@ export default function TrainScreen() {
       const result = results[results.length - 1];
       return (
         <>
-          {!!result.epochs && <Text>{`${result.epochs}`}</Text>}
+          {!!result.epochs && <Text>{`${result.epochs + 1}`}</Text>}
           {!!result.preds.accuracy && (
             <Text>{`Accuracy: ${result.preds.accuracy}`}</Text>
           )}
@@ -227,37 +237,6 @@ export default function TrainScreen() {
           value={inputs.Algorithm}
           setValue={handleChangeValue}
         />
-        {inputs.Algorithm === CONV1D ? (
-          <Input
-            placeholder="Enter Kernel Size"
-            name={'KernelSize'}
-            setValue={handleChangeValue}
-            value={inputs.KernelSize}
-          />
-        ) : (
-          <></>
-        )}
-        {inputs.Algorithm === CONV1D ? (
-          <Input
-            placeholder="Enter filter size"
-            name={'Filters'}
-            setValue={handleChangeValue}
-            value={inputs.Filters}
-          />
-        ) : (
-          <></>
-        )}
-        {inputs.Algorithm === CONV1D ? (
-          <Select
-            items={PADDING_FUNCTIONS}
-            name={'PaddingFunctions'}
-            placeholder={'Select padding function'}
-            value={inputs.PaddingFunctions}
-            setValue={handleChangeValue}
-          />
-        ) : (
-          <></>
-        )}
         <Select
           items={LOSS_FUNCTIONS}
           name={'LossFunction'}
@@ -289,16 +268,7 @@ export default function TrainScreen() {
         {inputs.Algorithm !== NAIVE ? (
           <>
             <Text>Layers: </Text>
-            <Filter>
-              <>
-                {generateLayers()}
-                <Button
-                  color={COLORS.gray1}
-                  onClick={toggleModalVisible}
-                  title={'Add Layer'}
-                />
-              </>
-            </Filter>
+            {generateLayers()}
           </>
         ) : (
           <></>
@@ -334,6 +304,31 @@ export default function TrainScreen() {
             value={inputs.ActivationFunction}
             setValue={handleChangeValue}
           />
+          {inputs.Algorithm === CONV1D ? (
+            <>
+              <Input
+                placeholder="Enter Kernel Size"
+                name={'KernelSize'}
+                setValue={handleChangeValue}
+                value={inputs.KernelSize}
+              />
+              <Input
+                placeholder="Enter filter size"
+                name={'Filters'}
+                setValue={handleChangeValue}
+                value={inputs.Filters}
+              />
+              <Select
+                items={PADDING_FUNCTIONS}
+                name={'PaddingFunctions'}
+                placeholder={'Select padding function'}
+                value={inputs.PaddingFunctions}
+                setValue={handleChangeValue}
+              />
+            </>
+          ) : (
+            <></>
+          )}
         </Modal>
         <LoadingOverlay loadingStates={loadingStates} />
       </Container>
@@ -354,8 +349,14 @@ export default function TrainScreen() {
         </>
       )}
       <Button
+        color={COLORS.gray1}
+        style={styles.button}
+        onClick={toggleModalVisible}
+        title={'Add Layer'}
+      />
+      <Button
         disabled={trainInProgress || trainDisabled}
-        style={styles.trainButton}
+        style={styles.button}
         onClick={startTraining}
         title={'Start training'}
       />
@@ -374,7 +375,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     flexDirection: 'row',
   },
-  trainButton: {
+  button: {
     paddingHorizontal: 20,
   },
 });
