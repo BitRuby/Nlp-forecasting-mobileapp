@@ -32,37 +32,45 @@ export default function AIScreen() {
   }, []);
 
   const list = useMemo(() => {
-    return data.map((e: TrainHistoryElement) => {
-      let elements = {
-        Algorithm: e.algorithm,
-        Date: e.date,
-        'Processed Dataset': e.processedDatasetId.name,
-        'Loss Function': e.lossFunction,
-      } as {
-        Algorithm: string;
-        Date: string;
-        'Processed Dataset': string;
-        'Loss Function': string;
-        Accuracy: number;
-        MSE: number;
-      };
-      if (e.result.test.accuracy) {
-        elements = {
-          ...elements,
-          Accuracy: e.result.test.accuracy,
+    return data
+      .map((e: TrainHistoryElement) => {
+        let elements = {
+          Algorithm: e.algorithm,
+          Date: e.date,
+          'Processed Dataset': e.processedDatasetId.name,
+          'Loss Function': e.lossFunction,
+        } as {
+          Algorithm: string;
+          Date: string;
+          'Processed Dataset': string;
+          'Loss Function': string;
+          Accuracy: number;
+          MSE: number;
         };
-      }
-      if (e.result.test.mse) {
-        elements = {
-          ...elements,
-          MSE: e.result.test.mse,
+        if (e.result.test.accuracy) {
+          elements = {
+            ...elements,
+            Accuracy: e.result.test.accuracy,
+          };
+        }
+        if (e.result.test.mse) {
+          elements = {
+            ...elements,
+            MSE: e.result.test.mse,
+          };
+        }
+        return {
+          id: e._id,
+          data: elements,
         };
-      }
-      return {
-        id: e._id,
-        data: elements,
-      };
-    }) as ItemProps[];
+      })
+      .sort((a, b) => {
+        if (a.data.MSE) {
+          return a.data.MSE - b.data.MSE;
+        } else {
+          return a.data.Accuracy - b.data.Accuracy;
+        }
+      }) as ItemProps[];
   }, [data]);
 
   function handleNavigateToTrain() {
