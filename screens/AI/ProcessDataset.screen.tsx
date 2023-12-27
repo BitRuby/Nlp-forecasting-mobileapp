@@ -72,6 +72,47 @@ export default function ProcessDatasetScreen() {
     })();
   }, [allDatasetsContent, getDatasetByName, inputs.Dataset]);
 
+  useEffect(() => {
+    let nameValue = '';
+    if (inputs.Dataset) {
+      nameValue += inputs.Dataset + '/';
+    }
+    if (selectedColumns) {
+      nameValue += selectedColumns + '/';
+    }
+    if (inputs.TestFraction) {
+      nameValue += inputs.TestFraction + '/';
+    }
+    if (inputs.StartDate) {
+      nameValue += inputs.StartDate + '/';
+    }
+    if (inputs.EndDate) {
+      nameValue += inputs.EndDate + '/';
+    }
+    if (inputs.WindowSize) {
+      nameValue += inputs.WindowSize + '/';
+    }
+    if (inputs.HorizonSize) {
+      nameValue += inputs.HorizonSize + '/';
+    }
+    if (inputs.ScaleType) {
+      nameValue += inputs.ScaleType;
+    }
+    setInputs(prev => ({
+      ...prev,
+      Name: nameValue,
+    }));
+  }, [
+    inputs.Dataset,
+    inputs.EndDate,
+    inputs.HorizonSize,
+    inputs.ScaleType,
+    inputs.StartDate,
+    inputs.TestFraction,
+    inputs.WindowSize,
+    selectedColumns,
+  ]);
+
   async function create() {
     try {
       setLoadingStates({ createProcessedDataset: true });
