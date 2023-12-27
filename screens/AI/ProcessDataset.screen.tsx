@@ -119,9 +119,7 @@ export default function ProcessDatasetScreen() {
     inputs.WindowSize &&
     inputs.HorizonSize &&
     inputs.ScaleType &&
-    inputs.TestFraction &&
-    inputs.Shuffled &&
-    inputs.ScaleColumnsSeparately;
+    inputs.TestFraction;
 
   return (
     <>
