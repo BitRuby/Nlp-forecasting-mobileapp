@@ -61,10 +61,16 @@ export default function List({
 
   const renderItem = ({ item }: any) => (
     <TouchableHighlight
-      onPress={() => onSelect && onSelect(item.id.toString())}
+      onPress={() =>
+        onSelect &&
+        onSelect(typeof item.id === 'number' ? `${item.id}` : item.id)
+      }
       underlayColor={COLORS.gray2}
       style={
-        selected?.find((e: any) => e === item.id.toString())
+        selected?.find(
+          (e: any) =>
+            e === (typeof item.id === 'number' ? `${item.id}` : item.id),
+        )
           ? { ...styles.itemCointainer, ...selectedStyle, ...style }
           : { ...styles.itemCointainer, ...style }
       }>
@@ -82,7 +88,9 @@ export default function List({
     <FlatList
       renderItem={renderItem}
       data={data}
-      keyExtractor={(item: ItemProps) => item.id.toString()}
+      keyExtractor={(item: ItemProps) =>
+        typeof item.id === 'number' ? `${item.id}` : item.id
+      }
       onEndReached={onEndReached}
       onEndReachedThreshold={0.1}
     />

@@ -8,9 +8,11 @@ import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { TrainHistoryElement } from './types';
+import { mapValues } from '../../data/utils';
 
 type TrainNavProp = StackNavigationProp<{
   Train: undefined;
+  'Batch Train': undefined;
 }>;
 
 export default function AIScreen() {
@@ -39,6 +41,7 @@ export default function AIScreen() {
           Date: e.date,
           'Processed Dataset': e.processedDatasetId.name,
           'Loss Function': e.lossFunction,
+          Layers: mapValues(e.layers),
         } as {
           Algorithm: string;
           Date: string;
@@ -46,6 +49,7 @@ export default function AIScreen() {
           'Loss Function': string;
           Accuracy: number;
           MSE: number;
+          Layers: string;
         };
         if (e.result.test.accuracy) {
           elements = {
@@ -77,6 +81,10 @@ export default function AIScreen() {
     navigation.navigate('Train');
   }
 
+  function handleNavigateToBatchTrain() {
+    navigation.navigate('Batch Train');
+  }
+
   return (
     <>
       <Container>
@@ -87,6 +95,11 @@ export default function AIScreen() {
         style={styles.trainButton}
         onClick={handleNavigateToTrain}
         title={'Train'}
+      />
+      <Button
+        style={styles.trainButton}
+        onClick={handleNavigateToBatchTrain}
+        title={'Batch Train'}
       />
     </>
   );

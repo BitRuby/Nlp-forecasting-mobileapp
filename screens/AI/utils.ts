@@ -56,3 +56,5 @@ const Standarize = 'Standarize';
 const None = 'None';
 
 export const SCALE_TYPES = [Normalize, Standarize, None];
+
+export const UNIT_SEQUENCE = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024];

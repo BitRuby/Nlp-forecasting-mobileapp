@@ -5,6 +5,7 @@ import {
   TouchableHighlight,
   Animated,
   ViewStyle,
+  ActivityIndicator,
 } from 'react-native';
 import { COLORS, FONT_SIZE } from './utils';
 
@@ -14,6 +15,7 @@ interface IButton {
   disabled?: boolean;
   style?: ViewStyle;
   color?: string;
+  loading?: boolean;
 }
 
 export default function Button({
@@ -22,6 +24,7 @@ export default function Button({
   title,
   style,
   color,
+  loading,
 }: IButton) {
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
@@ -35,6 +38,7 @@ export default function Button({
 
   return (
     <Animated.View style={{ opacity: fadeAnim, ...style }}>
+      {loading && <ActivityIndicator />}
       <TouchableHighlight
         style={
           color

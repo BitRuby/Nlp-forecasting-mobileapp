@@ -36,3 +36,24 @@ export async function getTrainingResults() {
     return null;
   }
 }
+
+export async function performBatchTraining(body: {
+  algorithm: string;
+  lossFunction: string;
+  processedDatasetId: string;
+}) {
+  try {
+    const fetched = await fetch(`${API_URL}/train/batch`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const json = await fetched.json();
+    return json;
+  } catch (ex) {
+    console.error(ex);
+    return null;
+  }
+}

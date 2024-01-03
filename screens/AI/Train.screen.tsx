@@ -177,14 +177,28 @@ export default function TrainScreen() {
     );
   }
 
-  function getResults(type: 'train' | 'test') {
-    const results = ws.messages.filter(e => e.type === type);
-
+  function getTrainResults() {
+    const results = ws.trainMessages;
     if (results && results.length) {
-      const result = results[results.length - 1];
+      const result = results[results.length - 1].message;
       return (
         <>
-          {!!result.epochs && <Text>{`${result.epochs + 1}`}</Text>}
+          {!!result.preds.accuracy && (
+            <Text>{`Accuracy: ${result.preds.accuracy}`}</Text>
+          )}
+          {!!result.epoch && <Text>{`Epoch: ${result.epoch}`}</Text>}
+          {!!result.preds.mse && <Text>{`MSE: ${result.preds.mse}`}</Text>}
+        </>
+      );
+    }
+  }
+
+  function getTestResults() {
+    const results = ws.testMessages;
+    if (results && results.length) {
+      const result = results[0].message;
+      return (
+        <>
           {!!result.preds.accuracy && (
             <Text>{`Accuracy: ${result.preds.accuracy}`}</Text>
           )}
@@ -332,22 +346,24 @@ export default function TrainScreen() {
         </Modal>
         <LoadingOverlay loadingStates={loadingStates} />
       </Container>
-      {!!ws.messages.length && (
-        <>
+      <>
+        {!!ws.trainMessages.length && (
           <View style={styles.trainContainer}>
             <Text style={styles.trainFlex}>Train result:</Text>
-            {getResults('train')}
+            {getTrainResults()}
             {trainInProgress && (
               <ActivityIndicator style={styles.trainLoading} />
             )}
           </View>
+        )}
+        {!!ws.trainMessages.length && (
           <View style={styles.trainContainer}>
             <Text style={styles.trainFlex}>Test result: </Text>
-            {getResults('test')}
+            {getTestResults()}
             <></>
           </View>
-        </>
-      )}
+        )}
+      </>
       <Button
         color={COLORS.gray1}
         style={styles.button}

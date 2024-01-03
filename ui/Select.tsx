@@ -56,6 +56,7 @@ export default function Select({
         onRequestClose={toggleVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modal}>
+            <Text style={styles.title}>{name}</Text>
             <ScrollView style={styles.content}>
               {items?.map(item => (
                 <TouchableHighlight
@@ -112,6 +113,11 @@ const styles = StyleSheet.create({
   },
   itemValue: {
     fontFamily: 'Poppins-Light',
+    color: COLORS.white,
+    textAlign: 'center',
+  },
+  title: {
+    fontFamily: 'Poppins-Bold',
     color: COLORS.white,
     textAlign: 'center',
   },
