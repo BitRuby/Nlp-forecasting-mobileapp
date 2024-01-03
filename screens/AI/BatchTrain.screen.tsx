@@ -120,7 +120,6 @@ export default function BatchTrainScreen() {
         return b.data.Accuracy - a.data.Accuracy;
       }
     });
-    console.log(JSON.stringify(sorted, null, 2));
     return sorted;
   }, [ws.preds]);
 
