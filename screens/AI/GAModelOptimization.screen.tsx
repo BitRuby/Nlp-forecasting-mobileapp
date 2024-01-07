@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ALGORITHMS, LOSS_FUNCTIONS } from './utils';
@@ -8,10 +8,9 @@ import Container from '../../ui/Container';
 import LoadingOverlay from '../../ui/Loading';
 import { getProcessedDatasets } from '../../data/processedDataset';
 import Button from '../../ui/Button';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { performModelOptimization } from '../../data/train';
 import useWebSocket from '../../hooks/useWebSocket';
-import List from '../../ui/List';
 import Input from '../../ui/Input';
 
 type ProcessDatasetNavProp = StackNavigationProp<{
@@ -119,17 +118,6 @@ export default function GAModelOptimizationScreen() {
   const startDisabled =
     !inputs.ProcessedDataset || !inputs.Algorithm || !inputs.LossFunction;
 
-  const sortList = useMemo(() => {
-    const sorted = ws.preds.sort((a, b) => {
-      if (a.data.MSE) {
-        return a.data.MSE - b.data.MSE;
-      } else {
-        return b.data.Accuracy - a.data.Accuracy;
-      }
-    });
-    return sorted;
-  }, [ws.preds]);
-
   return (
     <>
       <Container scroll>
@@ -208,7 +196,25 @@ export default function GAModelOptimizationScreen() {
         />
         <LoadingOverlay loadingStates={loadingStates} />
       </Container>
-      {/* <List data={sortList} showKeys /> */}
+      <>
+        {!!ws.iterationAndEta.iteration && (
+          <View style={styles.trainContainer}>
+            <Text style={styles.trainFlex}>Optimization progress:</Text>
+            <Text>{`Iteration: ${ws.iterationAndEta.iteration},
+            ETA: ${ws.iterationAndEta.eta}`}</Text>
+          </View>
+        )}
+      </>
+      <>
+        {!!ws.layers.length && (
+          <View style={styles.trainContainer}>
+            <Text style={styles.trainFlex}>Best NN settings:</Text>
+            <Text>{`${ws.layers.map(
+              (e, i) => `${i === 0 ? `${e.units}` : `/${e.units}`}`,
+            )}`}</Text>
+          </View>
+        )}
+      </>
       <Button
         loading={optimizationInProgress}
         disabled={optimizationInProgress || startDisabled}

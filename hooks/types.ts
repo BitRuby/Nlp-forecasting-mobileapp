@@ -3,7 +3,9 @@ import { Layer } from '../screens/AI/types';
 export type WsMessage =
   | { error: Error }
   | { id: string; preds: Preds; layers: Layer[] }
-  | { finish: boolean };
+  | { finish: boolean }
+  | { iteration: number; eta: string }
+  | { layer: Layer[] };
 
 export interface Preds {
   loss?: number;
