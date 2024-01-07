@@ -132,7 +132,7 @@ export default function GAModelOptimizationScreen() {
 
   return (
     <>
-      <Container>
+      <Container scroll>
         <Select
           items={processedDatasets}
           name={'ProcessedDataset'}
@@ -207,8 +207,8 @@ export default function GAModelOptimizationScreen() {
           number
         />
         <LoadingOverlay loadingStates={loadingStates} />
-        <List data={sortList} showKeys />
       </Container>
+      {/* <List data={sortList} showKeys /> */}
       <Button
         loading={optimizationInProgress}
         disabled={optimizationInProgress || startDisabled}
