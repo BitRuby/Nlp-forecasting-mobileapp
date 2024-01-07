@@ -177,32 +177,16 @@ export default function TrainScreen() {
     );
   }
 
-  function getTrainResults() {
-    const results = ws.trainMessages;
-    if (results && results.length) {
-      const result = results[results.length - 1].message;
+  function getResults() {
+    if (ws.preds.length) {
       return (
         <>
-          {!!result.preds.accuracy && (
-            <Text>{`Accuracy: ${result.preds.accuracy}`}</Text>
+          {!!ws.preds[0].data.Accuracy && (
+            <Text>{`Accuracy: ${ws.preds[0].data.Accuracy}`}</Text>
           )}
-          {!!result.epoch && <Text>{`Epoch: ${result.epoch}`}</Text>}
-          {!!result.preds.mse && <Text>{`MSE: ${result.preds.mse}`}</Text>}
-        </>
-      );
-    }
-  }
-
-  function getTestResults() {
-    const results = ws.testMessages;
-    if (results && results.length) {
-      const result = results[0].message;
-      return (
-        <>
-          {!!result.preds.accuracy && (
-            <Text>{`Accuracy: ${result.preds.accuracy}`}</Text>
+          {!!ws.preds[0].data.MSE && (
+            <Text>{`MSE: ${ws.preds[0].data.MSE}`}</Text>
           )}
-          {!!result.preds.mse && <Text>{`MSE: ${result.preds.mse}`}</Text>}
         </>
       );
     }
@@ -347,20 +331,13 @@ export default function TrainScreen() {
         <LoadingOverlay loadingStates={loadingStates} />
       </Container>
       <>
-        {!!ws.trainMessages.length && (
+        {!!ws.preds.length && (
           <View style={styles.trainContainer}>
             <Text style={styles.trainFlex}>Train result:</Text>
-            {getTrainResults()}
+            {getResults()}
             {trainInProgress && (
               <ActivityIndicator style={styles.trainLoading} />
             )}
-          </View>
-        )}
-        {!!ws.trainMessages.length && (
-          <View style={styles.trainContainer}>
-            <Text style={styles.trainFlex}>Test result: </Text>
-            {getTestResults()}
-            <></>
           </View>
         )}
       </>

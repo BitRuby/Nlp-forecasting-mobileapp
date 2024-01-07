@@ -57,3 +57,29 @@ export async function performBatchTraining(body: {
     return null;
   }
 }
+
+export async function performModelOptimization(body: {
+  algorithm: string;
+  lossFunction: string;
+  processedDatasetId: string;
+  nIndividuals: number;
+  chromosomeLength: number;
+  mutationRate: number;
+  selectedIndividuals: number;
+  generationLimit: number;
+}) {
+  try {
+    const fetched = await fetch(`${API_URL}/train/ga`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const json = await fetched.json();
+    return json;
+  } catch (ex) {
+    console.error(ex);
+    return null;
+  }
+}

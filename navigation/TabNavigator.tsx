@@ -175,6 +175,10 @@ export default function TabNavigator() {
                 name="New Process Dataset"
                 component={AI.ProcessDatasetScreen}
               />
+              <Stack.Screen
+                name="GA Model Optimization"
+                component={AI.GAModelOptimizationScreen}
+              />
             </Stack.Navigator>
           </Route>
         )}

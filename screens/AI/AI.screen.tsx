@@ -13,6 +13,7 @@ import { mapValues } from '../../data/utils';
 type TrainNavProp = StackNavigationProp<{
   Train: undefined;
   'Batch Train': undefined;
+  'GA Model Optimization': undefined;
 }>;
 
 export default function AIScreen() {
@@ -85,6 +86,10 @@ export default function AIScreen() {
     navigation.navigate('Batch Train');
   }
 
+  function handleNavigateToGaModelOptimization() {
+    navigation.navigate('GA Model Optimization');
+  }
+
   return (
     <>
       <Container>
@@ -100,6 +105,11 @@ export default function AIScreen() {
         style={styles.trainButton}
         onClick={handleNavigateToBatchTrain}
         title={'Batch Train'}
+      />
+      <Button
+        style={styles.trainButton}
+        onClick={handleNavigateToGaModelOptimization}
+        title={'GA Model Optimization'}
       />
     </>
   );
