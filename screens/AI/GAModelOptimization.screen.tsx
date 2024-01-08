@@ -197,11 +197,11 @@ export default function GAModelOptimizationScreen() {
         <LoadingOverlay loadingStates={loadingStates} />
       </Container>
       <>
-        {!!ws.iterationAndEta.iteration && (
+        {!!ws.iterationAndEta.iteration && !ws.layers.length && (
           <View style={styles.trainContainer}>
             <Text style={styles.trainFlex}>Optimization progress:</Text>
-            <Text>{`Iteration: ${ws.iterationAndEta.iteration},
-            ETA: ${ws.iterationAndEta.eta}`}</Text>
+            <Text>{`Iteration: ${ws.iterationAndEta.iteration}`}</Text>
+            <Text>{`ETA: ${parseInt(ws.iterationAndEta.eta, 10)}`}</Text>
           </View>
         )}
       </>
