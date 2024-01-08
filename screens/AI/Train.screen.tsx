@@ -45,6 +45,7 @@ export default function TrainScreen() {
       trainElements: number;
       testElements: number;
       dataShape: string;
+      windowSize: string;
     };
   }>({});
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -81,6 +82,7 @@ export default function TrainScreen() {
                   trainElements: ds.trainFeatures.length,
                   testElements: ds.testFeatures.length,
                   dataShape: `[${ds.trainFeatures[0].length}, ${ds.trainFeatures[0][0].length}]`,
+                  windowSize: ds.trainFeatures[0].length,
                 },
               };
             });
@@ -110,7 +112,7 @@ export default function TrainScreen() {
       key: `${new Date().getTime()}`,
       units: inputs.Units,
       activation: inputs.ActivationFunction,
-      kernelSize: inputs.KernelSize,
+      kernelSize: processedDatasetsDetails[inputs.ProcessedDataset].windowSize,
       filters: inputs.Filters,
       padding: inputs.Padding,
     };
@@ -308,7 +310,10 @@ export default function TrainScreen() {
                 placeholder="Enter Kernel Size"
                 name={'KernelSize'}
                 setValue={handleChangeValue}
-                value={inputs.KernelSize}
+                value={`${
+                  processedDatasetsDetails[inputs.ProcessedDataset].windowSize
+                }`}
+                editable={false}
               />
               <Input
                 placeholder="Enter filter size"
@@ -318,9 +323,9 @@ export default function TrainScreen() {
               />
               <Select
                 items={PADDING_FUNCTIONS}
-                name={'PaddingFunctions'}
+                name={'Padding'}
                 placeholder={'Select padding function'}
-                value={inputs.PaddingFunctions}
+                value={inputs.Padding}
                 setValue={handleChangeValue}
               />
             </>

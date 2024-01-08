@@ -11,11 +11,10 @@ const softmax = 'softmax';
 
 export const ACTIVATION_FUNCTIONS = [relu, sigmoid, softmax];
 
-const causal = 'causal';
 const same = 'same';
 const valid = 'valid';
 
-export const PADDING_FUNCTIONS = [causal, same, valid];
+export const PADDING_FUNCTIONS = [same, valid];
 
 const MEAN_SQUARED_ERROR = 'meanSquaredError';
 const BINARY_CROSSENTROPY = 'binaryCrossentropy';
