@@ -40,6 +40,14 @@ export default function GAModelOptimizationScreen() {
   const ws = useWebSocket();
 
   useEffect(() => {
+    if (
+      Number(ws.iterationAndEta.iteration) === Number(inputs.generationLimit)
+    ) {
+      setOptimizationInProgress(false);
+    }
+  }, [inputs.generationLimit, ws.iterationAndEta.iteration]);
+
+  useEffect(() => {
     if (ws.finish) {
       setOptimizationInProgress(false);
     }
