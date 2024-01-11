@@ -201,7 +201,7 @@ export default function GAModelOptimizationScreen() {
           <View style={styles.trainContainer}>
             <Text style={styles.trainFlex}>Optimization progress:</Text>
             <Text>{`Iteration: ${ws.iterationAndEta.iteration}`}</Text>
-            <Text>{`ETA: ${parseInt(ws.iterationAndEta.eta, 10)}`}</Text>
+            <Text>{`ETA: ${parseInt(ws.iterationAndEta.eta, 10)}min`}</Text>
           </View>
         )}
       </>

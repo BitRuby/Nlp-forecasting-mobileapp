@@ -9,6 +9,9 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { TrainHistoryElement } from './types';
 import { mapValues } from '../../data/utils';
+import Filter from '../../ui/Filter';
+import { ALGORITHMS, NAIVE, DENSE, CONV1D, LSTM } from './utils';
+import MultiSelect from '../../ui/MultiSelect';
 
 type TrainNavProp = StackNavigationProp<{
   Train: undefined;
@@ -22,6 +25,22 @@ export default function AIScreen() {
   const [loadingStates, setLoadingStates] = useState<{
     [key: string]: boolean;
   }>({});
+  const [selectedColumns, setSelectedColumns] = useState<string[]>([
+    NAIVE,
+    DENSE,
+    CONV1D,
+    LSTM,
+  ]);
+
+  function handleChangeSelectedColumns(inputName: string, value: string) {
+    setSelectedColumns(prev => {
+      if (prev.find(e => e === value)) {
+        return prev.filter(e => e !== value);
+      } else {
+        return [...prev, value];
+      }
+    });
+  }
 
   useEffect(() => {
     (async () => {
@@ -69,6 +88,7 @@ export default function AIScreen() {
           data: elements,
         };
       })
+      .filter(e => selectedColumns.find(g => e.data.Algorithm === g))
       .sort((a, b) => {
         if (a.data.MSE) {
           return a.data.MSE - b.data.MSE;
@@ -76,7 +96,7 @@ export default function AIScreen() {
           return a.data.Accuracy - b.data.Accuracy;
         }
       }) as ItemProps[];
-  }, [data]);
+  }, [data, selectedColumns]);
 
   function handleNavigateToTrain() {
     navigation.navigate('Train');
@@ -93,6 +113,15 @@ export default function AIScreen() {
   return (
     <>
       <Container>
+        <Filter>
+          <MultiSelect
+            placeholder="Algorithm"
+            items={ALGORITHMS}
+            name={'Algorithm'}
+            setValue={handleChangeSelectedColumns}
+            values={selectedColumns}
+          />
+        </Filter>
         <List data={list} showKeys />
         <LoadingOverlay loadingStates={loadingStates} />
       </Container>

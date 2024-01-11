@@ -1,6 +1,6 @@
 import { Layer } from '../screens/AI/types';
 
-const URL = '192.168.165.235:5050';
+const URL = '192.168.210.235:5050';
 export const API_URL = `http://${URL}`;
 export const WS_URL = `ws://${URL}`;
 

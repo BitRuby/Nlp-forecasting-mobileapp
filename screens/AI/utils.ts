@@ -1,7 +1,7 @@
 export const NAIVE = 'NAIVE';
-const DENSE = 'DENSE';
+export const DENSE = 'DENSE';
 export const CONV1D = 'CONV1D';
-const LSTM = 'LSTM';
+export const LSTM = 'LSTM';
 
 export const ALGORITHMS = [NAIVE, DENSE, CONV1D, LSTM];
 

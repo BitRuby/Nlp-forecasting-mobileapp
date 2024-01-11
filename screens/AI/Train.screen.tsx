@@ -112,7 +112,10 @@ export default function TrainScreen() {
       key: `${new Date().getTime()}`,
       units: inputs.Units,
       activation: inputs.ActivationFunction,
-      kernelSize: processedDatasetsDetails[inputs.ProcessedDataset].windowSize,
+      kernelSize:
+        inputs.Algorithm === CONV1D
+          ? processedDatasetsDetails[inputs.ProcessedDataset].windowSize
+          : '',
       filters: inputs.Filters,
       padding: inputs.Padding,
     };
@@ -125,19 +128,42 @@ export default function TrainScreen() {
   }
 
   function generateLayers() {
-    return layers.map(layer => (
-      <Card
-        onPress={() => deleteLayer(layer.key)}
-        key={layer.key}
-        content={{
+    return layers.map(layer => {
+      let content = {
+        activation: layer.activation,
+      } as any;
+      if (layer.units) {
+        content = {
+          ...content,
           units: layer.units,
-          activation: layer.activation,
-          kernelSize: layer.kernelSize || '',
-          filters: layer.filters || '',
-          padding: layer.padding || '',
-        }}
-      />
-    ));
+        };
+      }
+      if (layer.kernelSize) {
+        content = {
+          ...content,
+          kernelSize: layer.kernelSize,
+        };
+      }
+      if (layer.filters) {
+        content = {
+          ...content,
+          filters: layer.filters,
+        };
+      }
+      if (layer.padding) {
+        content = {
+          ...content,
+          padding: layer.padding,
+        };
+      }
+      return (
+        <Card
+          onPress={() => deleteLayer(layer.key)}
+          key={layer.key}
+          content={content}
+        />
+      );
+    });
   }
 
   async function startTraining() {
@@ -159,9 +185,9 @@ export default function TrainScreen() {
   const addLayerButtonPressable =
     (inputs.Units && inputs.ActivationFunction) ||
     (inputs.Algorithm === CONV1D &&
-      inputs.KernelSize &&
+      inputs.ActivationFunction &&
       inputs.Filters &&
-      inputs.PaddingFunctions);
+      inputs.Padding);
 
   function createProcessedDataset() {
     navigation.navigate('New Process Dataset');
@@ -291,12 +317,16 @@ export default function TrainScreen() {
               />
             </>
           }>
-          <Input
-            placeholder="Enter units number"
-            name={'Units'}
-            setValue={handleChangeValue}
-            value={inputs.Units}
-          />
+          {inputs.Algorithm !== CONV1D ? (
+            <Input
+              placeholder="Enter units number"
+              name={'Units'}
+              setValue={handleChangeValue}
+              value={inputs.Units}
+            />
+          ) : (
+            <></>
+          )}
           <Select
             items={ACTIVATION_FUNCTIONS}
             name={'ActivationFunction'}
@@ -340,12 +370,10 @@ export default function TrainScreen() {
           <View style={styles.trainContainer}>
             <Text style={styles.trainFlex}>Train result:</Text>
             {getResults()}
-            {trainInProgress && (
-              <ActivityIndicator style={styles.trainLoading} />
-            )}
           </View>
         )}
       </>
+      {trainInProgress && <ActivityIndicator style={styles.trainLoading} />}
       <Button
         color={COLORS.gray1}
         style={styles.button}
