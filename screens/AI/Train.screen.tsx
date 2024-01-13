@@ -213,10 +213,12 @@ export default function TrainScreen() {
       return (
         <>
           {!!ws.preds[0].data.Accuracy && (
-            <Text>{`Accuracy: ${ws.preds[0].data.Accuracy}`}</Text>
+            <Text>{`Accuracy: ${
+              ws.preds[ws.preds.length - 1].data.Accuracy
+            }`}</Text>
           )}
           {!!ws.preds[0].data.MSE && (
-            <Text>{`MSE: ${ws.preds[0].data.MSE}`}</Text>
+            <Text>{`MSE: ${ws.preds[ws.preds.length - 1].data.MSE}`}</Text>
           )}
         </>
       );
