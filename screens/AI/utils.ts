@@ -8,8 +8,10 @@ export const ALGORITHMS = [NAIVE, DENSE, CONV1D, LSTM];
 const relu = 'relu';
 const sigmoid = 'sigmoid';
 const softmax = 'softmax';
+const tanh = 'tanh';
+const linear = 'linear';
 
-export const ACTIVATION_FUNCTIONS = [relu, sigmoid, softmax];
+export const ACTIVATION_FUNCTIONS = [relu, sigmoid, softmax, tanh, linear];
 
 const same = 'same';
 const valid = 'valid';

@@ -134,7 +134,7 @@ export default function TrainScreen() {
         let content = {
           activation: layer.activation,
         } as any;
-        if (layer.units) {
+        if (layer.units && inputs.Algorithm !== CONV1D) {
           content = {
             ...content,
             units: layer.units,
