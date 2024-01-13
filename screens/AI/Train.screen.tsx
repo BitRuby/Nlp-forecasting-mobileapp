@@ -146,13 +146,13 @@ export default function TrainScreen() {
             kernelSize: layer.kernelSize,
           };
         }
-        if (layer.filters) {
+        if (layer.filters && inputs.Algorithm === CONV1D) {
           content = {
             ...content,
             filters: layer.filters,
           };
         }
-        if (layer.padding) {
+        if (layer.padding && inputs.Algorithm === CONV1D) {
           content = {
             ...content,
             padding: layer.padding,
