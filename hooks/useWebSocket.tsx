@@ -59,10 +59,11 @@ const useWebSocket = () => {
               data: {
                 ...(parsed.preds.accuracy !== undefined && {
                   Accuracy: Number(parsed.preds.accuracy),
-                  Layers: mapValues(parsed.layers),
                 }),
                 ...(parsed.preds.mse !== undefined && {
                   MSE: Number(parsed.preds.mse),
+                }),
+                ...(parsed.layers !== undefined && {
                   Layers: mapValues(parsed.layers),
                 }),
               },
@@ -70,7 +71,6 @@ const useWebSocket = () => {
           ]);
         }
       } else if ('iteration' in parsed) {
-        console.log(parsed);
         setIterationAndEta(parsed);
       } else if ('layer' in parsed) {
         setLayers(parsed.layer);

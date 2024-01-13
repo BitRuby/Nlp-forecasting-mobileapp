@@ -61,7 +61,9 @@ export default function AIScreen() {
           Date: e.date,
           'Processed Dataset': e.processedDatasetId.name,
           'Loss Function': e.lossFunction,
-          Layers: mapValues(e.layers),
+          ...(e.layers !== undefined && {
+            Layers: mapValues(e.layers),
+          }),
         } as {
           Algorithm: string;
           Date: string;
@@ -69,7 +71,7 @@ export default function AIScreen() {
           'Loss Function': string;
           Accuracy: number;
           MSE: number;
-          Layers: string;
+          Layers?: string;
         };
         if (e.result.test.accuracy) {
           elements = {

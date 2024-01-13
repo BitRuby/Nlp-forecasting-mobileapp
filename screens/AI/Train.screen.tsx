@@ -128,42 +128,45 @@ export default function TrainScreen() {
   }
 
   function generateLayers() {
-    return layers.map(layer => {
-      let content = {
-        activation: layer.activation,
-      } as any;
-      if (layer.units) {
-        content = {
-          ...content,
-          units: layer.units,
-        };
-      }
-      if (layer.kernelSize) {
-        content = {
-          ...content,
-          kernelSize: layer.kernelSize,
-        };
-      }
-      if (layer.filters) {
-        content = {
-          ...content,
-          filters: layer.filters,
-        };
-      }
-      if (layer.padding) {
-        content = {
-          ...content,
-          padding: layer.padding,
-        };
-      }
-      return (
-        <Card
-          onPress={() => deleteLayer(layer.key)}
-          key={layer.key}
-          content={content}
-        />
-      );
-    });
+    return (
+      layers &&
+      layers.map(layer => {
+        let content = {
+          activation: layer.activation,
+        } as any;
+        if (layer.units) {
+          content = {
+            ...content,
+            units: layer.units,
+          };
+        }
+        if (layer.kernelSize) {
+          content = {
+            ...content,
+            kernelSize: layer.kernelSize,
+          };
+        }
+        if (layer.filters) {
+          content = {
+            ...content,
+            filters: layer.filters,
+          };
+        }
+        if (layer.padding) {
+          content = {
+            ...content,
+            padding: layer.padding,
+          };
+        }
+        return (
+          <Card
+            onPress={() => deleteLayer(layer.key)}
+            key={layer.key}
+            content={content}
+          />
+        );
+      })
+    );
   }
 
   async function startTraining() {
@@ -224,10 +227,10 @@ export default function TrainScreen() {
     !inputs.ProcessedDataset ||
     !inputs.Algorithm ||
     !inputs.LossFunction ||
-    !inputs.OptimizerFunction ||
-    !inputs.Epochs ||
-    !inputs.BatchSize ||
-    layers.length === 0;
+    (inputs.Algorithm !== NAIVE && !inputs.OptimizerFunction) ||
+    (inputs.Algorithm !== NAIVE && !inputs.Epochs) ||
+    (inputs.Algorithm !== NAIVE && !inputs.BatchSize) ||
+    (inputs.Algorithm !== NAIVE && layers.length === 0);
 
   return (
     <>
@@ -270,27 +273,39 @@ export default function TrainScreen() {
           value={inputs.LossFunction}
           setValue={handleChangeValue}
         />
-        <Select
-          items={OPTIMIZER_FUNCTIONS}
-          name={'OptimizerFunction'}
-          placeholder={'Select optimizer function'}
-          value={inputs.OptimizerFunction}
-          setValue={handleChangeValue}
-        />
-        <Input
-          number
-          placeholder="Enter number of epochs"
-          name={'Epochs'}
-          setValue={handleChangeValue}
-          value={inputs.Epochs}
-        />
-        <Input
-          number
-          placeholder="Enter batch size"
-          name={'BatchSize'}
-          setValue={handleChangeValue}
-          value={inputs.BatchSize}
-        />
+        {inputs.Algorithm !== NAIVE ? (
+          <Select
+            items={OPTIMIZER_FUNCTIONS}
+            name={'OptimizerFunction'}
+            placeholder={'Select optimizer function'}
+            value={inputs.OptimizerFunction}
+            setValue={handleChangeValue}
+          />
+        ) : (
+          <></>
+        )}
+        {inputs.Algorithm !== NAIVE ? (
+          <Input
+            number
+            placeholder="Enter number of epochs"
+            name={'Epochs'}
+            setValue={handleChangeValue}
+            value={inputs.Epochs}
+          />
+        ) : (
+          <></>
+        )}
+        {inputs.Algorithm !== NAIVE ? (
+          <Input
+            number
+            placeholder="Enter batch size"
+            name={'BatchSize'}
+            setValue={handleChangeValue}
+            value={inputs.BatchSize}
+          />
+        ) : (
+          <></>
+        )}
         {inputs.Algorithm !== NAIVE ? (
           <>
             <Text>Layers: </Text>
@@ -299,70 +314,74 @@ export default function TrainScreen() {
         ) : (
           <></>
         )}
-        <Modal
-          title="New layer"
-          visible={modalVisible}
-          toggleVisible={toggleVisible}
-          actions={
-            <>
-              <Button
-                disabled={!addLayerButtonPressable}
-                onClick={addLayer}
-                title={'Add layer'}
+        {inputs.Algorithm !== NAIVE ? (
+          <Modal
+            title="New layer"
+            visible={modalVisible}
+            toggleVisible={toggleVisible}
+            actions={
+              <>
+                <Button
+                  disabled={!addLayerButtonPressable}
+                  onClick={addLayer}
+                  title={'Add layer'}
+                />
+                <Button
+                  color={COLORS.gray2}
+                  onClick={toggleModalVisible}
+                  title={'Cancel'}
+                />
+              </>
+            }>
+            {inputs.Algorithm !== CONV1D ? (
+              <Input
+                placeholder="Enter units number"
+                name={'Units'}
+                setValue={handleChangeValue}
+                value={inputs.Units}
               />
-              <Button
-                color={COLORS.gray2}
-                onClick={toggleModalVisible}
-                title={'Cancel'}
-              />
-            </>
-          }>
-          {inputs.Algorithm !== CONV1D ? (
-            <Input
-              placeholder="Enter units number"
-              name={'Units'}
+            ) : (
+              <></>
+            )}
+            <Select
+              items={ACTIVATION_FUNCTIONS}
+              name={'ActivationFunction'}
+              placeholder={'Select activation function'}
+              value={inputs.ActivationFunction}
               setValue={handleChangeValue}
-              value={inputs.Units}
             />
-          ) : (
-            <></>
-          )}
-          <Select
-            items={ACTIVATION_FUNCTIONS}
-            name={'ActivationFunction'}
-            placeholder={'Select activation function'}
-            value={inputs.ActivationFunction}
-            setValue={handleChangeValue}
-          />
-          {inputs.Algorithm === CONV1D ? (
-            <>
-              <Input
-                placeholder="Enter Kernel Size"
-                name={'KernelSize'}
-                setValue={handleChangeValue}
-                value={`${
-                  processedDatasetsDetails[inputs.ProcessedDataset].windowSize
-                }`}
-                editable={false}
-              />
-              <Input
-                placeholder="Enter filter size"
-                name={'Filters'}
-                setValue={handleChangeValue}
-                value={inputs.Filters}
-              />
-              <Select
-                items={PADDING_FUNCTIONS}
-                name={'Padding'}
-                placeholder={'Select padding function'}
-                value={inputs.Padding}
-                setValue={handleChangeValue}
-              />
-            </>
-          ) : (
-            <></>
-          )}
-        </Modal>
+            {inputs.Algorithm === CONV1D ? (
+              <>
+                <Input
+                  placeholder="Enter Kernel Size"
+                  name={'KernelSize'}
+                  setValue={handleChangeValue}
+                  value={`${
+                    processedDatasetsDetails[inputs.ProcessedDataset].windowSize
+                  }`}
+                  editable={false}
+                />
+                <Input
+                  placeholder="Enter filter size"
+                  name={'Filters'}
+                  setValue={handleChangeValue}
+                  value={inputs.Filters}
+                />
+                <Select
+                  items={PADDING_FUNCTIONS}
+                  name={'Padding'}
+                  placeholder={'Select padding function'}
+                  value={inputs.Padding}
+                  setValue={handleChangeValue}
+                />
+              </>
+            ) : (
+              <></>
+            )}
+          </Modal>
+        ) : (
+          <></>
+        )}
         <LoadingOverlay loadingStates={loadingStates} />
       </Container>
       <>
@@ -374,12 +393,16 @@ export default function TrainScreen() {
         )}
       </>
       {trainInProgress && <ActivityIndicator style={styles.trainLoading} />}
-      <Button
-        color={COLORS.gray1}
-        style={styles.button}
-        onClick={toggleModalVisible}
-        title={'Add Layer'}
-      />
+      {inputs.Algorithm !== NAIVE ? (
+        <Button
+          color={COLORS.gray1}
+          style={styles.button}
+          onClick={toggleModalVisible}
+          title={'Add Layer'}
+        />
+      ) : (
+        <></>
+      )}
       <Button
         disabled={trainInProgress || trainDisabled}
         style={styles.button}
