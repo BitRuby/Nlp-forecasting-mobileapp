@@ -207,7 +207,7 @@ export default function TrainScreen() {
       />
     );
   }
-
+  
   function getResults() {
     if (ws.preds.length) {
       return (
