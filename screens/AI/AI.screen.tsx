@@ -15,7 +15,6 @@ import MultiSelect from '../../ui/MultiSelect';
 
 type TrainNavProp = StackNavigationProp<{
   Train: undefined;
-  'Batch Train': undefined;
   'GA Model Optimization': undefined;
 }>;
 
@@ -104,10 +103,6 @@ export default function AIScreen() {
     navigation.navigate('Train');
   }
 
-  function handleNavigateToBatchTrain() {
-    navigation.navigate('Batch Train');
-  }
-
   function handleNavigateToGaModelOptimization() {
     navigation.navigate('GA Model Optimization');
   }
@@ -131,11 +126,6 @@ export default function AIScreen() {
         style={styles.trainButton}
         onClick={handleNavigateToTrain}
         title={'Train'}
-      />
-      <Button
-        style={styles.trainButton}
-        onClick={handleNavigateToBatchTrain}
-        title={'Batch Train'}
       />
       <Button
         style={styles.trainButton}

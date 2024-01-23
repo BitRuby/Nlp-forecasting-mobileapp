@@ -1,8 +1,8 @@
-import { API_URL } from './utils';
+import { NODE_API_URL } from './utils';
 
 export async function getTechnicalIndicators() {
   try {
-    const fetched = await fetch(`${API_URL}/technicalIndicator/all`);
+    const fetched = await fetch(`${NODE_API_URL}/technicalIndicator/all`);
     const json = await fetched.json();
     return json;
   } catch (ex) {
@@ -13,7 +13,7 @@ export async function getTechnicalIndicators() {
 
 export async function getTechnicalIndicator() {
   try {
-    const fetched = await fetch(`${API_URL}/technicalIndicator`);
+    const fetched = await fetch(`${NODE_API_URL}/technicalIndicator`);
     const json = await fetched.json();
     return json;
   } catch (ex) {

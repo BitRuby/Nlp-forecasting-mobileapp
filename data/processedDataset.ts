@@ -1,4 +1,4 @@
-import { API_URL } from './utils';
+import { NODE_API_URL } from './utils';
 
 export async function createProcessedDataset(body: {
   datasetId: string;
@@ -13,7 +13,7 @@ export async function createProcessedDataset(body: {
   scaleColumnsSeparately?: boolean;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/processedDataset/create`, {
+    const fetched = await fetch(`${NODE_API_URL}/processedDataset/create`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
@@ -30,7 +30,7 @@ export async function createProcessedDataset(body: {
 
 export async function getProcessedDatasets() {
   try {
-    const fetched = await fetch(`${API_URL}/processedDataset`);
+    const fetched = await fetch(`${NODE_API_URL}/processedDataset`);
     const json = await fetched.json();
     return json;
   } catch (ex) {
@@ -42,7 +42,7 @@ export async function getProcessedDatasets() {
 export async function getProcessedDataset(processedDatasetId: string) {
   try {
     const fetched = await fetch(
-      `${API_URL}/processedDataset/${processedDatasetId}`,
+      `${NODE_API_URL}/processedDataset/${processedDatasetId}`,
     );
     const json = await fetched.json();
     return json;

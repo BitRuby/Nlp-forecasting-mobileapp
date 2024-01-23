@@ -1,8 +1,8 @@
-import { API_URL } from './utils';
+import { NODE_API_URL } from './utils';
 
 export async function getAllKeywords() {
   try {
-    const fetched = await fetch(`${API_URL}/keyword`);
+    const fetched = await fetch(`${NODE_API_URL}/keyword`);
     const json = await fetched.json();
     return json;
   } catch (ex) {
@@ -13,7 +13,7 @@ export async function getAllKeywords() {
 
 export async function getTweetsByKeywordId(keywordId: string) {
   try {
-    const fetched = await fetch(`${API_URL}/keyword/${keywordId}`);
+    const fetched = await fetch(`${NODE_API_URL}/keyword/${keywordId}`);
     const json = await fetched.json();
     return json;
   } catch (ex) {
@@ -41,7 +41,7 @@ export async function getTweetsByKeywordIdPaginated(body: {
     return;
   }
   try {
-    const fetched = await fetch(`${API_URL}/keyword`, {
+    const fetched = await fetch(`${NODE_API_URL}/keyword`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
@@ -58,7 +58,7 @@ export async function getTweetsByKeywordIdPaginated(body: {
 
 export async function getDailyTweetsByKeywordId(keywordId: string) {
   try {
-    const fetched = await fetch(`${API_URL}/keyword/daily/${keywordId}`);
+    const fetched = await fetch(`${NODE_API_URL}/keyword/daily/${keywordId}`);
     const json = await fetched.json();
     return json;
   } catch (ex) {
@@ -73,7 +73,7 @@ export async function applySentimentAnalyze(body: {
   transformations: Transformations;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/keyword/applySentiment`, {
+    const fetched = await fetch(`${NODE_API_URL}/keyword/applySentiment`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {

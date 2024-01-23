@@ -1,4 +1,4 @@
-import { API_URL } from './utils';
+import { NODE_API_URL } from './utils';
 
 export async function getDataBoundaries(body: {
   marketId: string;
@@ -8,7 +8,7 @@ export async function getDataBoundaries(body: {
   windowSize: number;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/associationRuleMining`, {
+    const fetched = await fetch(`${NODE_API_URL}/associationRuleMining`, {
       method: 'POST',
       body: JSON.stringify(body),
     });
@@ -26,13 +26,16 @@ export async function apriori(body: {
   minConfidence: number;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/associationRuleMining/apriori`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
+    const fetched = await fetch(
+      `${NODE_API_URL}/associationRuleMining/apriori`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
     const json = await fetched.json();
     return json;
   } catch (ex) {
@@ -43,7 +46,7 @@ export async function apriori(body: {
 
 export async function getRules() {
   try {
-    const fetched = await fetch(`${API_URL}/associationRuleMining`);
+    const fetched = await fetch(`${NODE_API_URL}/associationRuleMining`);
     const json = await fetched.json();
     return json;
   } catch (ex) {
@@ -64,7 +67,7 @@ export async function createRules(body: {
   close: boolean;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/associationRuleMining`, {
+    const fetched = await fetch(`${NODE_API_URL}/associationRuleMining`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {

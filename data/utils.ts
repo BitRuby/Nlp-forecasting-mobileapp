@@ -1,10 +1,13 @@
 import { Layer } from '../screens/AI/types';
 
 const localIpAddress = '192.168.40.235';
+const nodeApiPort = '5050';
+const pythonApiPort = '5000';
+const wsPort = '8765';
 
-const URL = `${localIpAddress}:5050`;
-export const API_URL = `http://${URL}`;
-export const WS_URL = `ws://${URL}`;
+export const NODE_API_URL = `http://${localIpAddress}:${nodeApiPort}`;
+export const PYTHON_API_URL = `http://${localIpAddress}:${pythonApiPort}`;
+export const WS_URL = `ws://${localIpAddress}:${wsPort}`;
 
 export const mapValues = (layers: Layer[]) => {
   if (!layers) {

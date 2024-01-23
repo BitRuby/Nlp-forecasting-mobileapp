@@ -1,8 +1,8 @@
-import { API_URL } from './utils';
+import { NODE_API_URL } from './utils';
 
 export async function getAllMarkets() {
   try {
-    const fetched = await fetch(`${API_URL}/market`);
+    const fetched = await fetch(`${NODE_API_URL}/market`);
     const json = await fetched.json();
     return json;
   } catch (ex) {
@@ -13,7 +13,7 @@ export async function getAllMarkets() {
 
 export async function getPricesByMarketId(marketId: string) {
   try {
-    const fetched = await fetch(`${API_URL}/market/${marketId}`);
+    const fetched = await fetch(`${NODE_API_URL}/market/${marketId}`);
     const json = await fetched.json();
     return json;
   } catch (ex) {

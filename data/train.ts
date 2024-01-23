@@ -1,5 +1,5 @@
 import { Layer } from '../screens/AI/types';
-import { API_URL } from './utils';
+import { NODE_API_URL, PYTHON_API_URL } from './utils';
 
 export async function performTraining(body: {
   algorithm: string;
@@ -11,7 +11,7 @@ export async function performTraining(body: {
   processedDatasetId: string;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/train`, {
+    const fetched = await fetch(`${PYTHON_API_URL}/train`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
@@ -28,28 +28,7 @@ export async function performTraining(body: {
 
 export async function getTrainingResults() {
   try {
-    const fetched = await fetch(`${API_URL}/train`);
-    const json = await fetched.json();
-    return json;
-  } catch (ex) {
-    console.error(ex);
-    return null;
-  }
-}
-
-export async function performBatchTraining(body: {
-  algorithm: string;
-  lossFunction: string;
-  processedDatasetId: string;
-}) {
-  try {
-    const fetched = await fetch(`${API_URL}/train/batch`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const fetched = await fetch(`${NODE_API_URL}/train`);
     const json = await fetched.json();
     return json;
   } catch (ex) {
@@ -69,7 +48,7 @@ export async function performModelOptimization(body: {
   generationLimit: number;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/train/ga`, {
+    const fetched = await fetch(`${PYTHON_API_URL}/ga`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {

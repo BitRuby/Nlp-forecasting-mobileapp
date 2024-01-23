@@ -1,8 +1,8 @@
-import { API_URL } from './utils';
+import { NODE_API_URL } from './utils';
 
 export async function getAllDatasets() {
   try {
-    const fetched = await fetch(`${API_URL}/dataset`);
+    const fetched = await fetch(`${NODE_API_URL}/dataset`);
     const json = await fetched.json();
     return json;
   } catch (ex) {
@@ -17,7 +17,7 @@ export async function createDataset(body: {
   name: string;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/dataset/create`, {
+    const fetched = await fetch(`${NODE_API_URL}/dataset/create`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
@@ -38,7 +38,7 @@ export async function getDatasetById(body: {
   endDate: string;
 }) {
   try {
-    const fetched = await fetch(`${API_URL}/dataset`, {
+    const fetched = await fetch(`${NODE_API_URL}/dataset`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
