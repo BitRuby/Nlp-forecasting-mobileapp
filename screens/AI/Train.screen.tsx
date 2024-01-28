@@ -211,7 +211,7 @@ export default function TrainScreen() {
   function getResults() {
     if (ws.preds.length) {
       return (
-        <>
+        <View style={styles.flexDirection}>
           {!!ws.preds[0].data.Accuracy && (
             <Text>{`Accuracy: ${
               ws.preds[ws.preds.length - 1].data.Accuracy
@@ -220,7 +220,10 @@ export default function TrainScreen() {
           {!!ws.preds[0].data.MSE && (
             <Text>{`MSE: ${ws.preds[ws.preds.length - 1].data.MSE}`}</Text>
           )}
-        </>
+          <Text>{`Training time: ${
+            ws.preds[ws.preds.length - 1].data['Training Time']
+          }s`}</Text>
+        </View>
       );
     }
   }
@@ -428,5 +431,8 @@ const styles = StyleSheet.create({
   },
   button: {
     paddingHorizontal: 20,
+  },
+  flexDirection: {
+    flexDirection: 'column',
   },
 });

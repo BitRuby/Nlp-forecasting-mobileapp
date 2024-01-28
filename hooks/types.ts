@@ -2,7 +2,7 @@ import { Layer } from '../screens/AI/types';
 
 export type WsMessage =
   | { error: Error }
-  | { id: string; preds: Preds; layers?: Layer[] }
+  | { id: string; preds: Preds; layers?: Layer[]; trainingTime: string }
   | { finish: boolean }
   | { iteration: number; eta: string }
   | { layer: Layer[] };

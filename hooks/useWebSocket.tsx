@@ -66,6 +66,9 @@ const useWebSocket = () => {
                 ...(parsed.layers !== undefined && {
                   Layers: mapValues(parsed.layers),
                 }),
+                ...(parsed.trainingTime !== undefined && {
+                  'Training Time': Number(parsed.trainingTime).toPrecision(2),
+                }),
               },
             },
           ]);
