@@ -1,8 +1,8 @@
 export interface Layer {
-  units: string;
+  units: number;
   activation?: string;
-  kernelSize?: string;
-  filters?: string;
+  kernelSize?: number;
+  filters?: number;
   padding?: string;
   key: string;
 }
@@ -26,11 +26,6 @@ export interface Message {
   preds: Preds;
 }
 
-export interface Result {
-  train: Preds;
-  test: Preds;
-}
-
 export interface TrainHistoryElement {
   _id: string;
   date: string;
@@ -40,7 +35,8 @@ export interface TrainHistoryElement {
   lossFunction: string;
   batchSize: number;
   processedDatasetId: ProcessedDataset;
-  result: Result;
+  result: Preds;
+  trainingTime: number;
 }
 
 export interface ProcessedDataset {

@@ -72,16 +72,16 @@ export default function AIScreen() {
           MSE: number;
           Layers?: string;
         };
-        if (e.result.test.accuracy) {
+        if (e.result.accuracy) {
           elements = {
             ...elements,
-            Accuracy: e.result.test.accuracy,
+            Accuracy: e.result.accuracy,
           };
         }
-        if (e.result.test.mse) {
+        if (e.result.mse) {
           elements = {
             ...elements,
-            MSE: e.result.test.mse,
+            MSE: e.result.mse,
           };
         }
         return {

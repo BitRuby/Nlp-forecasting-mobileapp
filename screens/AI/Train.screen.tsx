@@ -110,13 +110,13 @@ export default function TrainScreen() {
   function addLayer() {
     const newLayer = {
       key: `${new Date().getTime()}`,
-      units: inputs.Units,
+      units: Number(inputs.Units),
       activation: inputs.ActivationFunction,
       kernelSize:
         inputs.Algorithm === CONV1D
-          ? processedDatasetsDetails[inputs.ProcessedDataset].windowSize
-          : '',
-      filters: inputs.Filters,
+          ? Number(processedDatasetsDetails[inputs.ProcessedDataset].windowSize)
+          : 0,
+      filters: Number(inputs.Filters),
       padding: inputs.Padding,
     };
     setLayers(prev => [...prev, newLayer]);
