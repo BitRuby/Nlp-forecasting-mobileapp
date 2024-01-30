@@ -5,6 +5,7 @@ export interface Layer {
   filters?: number;
   padding?: string;
   key: string;
+  layer_type?: string;
 }
 
 export interface Preds {

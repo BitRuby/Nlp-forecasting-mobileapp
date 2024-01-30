@@ -111,7 +111,7 @@ export default function TrainScreen() {
   }
 
   function addLayer() {
-    const newLayer = {
+    let newLayer = {
       key: `${new Date().getTime()}`,
       units: Number(inputs.Units),
       activation: inputs.ActivationFunction,
@@ -121,7 +121,15 @@ export default function TrainScreen() {
           : 0,
       filters: Number(inputs.Filters),
       padding: inputs.Padding,
-    };
+    } as Layer;
+
+    if (inputs.Algorithm === COMBINED) {
+      newLayer = {
+        ...newLayer,
+        layer_type: inputs.LayerType,
+      };
+    }
+
     setLayers(prev => [...prev, newLayer]);
     toggleModalVisible();
   }
@@ -137,6 +145,12 @@ export default function TrainScreen() {
         let content = {
           activation: layer.activation,
         } as any;
+        if (layer.layer_type) {
+          content = {
+            ...content,
+            ['layer_type']: layer.layer_type,
+          };
+        }
         if (layer.units && inputs.Algorithm !== CONV1D) {
           content = {
             ...content,
@@ -149,13 +163,19 @@ export default function TrainScreen() {
             kernelSize: layer.kernelSize,
           };
         }
-        if (layer.filters && inputs.Algorithm === CONV1D) {
+        if (
+          layer.filters &&
+          (inputs.Algorithm === CONV1D || layer.layerType === CONV1D)
+        ) {
           content = {
             ...content,
             filters: layer.filters,
           };
         }
-        if (layer.padding && inputs.Algorithm === CONV1D) {
+        if (
+          layer.padding &&
+          (inputs.Algorithm === CONV1D || layer.layerType === CONV1D)
+        ) {
           content = {
             ...content,
             padding: layer.padding,
