@@ -165,7 +165,7 @@ export default function TrainScreen() {
         }
         if (
           layer.filters &&
-          (inputs.Algorithm === CONV1D || layer.layerType === CONV1D)
+          (inputs.Algorithm === CONV1D || layer.layer_type === CONV1D)
         ) {
           content = {
             ...content,
@@ -174,7 +174,7 @@ export default function TrainScreen() {
         }
         if (
           layer.padding &&
-          (inputs.Algorithm === CONV1D || layer.layerType === CONV1D)
+          (inputs.Algorithm === CONV1D || layer.layer_type === CONV1D)
         ) {
           content = {
             ...content,
@@ -372,9 +372,8 @@ export default function TrainScreen() {
             ) : (
               <></>
             )}
-            {inputs.Algorithm !== CONV1D &&
-            inputs.Algorithm === COMBINED &&
-            inputs.LayerType !== CONV1D ? (
+            {(inputs.Algorithm !== CONV1D && inputs.Algorithm !== COMBINED) ||
+            (inputs.Algorithm === COMBINED && inputs.LayerType !== CONV1D) ? (
               <Input
                 placeholder="Enter units number"
                 name={'Units'}

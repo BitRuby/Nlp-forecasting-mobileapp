@@ -12,6 +12,7 @@ import { mapValues } from '../../data/utils';
 import Filter from '../../ui/Filter';
 import { ALGORITHMS, NAIVE, DENSE, CONV1D, LSTM } from './utils';
 import MultiSelect from '../../ui/MultiSelect';
+import Input from '../../ui/Input';
 
 type TrainNavProp = StackNavigationProp<{
   Train: undefined;
@@ -31,6 +32,16 @@ export default function AIScreen() {
     CONV1D,
     LSTM,
   ]);
+  const [inputs, setInputs] = useState<{ [key: string]: string }>({
+    Dataset: '',
+  });
+
+  function handleChangeValue(inputName: string, value: string) {
+    setInputs(prev => ({
+      ...prev,
+      [inputName]: value,
+    }));
+  }
 
   function handleChangeSelectedColumns(inputName: string, value: string) {
     setSelectedColumns(prev => {
@@ -54,7 +65,6 @@ export default function AIScreen() {
   }, []);
 
   const list = useMemo(() => {
-    console.log(data);
     return data
       .map((e: TrainHistoryElement) => {
         let elements = {
@@ -92,7 +102,11 @@ export default function AIScreen() {
           data: elements,
         };
       })
-      .filter(e => selectedColumns.find(g => e.data.Algorithm === g))
+      .filter(
+        e =>
+          selectedColumns.find(g => e.data.Algorithm === g) &&
+          e.data['Processed Dataset'].includes(inputs.Dataset),
+      )
       .sort((a, b) => {
         if (
           a.data['Loss Function'] === 'meanSquaredError' &&
@@ -106,7 +120,7 @@ export default function AIScreen() {
           return 1;
         }
       }) as ItemProps[];
-  }, [data, selectedColumns]);
+  }, [data, inputs.Dataset, selectedColumns]);
 
   function handleNavigateToTrain() {
     navigation.navigate('Train');
@@ -124,6 +138,12 @@ export default function AIScreen() {
     <>
       <Container>
         <Filter>
+          <Input
+            placeholder="Dataset"
+            name={'Dataset'}
+            setValue={handleChangeValue}
+            value={inputs.Dataset}
+          />
           <MultiSelect
             placeholder="Algorithm"
             items={ALGORITHMS}
