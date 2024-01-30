@@ -69,6 +69,7 @@ export default function AIScreen() {
       .map((e: TrainHistoryElement) => {
         let elements = {
           Algorithm: e.algorithm,
+          Epochs: e.epochs,
           Date: e.date,
           'Processed Dataset': e.processedDatasetId.name,
           'Loss Function': e.lossFunction,

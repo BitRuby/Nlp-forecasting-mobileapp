@@ -38,6 +38,7 @@ export interface TrainHistoryElement {
   processedDatasetId: ProcessedDataset;
   result: Preds;
   trainingTime: number;
+  epochs: number;
 }
 
 export interface ProcessedDataset {
