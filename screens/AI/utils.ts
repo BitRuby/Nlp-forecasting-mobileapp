@@ -2,8 +2,9 @@ export const NAIVE = 'NAIVE';
 export const DENSE = 'DENSE';
 export const CONV1D = 'CONV1D';
 export const LSTM = 'LSTM';
+export const COMBINED = 'COMBINED';
 
-export const ALGORITHMS = [NAIVE, DENSE, CONV1D, LSTM];
+export const ALGORITHMS = [NAIVE, DENSE, CONV1D, LSTM, COMBINED];
 
 const relu = 'relu';
 const sigmoid = 'sigmoid';

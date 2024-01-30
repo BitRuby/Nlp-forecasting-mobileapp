@@ -16,6 +16,7 @@ import MultiSelect from '../../ui/MultiSelect';
 type TrainNavProp = StackNavigationProp<{
   Train: undefined;
   'GA Model Optimization': undefined;
+  BatchTrainScreen: undefined;
 }>;
 
 export default function AIScreen() {
@@ -53,6 +54,7 @@ export default function AIScreen() {
   }, []);
 
   const list = useMemo(() => {
+    console.log(data);
     return data
       .map((e: TrainHistoryElement) => {
         let elements = {
@@ -63,25 +65,26 @@ export default function AIScreen() {
           ...(e.layers !== undefined && {
             Layers: mapValues(e.layers),
           }),
+          'Training Time': `${e.trainingTime.toPrecision(2)}s`,
         } as {
           Algorithm: string;
           Date: string;
           'Processed Dataset': string;
           'Loss Function': string;
-          Accuracy: number;
-          MSE: number;
           Layers?: string;
+          MSE?: number;
+          Accuracy?: number;
+          'Training Time': string;
         };
-        if (e.result.accuracy) {
+        if (e.lossFunction === 'meanSquaredError') {
           elements = {
             ...elements,
-            Accuracy: e.result.accuracy,
+            MSE: e.result?.mse,
           };
-        }
-        if (e.result.mse) {
+        } else {
           elements = {
             ...elements,
-            MSE: e.result.mse,
+            Accuracy: e.result?.accuracy,
           };
         }
         return {
@@ -91,16 +94,26 @@ export default function AIScreen() {
       })
       .filter(e => selectedColumns.find(g => e.data.Algorithm === g))
       .sort((a, b) => {
-        if (a.data.MSE) {
+        if (
+          a.data['Loss Function'] === 'meanSquaredError' &&
+          a.data.MSE &&
+          b.data.MSE
+        ) {
           return a.data.MSE - b.data.MSE;
+        } else if (a.data.Accuracy && b.data.Accuracy) {
+          return b.data.Accuracy - a.data.Accuracy;
         } else {
-          return a.data.Accuracy - b.data.Accuracy;
+          return 1;
         }
       }) as ItemProps[];
   }, [data, selectedColumns]);
 
   function handleNavigateToTrain() {
     navigation.navigate('Train');
+  }
+
+  function handleNavigateToTrainButton() {
+    navigation.navigate('BatchTrainScreen');
   }
 
   function handleNavigateToGaModelOptimization() {
@@ -126,6 +139,11 @@ export default function AIScreen() {
         style={styles.trainButton}
         onClick={handleNavigateToTrain}
         title={'Train'}
+      />
+      <Button
+        style={styles.trainButton}
+        onClick={handleNavigateToTrainButton}
+        title={'Batch train'}
       />
       <Button
         style={styles.trainButton}

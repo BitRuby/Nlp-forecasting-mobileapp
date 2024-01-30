@@ -62,3 +62,24 @@ export async function performModelOptimization(body: {
     return null;
   }
 }
+
+export async function performBatchTraining(body: {
+  processedDatasetId: string;
+  algorithm?: string;
+  startIndex?: number;
+}) {
+  try {
+    const fetched = await fetch(`${PYTHON_API_URL}/batch`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const json = await fetched.json();
+    return json;
+  } catch (ex) {
+    console.error(ex);
+    return null;
+  }
+}

@@ -4,8 +4,11 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import {
   ACTIVATION_FUNCTIONS,
   ALGORITHMS,
+  COMBINED,
   CONV1D,
+  DENSE,
   LOSS_FUNCTIONS,
+  LSTM,
   NAIVE,
   OPTIMIZER_FUNCTIONS,
   PADDING_FUNCTIONS,
@@ -338,7 +341,20 @@ export default function TrainScreen() {
                 />
               </>
             }>
-            {inputs.Algorithm !== CONV1D ? (
+            {inputs.Algorithm === COMBINED ? (
+              <Select
+                items={[DENSE, CONV1D, LSTM]}
+                name={'LayerType'}
+                placeholder={'Select layer type'}
+                value={inputs.LayerType}
+                setValue={handleChangeValue}
+              />
+            ) : (
+              <></>
+            )}
+            {inputs.Algorithm !== CONV1D &&
+            inputs.Algorithm === COMBINED &&
+            inputs.LayerType !== CONV1D ? (
               <Input
                 placeholder="Enter units number"
                 name={'Units'}
@@ -355,7 +371,8 @@ export default function TrainScreen() {
               value={inputs.ActivationFunction}
               setValue={handleChangeValue}
             />
-            {inputs.Algorithm === CONV1D ? (
+            {inputs.Algorithm === CONV1D ||
+            (inputs.Algorithm === COMBINED && inputs.LayerType === CONV1D) ? (
               <>
                 <Input
                   placeholder="Enter Kernel Size"
