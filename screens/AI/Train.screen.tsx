@@ -115,7 +115,7 @@ export default function TrainScreen() {
       key: `${new Date().getTime()}`,
       units: Number(inputs.Units),
       activation: inputs.ActivationFunction,
-      kernelSize:
+      kernel_size:
         inputs.Algorithm === CONV1D
           ? Number(processedDatasetsDetails[inputs.ProcessedDataset].windowSize)
           : 0,
