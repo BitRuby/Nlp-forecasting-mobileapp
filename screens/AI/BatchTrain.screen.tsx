@@ -20,7 +20,9 @@ type ProcessDatasetNavProp = StackNavigationProp<{
 export default function BatchTrainScreen() {
   const navigation = useNavigation<ProcessDatasetNavProp>();
   const [inputs, setInputs] = useState<{ [key: string]: string }>({
+    ProcessedDataset: '',
     Algorithm: '',
+    StartIndex: '',
   });
   const [loadingStates, setLoadingStates] = useState<{ [id: string]: boolean }>(
     {},
@@ -61,10 +63,10 @@ export default function BatchTrainScreen() {
               };
             });
             setProcessedDatasetsDetails(datasets);
-            setProcessedDatasets(Object.keys(datasets));
+            setProcessedDatasets(['', ...Object.keys(datasets)]);
             setInputs(prev => ({
               ...prev,
-              ProcessedDataset: Object.keys(datasets)[0],
+              ProcessedDataset: '',
             }));
           }
         } finally {
@@ -100,7 +102,9 @@ export default function BatchTrainScreen() {
   async function startBatchTraining() {
     setBatchTrainingInProgress(true);
     await performBatchTraining({
-      processedDatasetId: processedDatasetsDetails[inputs.ProcessedDataset].id,
+      processedDatasetId: inputs.ProcessedDataset
+        ? processedDatasetsDetails[inputs.ProcessedDataset].id
+        : '',
       algorithm: inputs.Algorithm,
       startIndex: Number(inputs.StartIndex),
     });
@@ -163,7 +167,7 @@ export default function BatchTrainScreen() {
       </>
       <Button
         loading={batchTrainingInProgress}
-        disabled={batchTrainingInProgress || !inputs.ProcessedDataset}
+        disabled={batchTrainingInProgress}
         style={styles.button}
         onClick={startBatchTraining}
         title={'Start Batch Training'}

@@ -168,7 +168,7 @@ export default function TabNavigator() {
               <Stack.Screen name=" AI " component={AI.AIScreen} />
               <Stack.Screen name="Train" component={AI.TrainScreen} />
               <Stack.Screen
-                name="BatchTrainScreen"
+                name="Batch Train Screen"
                 component={AI.BatchTrainScreen}
               />
               <Stack.Screen

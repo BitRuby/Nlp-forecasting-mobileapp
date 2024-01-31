@@ -17,7 +17,7 @@ import Input from '../../ui/Input';
 type TrainNavProp = StackNavigationProp<{
   Train: undefined;
   'GA Model Optimization': undefined;
-  BatchTrainScreen: undefined;
+  'Batch Train Screen': undefined;
 }>;
 
 export default function AIScreen() {
@@ -128,7 +128,7 @@ export default function AIScreen() {
   }
 
   function handleNavigateToTrainButton() {
-    navigation.navigate('BatchTrainScreen');
+    navigation.navigate('Batch Train Screen');
   }
 
   function handleNavigateToGaModelOptimization() {
