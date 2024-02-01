@@ -66,9 +66,10 @@ export default function GAModelOptimizationScreen() {
                 ...datasets,
                 [ds.name]: {
                   id: ds._id,
-                  trainElements: ds.trainFeatures.length,
-                  testElements: ds.testFeatures.length,
-                  dataShape: `[${ds.trainFeatures[0].length}, ${ds.trainFeatures[0][0].length}]`,
+                  trainElements: ds.trainElements,
+                  testElements: ds.testElements,
+                  dataShape: `[${ds.dataShape1}, ${ds.dataShape2}]`,
+                  windowSize: ds.dataShape1,
                 },
               };
             });
