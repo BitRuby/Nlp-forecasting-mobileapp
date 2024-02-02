@@ -46,7 +46,6 @@ const useWebSocket = () => {
 
     ws.onmessage = e => {
       const parsed = JSON.parse(e.data) as WsMessage;
-      console.log(parsed);
       if ('error' in parsed) {
         setError(parsed.error);
       } else if ('finish' in parsed) {
