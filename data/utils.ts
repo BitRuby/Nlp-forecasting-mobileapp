@@ -1,6 +1,6 @@
 import { Layer } from '../screens/AI/types';
 
-const localIpAddress = '192.168.40.235';
+const localIpAddress = '192.168.1.2';
 const nodeApiPort = '5050';
 const pythonApiPort = '5000';
 const wsPort = '8765';

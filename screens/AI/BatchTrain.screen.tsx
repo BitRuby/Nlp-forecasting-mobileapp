@@ -55,10 +55,10 @@ export default function BatchTrainScreen() {
                 ...datasets,
                 [ds.name]: {
                   id: ds._id,
-                  trainElements: ds.trainElements,
-                  testElements: ds.testElements,
-                  dataShape: `[${ds.dataShape1}, ${ds.dataShape2}]`,
-                  windowSize: ds.dataShape1,
+                  trainElements: ds.dataShape[0],
+                  testElements: ds.numTestElements,
+                  dataShape: `[${ds.dataShape}]`,
+                  windowSize: ds.dataShape[1],
                 },
               };
             });
